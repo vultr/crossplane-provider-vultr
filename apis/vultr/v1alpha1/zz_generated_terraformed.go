@@ -20,7 +20,7 @@ func (mg *Kubernetes) GetTerraformResourceType() string {
 
 // GetConnectionDetailsMapping for this Kubernetes
 func (tr *Kubernetes) GetConnectionDetailsMapping() map[string]string {
-	return map[string]string{"kube_config": "status.atProvider.kubeConfig"}
+	return map[string]string{"client_certificate": "status.atProvider.clientCertificate", "client_key": "status.atProvider.clientKey", "cluster_ca_certificate": "status.atProvider.clusterCaCertificate", "kube_config": "status.atProvider.kubeConfig"}
 }
 
 // GetObservation of this Kubernetes
