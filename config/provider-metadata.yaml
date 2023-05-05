@@ -1,9 +1,796 @@
-name: hashicorp/null
+name: vultr/vultr
 resources:
-    null_resource Resource - terraform-provider-null:
+    vultr_bare_metal_server:
         subCategory: ""
-        description: The null_resource resource implements the standard resource lifecycle but takes no further action. The triggers argument allows specifying an arbitrary set of values that, when changed, will cause the resource to be replaced.
-        name: null_resource Resource - terraform-provider-null
-        title: null_resource Resource - terraform-provider-null
-        argumentDocs: {}
+        description: Provides a Vultr bare metal server resource. This can be used to create, read, modify, and delete bare metal servers on your Vultr account.
+        name: vultr_bare_metal_server
+        title: vultr_bare_metal_server
+        examples:
+            - name: my_server
+              manifest: |-
+                {
+                  "os_id": 270,
+                  "plan": "vbm-4c-32gb",
+                  "region": "ewr"
+                }
+            - name: my_server
+              manifest: |-
+                {
+                  "activation_email": false,
+                  "enable_ipv6": true,
+                  "hostname": "my-server-hostname",
+                  "label": "my-server-label",
+                  "os_id": 270,
+                  "plan": "vbm-4c-32gb",
+                  "region": "ewr",
+                  "tags": [
+                    "my-server-tag"
+                  ],
+                  "user_data": "this is my user data"
+                }
+        argumentDocs:
+            activation_email: '- (Optional) Whether an activation email will be sent when the server is ready.'
+            app_id: '- (Optional) The ID of the Vultr application to be installed on the server. See List Applications'
+            cpu_count: '- The number of CPUs available on the server.'
+            date_created: '- The date the server was added to your Vultr account.'
+            default_password: '- The server''s default password.'
+            disk: '- The description of the disk(s) on the server.'
+            enable_ipv6: '- (Optional) Whether the server has IPv6 networking activated.'
+            gateway_v4: '- The server''s IPv4 gateway.'
+            hostname: '- (Optional) The hostname to assign to the server.'
+            id: '- ID of the server.'
+            image_id: '- (Optional) The ID of the Vultr marketplace application to be installed on the server. See List Applications Note marketplace applications are denoted by type: marketplace and you must use the image_id not the id.'
+            label: '- (Optional) A label for the server.'
+            mac_address: '- The MAC address associated with the server.'
+            main_ip: '- The server''s main IP address.'
+            netmask_v4: '- The server''s IPv4 netmask.'
+            os: '- The string description of the operating system installed on the server.'
+            os_id: '- (Optional) The ID of the operating system to be installed on the server. See List OS'
+            plan: '- (Required) The ID of the plan that you want the server to subscribe to. See List Plans'
+            ram: '- The amount of memory available on the server in MB.'
+            region: '- (Required) The ID of the region that the server is to be created in. See List Regions'
+            reserved_ipv4: '- (Optional) The ID of the floating IP to use as the main IP of this server. See Reserved IPs'
+            script_id: '- (Optional) The ID of the startup script you want added to the server.'
+            snapshot_id: '- (Optional) The ID of the Vultr snapshot that the server will restore for the initial installation. See List Snapshots'
+            ssh_key_ids: '- (Optional) A list of SSH key IDs to apply to the server on install (only valid for Linux/FreeBSD).'
+            status: '- The status of the server''s subscription.'
+            tag: '- (Deprecated: use tags instead) (Optional) The tag to assign to the server.'
+            tags: '- (Optional) A list of tags to apply to the servier.'
+            user_data: '- (Optional) Generic data store, which some provisioning tools and cloud operating systems use as a configuration file. It is generally consumed only once after an instance has been launched, but individual needs may vary.'
+            v6_main_ip: '- The main IPv6 network address.'
+            v6_network: '- The IPv6 subnet.'
+            v6_network_size: '- The IPv6 network size in bits.'
+        importStatements: []
+    vultr_block_storage:
+        subCategory: ""
+        description: Provides a Vultr Block Storage resource. This can be used to create, read, modify, and delete Block Storage.
+        name: vultr_block_storage
+        title: vultr_block_storage
+        examples:
+            - name: my_blockstorage
+              manifest: |-
+                {
+                  "region": "ewr",
+                  "size_gb": 10
+                }
+        argumentDocs:
+            attached_to_instance: '- VPS ID that is attached to this block storage.'
+            block_type: '- The type of block storage volume. Values are high_perf or storage_opt.'
+            block_type.attached_to_instance: '- (Optional) VPS ID that you want to have this block storage attached to.'
+            block_type.block_type: '- (Optional)  Determines on the type of block storage volume that will be created. Soon to become a required parameter. Options are high_perf or storage_opt.'
+            block_type.label: '- (Optional) Label that is given to your block storage.'
+            block_type.live: '- (Optional) Boolean value that will allow attachment of the volume to an instance without a restart. Default is false.'
+            block_type.region: '- (Required) Region in which this block storage will reside in. (Currently only NJ/NY supported region "ewr")'
+            block_type.size_gb: '- (Required) The size of the given block storage.'
+            cost: '- The monthly cost of this block storage.'
+            date_created: '- The date this block storage was created.'
+            id: '- The ID for this block storage.'
+            label: '- Label that is given to your block storage.'
+            live: '- Flag which will determine if a volume should be attached with a restart or not.'
+            mount_id: '- An ID associated with the instance, when mounted the ID can be found in /dev/disk/by-id prefixed with virtio.'
+            region: '- Region in which this block storage will reside in. (Currently only NJ/NY supported region "ewr")'
+            size_gb: '- The size of the given block storage.'
+            status: '- Current status of your block storage.'
+        importStatements: []
+    vultr_dns_domain:
+        subCategory: ""
+        description: Provides a Vultr DNS Domain resource. This can be used to create, read, modify, and delete DNS Domains.
+        name: vultr_dns_domain
+        title: vultr_dns_domain
+        examples:
+            - name: my_domain
+              manifest: |-
+                {
+                  "domain": "domain.com",
+                  "ip": "66.42.94.227"
+                }
+        argumentDocs:
+            date_created: '- The date the domain was added to your account.'
+            dns_sec: '- (Optional)  The Domain''s DNSSEC status. Valid options are enabled or disabled. Note disabled is default'
+            domain: '- (Required) Name of domain.'
+            id: '- The ID is the name of the domain.'
+            ip: '- (Optional) Instance IP you want associated to domain. If omitted this will create a domain with no records.'
+        importStatements: []
+    vultr_dns_record:
+        subCategory: ""
+        description: Provides a Vultr DNS Record resource. This can be used to create, read, modify, and delete DNS Records.
+        name: vultr_dns_record
+        title: vultr_dns_record
+        examples:
+            - name: my_record
+              manifest: |-
+                {
+                  "data": "66.42.94.227",
+                  "domain": "${vultr_dns_domain.my_domain.id}",
+                  "name": "www",
+                  "type": "A"
+                }
+              dependencies:
+                vultr_dns_domain.my_domain: |-
+                    {
+                      "domain": "domain.com",
+                      "ip": "66.42.94.227"
+                    }
+        argumentDocs:
+            data: '- (Required) IP Address of the instance the domain is associated with.'
+            domain: '- (Required) Name of the DNS Domain this record will belong to.'
+            id: '- ID associated with the record.'
+            name: '- (Required) Name (subdomain) for this record.'
+            priority: '- (Optional) Priority of this record (only required for MX and SRV).'
+            ttl: '- (Optional) The time to live of this record.'
+            type: '- (Required) Type of record.'
+        importStatements: []
+    vultr_firewall_group:
+        subCategory: ""
+        description: Provides a Vultr Firewall Group resource. This can be used to create, read, modify, and delete Firewall Group.
+        name: vultr_firewall_group
+        title: vultr_firewall_group
+        examples:
+            - name: my_firewallgroup
+              manifest: |-
+                {
+                  "description": "base firewall"
+                }
+        argumentDocs:
+            date_created: '- The date the firewall group was created.'
+            date_modified: '- The date the firewall group was modified.'
+            description: '- (Optional) Description of the firewall group.'
+            id: '- ID of the firewall group.'
+            instance_count: '- The number of instances that are currently using this firewall group.'
+            max_rule_count: '- The number of max firewall rules this group can have.'
+            rule_count: '- The number of firewall rules this group currently has.'
+        importStatements: []
+    vultr_firewall_rule:
+        subCategory: ""
+        description: Provides a Vultr Firewall Rule resource. This can be used to create, read, modify, and delete Firewall rules.
+        name: vultr_firewall_rule
+        title: vultr_firewall_rule
+        examples:
+            - name: my_firewallrule
+              manifest: |-
+                {
+                  "firewall_group_id": "${vultr_firewall_group.my_firewallgroup.id}",
+                  "ip_type": "v4",
+                  "notes": "my firewall rule",
+                  "port": "8090",
+                  "protocol": "tcp",
+                  "subnet": "0.0.0.0",
+                  "subnet_size": 0
+                }
+              references:
+                firewall_group_id: vultr_firewall_group.my_firewallgroup.id
+              dependencies:
+                vultr_firewall_group.my_firewallgroup: |-
+                    {
+                      "description": "base firewall"
+                    }
+        argumentDocs:
+            firewall_group_id: '- (Required) The firewall group that the firewall rule will belong to.'
+            id: '- The given ID for a firewall rule.'
+            ip_type: '- (Required) The type of ip for this firewall rule. Possible values (v4, v6) Note they must be lowercase'
+            network: '- IP address that is defined for this rule.'
+            notes: '- (Optional) A simple note for a given firewall rule'
+            port: '- (Optional) TCP/UDP only. This field can be a specific port or a colon separated port range.'
+            protocol: '- (Required) The type of protocol for this firewall rule. Possible values (icmp, tcp, udp, gre, esp, ah) Note they must be lowercase'
+            source: '- (Optional) Possible values ("", cloudflare)'
+            subnet: '- (Required) IP address that you want to define for this firewall rule.'
+            subnet_size: '- (Required) The number of bits for the subnet in CIDR notation. Example: 32.'
+        importStatements: []
+    vultr_instance:
+        subCategory: ""
+        description: Provides a Vultr instance resource. This can be used to create, read, modify, and delete instances on your Vultr account.
+        name: vultr_instance
+        title: vultr_instance
+        examples:
+            - name: my_instance
+              manifest: |-
+                {
+                  "os_id": 167,
+                  "plan": "vc2-1c-1gb",
+                  "region": "sea"
+                }
+            - name: my_instance
+              manifest: |-
+                {
+                  "activation_email": false,
+                  "backups": "enabled",
+                  "backups_schedule": [
+                    {
+                      "type": "daily"
+                    }
+                  ],
+                  "ddos_protection": true,
+                  "enable_ipv6": true,
+                  "hostname": "my-instance-hostname",
+                  "label": "my-instance-label",
+                  "os_id": 167,
+                  "plan": "vc2-1c-1gb",
+                  "region": "sea",
+                  "tags": [
+                    "my-instance-tag"
+                  ]
+                }
+        argumentDocs:
+            activation_email: '- (Optional) Whether an activation email will be sent when the server is ready.'
+            allowed_bandwidth: '- The server''s allowed bandwidth usage in GB.'
+            app_id: '- (Optional) The ID of the Vultr application to be installed on the server. See List Applications'
+            backups: '- (Optional) Whether automatic backups will be enabled for this server (these have an extra charge associated with them). Values can be enabled or disabled.'
+            backups_schedule: '- (Optional) A block that defines the way backups should be scheduled. While this is an optional field if backups are enabled this field is mandatory. The configuration of a backups_schedule is listed below.'
+            date_created: '- The date the server was added to your Vultr account.'
+            ddos_protection: '- (Optional) Whether DDOS protection will be enabled on the server (there is an additional charge for this).'
+            default_password: '- The server''s default password.'
+            disk: '- The description of the disk(s) on the server.'
+            dom: '- (Optional) Day of month to run. Use values between 1 and 28.'
+            dow: '- (Optional) Day of week to run. 1 = Sunday, 2 = Monday, 3 = Tuesday, 4 = Wednesday, 5 = Thursday, 6 = Friday, 7 = Saturday'
+            enable_ipv6: '- (Optional) Whether the server has IPv6 networking activated.'
+            features: '- Array of which features are enabled.'
+            firewall_group_id: '- (Optional) The ID of the firewall group to assign to the server.'
+            gateway_v4: '- The server''s IPv4 gateway.'
+            hostname: '- (Optional) The hostname to assign to the server.'
+            hour: '- (Optional) Hour of day to run in UTC.'
+            id: '- ID of the server.'
+            image_id: '- (Optional) The ID of the Vultr marketplace application to be installed on the server. See List Applications Note marketplace applications are denoted by type: marketplace and you must use the image_id not the id.'
+            internal_ip: '- The server''s internal IP address.'
+            iso_id: '- (Optional) The ID of the ISO file to be installed on the server. See List ISO'
+            kvm: '- The server''s current KVM URL. This URL will change periodically. It is not advised to cache this value.'
+            label: '- (Optional) A label for the server.'
+            main_ip: '- The server''s main IP address.'
+            netmask_v4: '- The server''s IPv4 netmask.'
+            os: '- The string description of the operating system installed on the server.'
+            os_id: '- (Optional) The ID of the operating system to be installed on the server. See List OS'
+            plan: '- (Required) The ID of the plan that you want the instance to subscribe to. See List Plans'
+            power_status: '- Whether the server is powered on or not.'
+            private_network_ids: '- (Optional) (Deprecated: use vpc_ids instead) A list of private network IDs to be attached to the server.'
+            ram: '- The amount of memory available on the server in MB.'
+            region: '- (Required) The ID of the region that the instance is to be created in. See List Regions'
+            reserved_ip_id: '- (Optional) ID of the floating IP to use as the main IP of this server.'
+            script_id: '- (Optional) The ID of the startup script you want added to the server.'
+            server_status: '- A more detailed server status (none, locked, installingbooting, isomounting, ok).'
+            snapshot_id: '- (Optional) The ID of the Vultr snapshot that the server will restore for the initial installation. See List Snapshots'
+            ssh_key_ids: '- (Optional) A list of SSH key IDs to apply to the server on install (only valid for Linux/FreeBSD).'
+            status: '- The status of the server''s subscription.'
+            tag: '- (Deprecated: use tags instead) (Optional) The tag to assign to the server.'
+            tags: '- (Optional) A list of tags to apply to the instance.'
+            type: '- Type of backup schedule Possible values are daily, weekly, monthly, daily_alt_even, or daily_alt_odd.'
+            user_data: '- (Optional) Generic data store, which some provisioning tools and cloud operating systems use as a configuration file. It is generally consumed only once after an instance has been launched, but individual needs may vary.'
+            v6_main_ip: '- The main IPv6 network address.'
+            v6_network: '- The IPv6 subnet.'
+            v6_network_size: '- The IPv6 network size in bits.'
+            vcpu_count: '- The number of virtual CPUs available on the server.'
+            vpc_ids: '- (Optional) A list of VPC IDs to be attached to the server.'
+        importStatements: []
+    vultr_instance_ipv4:
+        subCategory: ""
+        description: Provides a instance IPv4 resource. This can be used to create, read, and modify a IPv4 address.
+        name: vultr_instance_ipv4
+        title: vultr_instance_ipv4
+        examples:
+            - name: my_instance_ipv4
+              manifest: |-
+                {
+                  "instance_id": "${vultr_instance.my_instance.id}",
+                  "reboot": false
+                }
+              dependencies:
+                vultr_instance.my_instance: |-
+                    {
+                      "enable_ipv6": true,
+                      "os_id": 167,
+                      "plan": "vc2-1c-1gb",
+                      "region": "ewr"
+                    }
+        argumentDocs:
+            gateway: '- The gateway IP address.'
+            id: '- The ID is the IPv4 address in canonical format.'
+            instance_id: '- (Required) The ID of the instance to be assigned the IPv4 address.'
+            ip: '- The IPv4 address in canonical format.'
+            netmask: '- The IPv4 netmask in dot-decimal notation.'
+            reboot: '- (Optional) Default true. Determines whether or not the server is rebooted after adding the IPv4 address.'
+            reverse: '- The reverse DNS information for this IP address.'
+        importStatements: []
+    vultr_iso_private:
+        subCategory: ""
+        description: Provides a Vultr ISO file resource. This can be used to create, read, and delete ISO files on your Vultr account.
+        name: vultr_iso_private
+        title: vultr_iso_private
+        examples:
+            - name: my_iso
+              manifest: |-
+                {
+                  "url": "http://dl-cdn.alpinelinux.org/alpine/v3.9/releases/x86_64/alpine-virt-3.9.3-x86_64.iso"
+                }
+        argumentDocs:
+            date_created: '- The date the ISO was created.'
+            filename: '- The ISO filename.'
+            id: '- ID of the ISO.'
+            md5sum: '- The md5 hash of the ISO file.'
+            sha512sum: '- The sha512 hash of the ISO file.'
+            size: '- The ISO size in bytes.'
+            status: '- The status of the ISO file.'
+            url: '- (Required) URL pointing to the ISO file.'
+        importStatements: []
+    vultr_kubernetes:
+        subCategory: ""
+        description: Provides a Vultr Kubernetes Engine (VKE) resource. This can be used to create, read, modify, and delete VKE clusters on your Vultr account.
+        name: vultr_kubernetes
+        title: vultr_kubernetes
+        examples:
+            - name: k8
+              manifest: |-
+                {
+                  "label": "tf-test",
+                  "node_pools": [
+                    {
+                      "auto_scaler": true,
+                      "label": "my-label",
+                      "max_nodes": 2,
+                      "min_nodes": 1,
+                      "node_quantity": 1,
+                      "plan": "vc2-2c-4gb"
+                    }
+                  ],
+                  "region": "ewr",
+                  "version": "v1.23.5+1"
+                }
+            - name: k8
+              manifest: |-
+                {
+                  "label": "tf-test",
+                  "region": "ewr",
+                  "version": "v1.23.5+1"
+                }
+              dependencies:
+                vultr_kubernetes_node_pools.np: |-
+                    {
+                      "auto_scaler": true,
+                      "cluster_id": "${vultr_kubernetes.k8.id}",
+                      "label": "my-label",
+                      "max_nodes": 2,
+                      "min_nodes": 1,
+                      "node_quantity": 1,
+                      "plan": "vc2-2c-4gb"
+                    }
+        argumentDocs:
+            auto_scaler: '- (Optional) Enable the auto scaler for the default node pool.'
+            cluster_subnet: '- IP range that your pods will run on in this cluster.'
+            date_created: '- Date of VKE cluster creation.'
+            date_updated: '- Date of node pool updates.'
+            endpoint: '- Domain for your Kubernetes clusters control plane.'
+            id: '- The VKE cluster ID.'
+            ip: '- IP address of VKE cluster control plane.'
+            kube_config: '- Base64 encoded Kubeconfig for this VKE cluster.'
+            label: '- (Optional) The VKE clusters label.'
+            max_nodes: '- (Optional) The maximum number of nodes to use with the auto scaler.'
+            min_nodes: '- (Optional) The minimum number of nodes to use with the auto scaler.'
+            node_pools: '- Contains the default node pool that was deployed.'
+            node_quantity: '- (Required) The number of nodes in this node pool.'
+            nodes: '- Array that contains information about nodes within this node pool.'
+            plan: '- (Required) The plan to be used in this node pool. See Plans List Note the minimum plan requirements must have at least 1 core and 2 gbs of memory.'
+            region: '- (Required) The region your VKE cluster will be deployed in. Currently, supported values are ewr and lax'
+            service_subnet: '- IP range that services will run on this cluster.'
+            status: '- The overall status of the cluster.'
+            tag: '- Tag for node pool.'
+            version: '- (Required) The version your VKE cluster you want deployed. See Available Version'
+        importStatements: []
+    vultr_kubernetes_node_pools:
+        subCategory: ""
+        description: Provides a Vultr Kubernetes Engine (VKE) Node Pool resource. This can be used to create, read, modify, and delete VKE clusters on your Vultr account.
+        name: vultr_kubernetes_node_pools
+        title: vultr_kubernetes_node_pools
+        examples:
+            - name: np-1
+              manifest: |-
+                {
+                  "auto_scaler": true,
+                  "cluster_id": "${vultr_kubernetes.k8.id}",
+                  "label": "my-label",
+                  "max_nodes": 2,
+                  "min_nodes": 1,
+                  "node_quantity": 1,
+                  "plan": "vc2-2c-4gb",
+                  "tag": "my-tag"
+                }
+              references:
+                cluster_id: vultr_kubernetes.k8.id
+        argumentDocs:
+            auto_scaler: '- (Optional) Enable the auto scaler for the default node pool.'
+            cluster_id: '- (Required) The VKE cluster ID you want to attach this nodepool to.'
+            date_created: '- Date of node pool creation.'
+            date_updated: '- Date of node pool updates.'
+            id: '- The Nodepool ID.'
+            label: '- (Required) The label to be used as a prefix for nodes in this node pool.'
+            max_nodes: '- (Optional) The maximum number of nodes to use with the auto scaler.'
+            min_nodes: '- (Optional) The minimum number of nodes to use with the auto scaler.'
+            node_quantity: '- (Required) The number of nodes in this node pool.'
+            nodes: '- Array that contains information about nodes within this node pool.'
+            plan: '- (Required) The plan to be used in this node pool. See Plans List Note the minimum plan requirements must have at least 1 core and 2 gbs of memory.'
+            status: '- Status of node pool.'
+            tag: '- (Optional) A tag that is assigned to this node pool.'
+        importStatements: []
+    vultr_load_balancer:
+        subCategory: ""
+        description: Get information about a Vultr Load Balancer.
+        name: vultr_load_balancer
+        title: vultr_load_balancer
+        examples:
+            - name: lb
+              manifest: |-
+                {
+                  "balancing_algorithm": "roundrobin",
+                  "forwarding_rules": [
+                    {
+                      "backend_port": 81,
+                      "backend_protocol": "http",
+                      "frontend_port": 82,
+                      "frontend_protocol": "http"
+                    }
+                  ],
+                  "health_check": [
+                    {
+                      "check_interval": 3,
+                      "healthy_threshold": 4,
+                      "path": "/test",
+                      "port": "8080",
+                      "protocol": "http",
+                      "response_timeout": 1,
+                      "unhealthy_threshold": 2
+                    }
+                  ],
+                  "label": "terraform lb example",
+                  "region": "ewr"
+                }
+        argumentDocs:
+            attached_instances: '- (Optional) Array of instances that are currently attached to the load balancer.'
+            backend_port: '- (Required) Port on instance side.'
+            backend_protocol: '- (Required) Protocol on instance side. Possible values: "http", "https", "tcp".'
+            balancing_algorithm: '- (Optional) The balancing algorithm for your load balancer. Options are roundrobin or leastconn. Default value is roundrobin'
+            certificate: '- (Required) The SSL Certificate.'
+            chain: '- (Optional) The SSL certificate chain.'
+            check_interval: '- (Optional) Time in seconds to perform health check. Default value is 15.'
+            cookie_name: '- (Optional) Name for your given sticky session.'
+            firewall_rules: '- Defines the firewall rules for a load balancer.'
+            forwarding_rules: '- (Required) List of forwarding rules for a load balancer. The configuration of a forwarding_rules is listened below.'
+            frontend_port: '- (Required) Port on load balancer side.'
+            frontend_protocol: '- (Required) Protocol on load balancer side. Possible values: "http", "https", "tcp".'
+            has_ssl: '- Boolean value that indicates if SSL is enabled.'
+            health_check: '- (Optional) A block that defines the way load balancers should check for health. The configuration of a health_check is listed below.'
+            healthy_threshold: '- (Optional)  Number of failed attempts encountered before failover. Default value is 5.'
+            id: '- The load balancer ID.'
+            ip_type: '- (Required) The type of ip this rule is - may be either v4 or v6.'
+            ipv4: '- IPv4 address for your load balancer.'
+            ipv6: '- IPv6 address for your load balancer.'
+            label: '- (Optional) The load balancer''s label.'
+            path: '- (Optional) The path on the attached instances that the load balancer should check against. Default value is /'
+            port: '- (Optional) The assigned port (integer) on the attached instances that the load balancer should check against. Default value is 80.'
+            private_key: '- (Required) The SSL certificates private key.'
+            private_network: '(Optional) (Deprecated: use vpc instead) A private network ID that the load balancer should be attached to.'
+            protocol: '- (Optional) The protocol used to traffic requests to the load balancer. Possible values are http, or tcp. Default value is http.'
+            proxy_protocol: '- (Optional) Boolean value that indicates if Proxy Protocol is enabled.'
+            region: '- (Required) The region your load balancer is deployed in.'
+            response_timeout: '- (Optional) Time in seconds to wait for a health check response. Default value is 5.'
+            source: '- (Required) IP address with subnet that is allowed through the firewall. You may also pass in cloudflare which will allow only CloudFlares IP range.'
+            ssl: '- (Optional) A block that supplies your ssl configuration to be used with HTTPS. The configuration of a ssl is listed below.'
+            ssl_redirect: '- (Optional) Boolean value that indicates if HTTP calls will be redirected to HTTPS.'
+            status: '- Current status for the load balancer'
+            unhealthy_threshold: '- (Optional) Number of failed attempts encountered before failover. Default value is 5.'
+            vpc: (Optional)- A VPC ID that the load balancer should be attached to.
+        importStatements: []
+    vultr_object_storage:
+        subCategory: ""
+        description: Provides a Vultr private object storage resource. This can be used to create, read, update and delete object storage resources on your Vultr account.
+        name: vultr_object_storage
+        title: vultr_object_storage
+        examples:
+            - name: tf
+              manifest: |-
+                {
+                  "cluster_id": 2,
+                  "label": "tf-label"
+                }
+        argumentDocs:
+            cluster_id: '- (Required) The region ID that you want the network to be created in.'
+            date_created: '- Date of creation for the object storage subscription.'
+            id: '- The id of the object storage subscription.'
+            label: '- (Optional) The description you want to give your network.'
+            location: '- The location which this subscription resides in.'
+            region: '- The region ID of the object storage subscription.'
+            s3_access_key: '- Your access key.'
+            s3_hostname: '- The hostname for this subscription.'
+            s3_secret_key: '- Your secret key.'
+            status: '- Current status of this object storage subscription.'
+        importStatements: []
+    vultr_private_network:
+        subCategory: ""
+        description: Provides a Vultr private network resource. This can be used to create, read, and delete private networks on your Vultr account.
+        name: vultr_private_network
+        title: vultr_private_network
+        examples:
+            - name: my_network
+              manifest: |-
+                {
+                  "description": "my private network",
+                  "region": "ewr"
+                }
+            - name: my_network
+              manifest: |-
+                {
+                  "description": "my private network",
+                  "region": "ewr",
+                  "v4_subnet": "10.0.0.0",
+                  "v4_subnet_mask": 24
+                }
+        argumentDocs:
+            date_created: '- The date that the network was added to your Vultr account.'
+            description: '- (Optional) The description you want to give your network.'
+            id: '- ID of the network.'
+            region: '- (Required) The region ID that you want the network to be created in.'
+            v4_subnet: '- (Optional) The IPv4 subnet to be used when attaching instances to this network.'
+            v4_subnet_mask: '- The number of bits for the netmask in CIDR notation. Example: 32'
+        importStatements: []
+    vultr_reserved_ip:
+        subCategory: ""
+        description: Provides a Vultr reserved IP resource. This can be used to create, read, modify, and delete reserved IP addresses on your Vultr account.
+        name: vultr_reserved_ip
+        title: vultr_reserved_ip
+        examples:
+            - name: my_reserved_ip
+              manifest: |-
+                {
+                  "ip_type": "v4",
+                  "label": "my-reserved-ip",
+                  "region": "sea"
+                }
+            - name: my_reserved_ip
+              manifest: |-
+                {
+                  "instance_id": "b9cc6fad-70b1-40ee-ab6a-4d622858962f",
+                  "ip_type": "v4",
+                  "label": "my-reserved-ip",
+                  "region": "sea"
+                }
+        argumentDocs:
+            id: '- ID of the reserved IP.'
+            instance_id: '- (Optional) The VPS ID you want this reserved IP to be attached to.'
+            ip_type: '- (Required) The type of reserved IP that you want. Either "v4" or "v6".'
+            label: '- (Optional) The label you want to give your reserved IP.'
+            region: '- (Required) The region ID that you want the reserved IP to be created in.'
+            subnet: '- The reserved IP''s subnet.'
+            subnet_size: '- The reserved IP''s subnet size.'
+        importStatements: []
+    vultr_reverse_ipv4:
+        subCategory: ""
+        description: Provides a Vultr Reverse IPv4 resource. This can be used to create, read, and modify reverse DNS records for IPv4 addresses.
+        name: vultr_reverse_ipv4
+        title: vultr_reverse_ipv4
+        examples:
+            - name: my_reverse_ipv4
+              manifest: |-
+                {
+                  "instance_id": "${vultr_instance.my_instance.id}",
+                  "ip": "${vultr_instance.my_instance.main_ip}",
+                  "reverse": "host.example.com"
+                }
+              dependencies:
+                vultr_instance.my_instance: |-
+                    {
+                      "enable_ipv6": true,
+                      "os_id": 167,
+                      "plan": "vc2-1c-1gb",
+                      "region": "ewr"
+                    }
+        argumentDocs:
+            gateway: '- The gateway IP address.'
+            id: '- The ID is the IPv4 address in canonical format.'
+            instance_id: |-
+                - (Required) The ID of the instance you want to set an IPv4
+                reverse DNS record for.
+            ip: '- (Required) The IPv4 address used in the reverse DNS record.'
+            netmask: '- The IPv4 netmask in dot-decimal notation.'
+            reverse: '- (Required) The hostname used in the IPv4 reverse DNS record.'
+        importStatements: []
+    vultr_reverse_ipv6:
+        subCategory: ""
+        description: Provides a Vultr Reverse IPv6 resource. This can be used to create, read, modify, and delete reverse DNS records for IPv6 addresses.
+        name: vultr_reverse_ipv6
+        title: vultr_reverse_ipv6
+        examples:
+            - name: my_reverse_ipv6
+              manifest: |-
+                {
+                  "instance_id": "${vultr_instance.my_server.id}",
+                  "ip": "${vultr_instance.my_server.v6_networks[0].v6_main_ip}",
+                  "reverse": "host.example.com"
+                }
+              dependencies:
+                vultr_instance.my_server: |-
+                    {
+                      "enable_ipv6": true,
+                      "os_id": 167,
+                      "plan": "vc2-1c-1gb",
+                      "region": "ewr"
+                    }
+        argumentDocs:
+            id: '- The ID is the IPv6 address in canonical format.'
+            instance_id: |-
+                - (Required) The ID of the server you want to set an IPv6
+                reverse DNS record for.
+            ip: '- (Required) The IPv6 address used in the reverse DNS record.'
+            reverse: '- (Required) The hostname used in the IPv6 reverse DNS record.'
+        importStatements: []
+    vultr_snapshot:
+        subCategory: ""
+        description: Provides a Vultr Snapshot resource. This can be used to create, read, modify, and delete Snapshot.
+        name: vultr_snapshot
+        title: vultr_snapshot
+        examples:
+            - name: my_snapshot
+              manifest: |-
+                {
+                  "description": "my instances snapshot",
+                  "instance_id": "${vultr_instance.my_instance.id}"
+                }
+              dependencies:
+                vultr_instance.my_instance: |-
+                    {
+                      "label": "my_instance",
+                      "os_id": 167,
+                      "plan": 201,
+                      "region": "ewr"
+                    }
+        argumentDocs:
+            app_id: '- The app id which the snapshot is associated with.'
+            date_created: '- The date the snapshot was created.'
+            description: '- (Optional) The description for the given snapshot.'
+            id: '- The ID for the given snapshot.'
+            instance_id: '- (Required) ID of a given instance that you want to create a snapshot from.'
+            os_id: '- The os id which the snapshot is associated with.'
+            size: '- The size of the snapshot in Bytes.'
+            status: '- The status for the given snapshot.'
+        importStatements: []
+    vultr_snapshot_from_url:
+        subCategory: ""
+        description: Provides a Vultr Snapshots from URL resource. This can be used to create, read, modify, and delete Snapshots from URL.
+        name: vultr_snapshot_from_url
+        title: vultr_snapshot_from_url
+        examples:
+            - name: my_snapshot
+              manifest: |-
+                {
+                  "url": "http://dl-cdn.alpinelinux.org/alpine/v3.9/releases/x86_64/alpine-virt-3.9.1-x86_64.iso"
+                }
+        argumentDocs:
+            app_id: '- The app id which the snapshot is associated with.'
+            date_created: '- The date the snapshot was created.'
+            description: '- The description for the given snapshot.'
+            id: '- The ID for the given snapshot.'
+            os_id: '- The os id which the snapshot is associated with.'
+            size: '- The size of the snapshot in Bytes.'
+            status: '- The status for the given snapshot.'
+            url: '- (Required) URL of the given resource you want to create a snapshot from.'
+        importStatements: []
+    vultr_ssh_key:
+        subCategory: ""
+        description: Provides a Vultr SSH key resource. This can be used to create, read, modify, and delete SSH keys.
+        name: vultr_ssh_key
+        title: vultr_ssh_key
+        examples:
+            - name: my_ssh_key
+              manifest: |-
+                {
+                  "name": "my-ssh-key",
+                  "ssh_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCyVGaw1PuEl98f4/7Kq3O9ZIvDw2OFOSXAFVqilSFNkHlefm1iMtPeqsIBp2t9cbGUf55xNDULz/bD/4BCV43yZ5lh0cUYuXALg9NI29ui7PEGReXjSpNwUD6ceN/78YOK41KAcecq+SS0bJ4b4amKZIJG3JWmDKljtv1dmSBCrTmEAQaOorxqGGBYmZS7NQumRe4lav5r6wOs8OACMANE1ejkeZsGFzJFNqvr5DuHdDL5FAudW23me3BDmrM9ifUzzjl1Jwku3bnRaCcjaxH8oTumt1a00mWci/1qUlaVFft085yvVq7KZbF2OPPbl+erDW91+EZ2FgEi+v1/CSJ5 your_username@hostname"
+                }
+        argumentDocs:
+            date_created: '- The date the SSH key was added to your Vultr account.'
+            id: '- The ID of the SSH key.'
+            name: '- (Required) The name/label of the SSH key.'
+            ssh_key: '- (Required) The public SSH key.'
+        importStatements: []
+    vultr_startup_script:
+        subCategory: ""
+        description: Provides a Vultr Startup Script resource. This can be used to create, read, modify, and delete Startup Scripts.
+        name: vultr_startup_script
+        title: vultr_startup_script
+        examples:
+            - name: my_script
+              manifest: |-
+                {
+                  "name": "echo_path",
+                  "script": "ZWNobyAkUEFUSAo="
+                }
+        argumentDocs:
+            date_created: '- Date the script was created.'
+            date_modified: '- Date the script was last modified.'
+            id: '- ID of the script.'
+            name: '- (Required) Name of the given script.'
+            script: '- (Required) Contents of the startup script base64 encoded.'
+            type: '- (Optional) Type of startup script. Possible values are boot or pxe - default is boot.'
+        importStatements: []
+    vultr_user:
+        subCategory: ""
+        description: Provides a Vultr User resource. This can be used to create, read, modify, and delete Users.
+        name: vultr_user
+        title: vultr_user
+        examples:
+            - name: my_user
+              manifest: |-
+                {
+                  "api_enabled": true,
+                  "email": "user@vultr.com",
+                  "name": "my user",
+                  "password": "myP@ssw0rd"
+                }
+            - name: my_user
+              manifest: |-
+                {
+                  "acl": [
+                    "manage_users",
+                    "subscriptions",
+                    "provisioning",
+                    "billing",
+                    "support",
+                    "abuse",
+                    "dns",
+                    "upgrade"
+                  ],
+                  "api_enabled": true,
+                  "email": "user@vultr.com",
+                  "name": "my user",
+                  "password": "myP@ssw0rd"
+                }
+        argumentDocs:
+            acl: '- (Optional) The access control list for the user.'
+            api_enabled: '- (Optional) Whether API is enabled for the user. Default behavior is set to enabled.'
+            email: '- (Required) Email for this user.'
+            id: '- ID associated with the user.'
+            name: '- (Required) Name for this user.'
+            password: '- (Required) Password for this user.'
+        importStatements: []
+    vultr_vpc:
+        subCategory: ""
+        description: Provides a Vultr VPC resource. This can be used to create, read, and delete VPCs on your Vultr account.
+        name: vultr_vpc
+        title: vultr_vpc
+        examples:
+            - name: my_vpc
+              manifest: |-
+                {
+                  "description": "my vpc",
+                  "region": "ewr"
+                }
+            - name: my_vpc
+              manifest: |-
+                {
+                  "description": "my private vpc",
+                  "region": "ewr",
+                  "v4_subnet": "10.0.0.0",
+                  "v4_subnet_mask": 24
+                }
+        argumentDocs:
+            date_created: '- The date that the VPC was added to your Vultr account.'
+            description: '- (Optional) The description you want to give your VPC.'
+            id: '- ID of the VPC.'
+            region: '- (Required) The region ID that you want the VPC to be created in.'
+            v4_subnet: '- (Optional) The IPv4 subnet to be used when attaching instances to this VPC.'
+            v4_subnet_mask: '- The number of bits for the netmask in CIDR notation. Example: 32'
         importStatements: []

@@ -1,0 +1,21 @@
+apiVersion: kubernetes.vultr.upbound.io/v1alpha1
+kind: NodePools
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kubernetes/v1alpha1/nodepools
+  labels:
+    testing.upbound.io/example-name: np-1
+  name: np-1
+spec:
+  forProvider:
+    autoScaler: true
+    clusterId: ${vultr_kubernetes.k8.id}
+    label: my-label
+    maxNodes: 2
+    minNodes: 1
+    nodeQuantity: 1
+    plan: vc2-2c-4gb
+    tag: my-tag
+
+---
+

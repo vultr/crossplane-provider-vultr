@@ -10,7 +10,10 @@ import "github.com/upbound/upjet/pkg/config"
 // provider.
 var ExternalNameConfigs = map[string]config.ExternalName{
 	// Import requires using a randomly generated ID from provider: nl-2e21sda
-	"null_resource": config.IdentifierFromProvider,
+	"null_resource":               config.IdentifierFromProvider,
+	"vultr_kubernetes":            config.IdentifierFromProvider,
+	"vultr_kubernetes_node_pools": config.IdentifierFromProvider,
+	"vultr_object_storage":        config.NameAsIdentifier,
 }
 
 // ExternalNameConfigurations applies all external name configs listed in the
