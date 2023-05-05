@@ -5,18 +5,18 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.11.3
   creationTimestamp: null
-  name: resources.null.template.upbound.io
+  name: storages.object.vultr.upbound.io
 spec:
-  group: null.template.upbound.io
+  group: object.vultr.upbound.io
   names:
     categories:
     - crossplane
     - managed
-    - template
-    kind: Resource
-    listKind: ResourceList
-    plural: resources
-    singular: resource
+    - vultr
+    kind: Storage
+    listKind: StorageList
+    plural: storages
+    singular: storage
   scope: Cluster
   versions:
   - additionalPrinterColumns:
@@ -35,7 +35,9 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: Resource is the Schema for the Resources API. <no value>
+        description: Storage is the Schema for the Storages API. Provides a Vultr
+          private object storage resource. This can be used to create, read, update
+          and delete object storage resources on your Vultr account.
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -50,7 +52,7 @@ spec:
           metadata:
             type: object
           spec:
-            description: ResourceSpec defines the desired state of Resource
+            description: StorageSpec defines the desired state of Storage
             properties:
               deletionPolicy:
                 default: Delete
@@ -67,13 +69,13 @@ spec:
                 type: string
               forProvider:
                 properties:
-                  triggers:
-                    additionalProperties:
-                      type: string
-                    description: A map of arbitrary strings that, when changed, will
-                      force the null resource to be replaced, re-running any associated
-                      provisioners.
-                    type: object
+                  clusterId:
+                    description: The region ID that you want the network to be created
+                      in.
+                    type: number
+                  label:
+                    description: The description you want to give your network.
+                    type: string
                 type: object
               managementPolicy:
                 default: FullControl
@@ -261,20 +263,39 @@ spec:
             required:
             - forProvider
             type: object
+            x-kubernetes-validations:
+            - message: clusterId is a required parameter
+              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.clusterId)
           status:
-            description: ResourceStatus defines the observed state of Resource.
+            description: StorageStatus defines the observed state of Storage.
             properties:
               atProvider:
                 properties:
-                  id:
+                  clusterId:
+                    description: The region ID that you want the network to be created
+                      in.
+                    type: number
+                  dateCreated:
+                    description: Date of creation for the object storage subscription.
                     type: string
-                  triggers:
-                    additionalProperties:
-                      type: string
-                    description: A map of arbitrary strings that, when changed, will
-                      force the null resource to be replaced, re-running any associated
-                      provisioners.
-                    type: object
+                  id:
+                    description: The id of the object storage subscription.
+                    type: string
+                  label:
+                    description: The description you want to give your network.
+                    type: string
+                  location:
+                    description: The location which this subscription resides in.
+                    type: string
+                  region:
+                    description: The region ID of the object storage subscription.
+                    type: string
+                  s3Hostname:
+                    description: The hostname for this subscription.
+                    type: string
+                  status:
+                    description: Current status of this object storage subscription.
+                    type: string
                 type: object
               conditions:
                 description: Conditions of the resource.

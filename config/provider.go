@@ -10,12 +10,14 @@ import (
 
 	ujconfig "github.com/upbound/upjet/pkg/config"
 
-	"github.com/upbound/upjet-provider-template/config/null"
+	"github.com/crossplane-contrib/provider-vultr/config/kubernetes"
+	"github.com/crossplane-contrib/provider-vultr/config/nodepools"
+	"github.com/crossplane-contrib/provider-vultr/config/object"
 )
 
 const (
-	resourcePrefix = "template"
-	modulePath     = "github.com/upbound/upjet-provider-template"
+	resourcePrefix = "vultr"
+	modulePath     = "github.com/crossplane-contrib/provider-vultr"
 )
 
 //go:embed schema.json
@@ -34,8 +36,9 @@ func GetProvider() *ujconfig.Provider {
 		))
 
 	for _, configure := range []func(provider *ujconfig.Provider){
-		// add custom config functions
-		null.Configure,
+		kubernetes.Configure,
+		nodepools.Configure,
+		object.Configure,
 	} {
 		configure(pc)
 	}
