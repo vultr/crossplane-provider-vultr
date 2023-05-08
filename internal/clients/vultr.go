@@ -26,7 +26,7 @@ const (
 	errExtractCredentials   = "cannot extract credentials"
 	errUnmarshalCredentials = "cannot unmarshal vultr credentials as JSON"
 
-	apiKey     = "VULTR_API_KEY"
+	apiKey     = "api_key"
 	rateLimit  = "rate_limit"
 	retryLimit = "retry_limit"
 )
