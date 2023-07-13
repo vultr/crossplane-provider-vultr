@@ -8,9 +8,9 @@ export TERRAFORM_VERSION ?= 1.3.3
 
 export TERRAFORM_PROVIDER_SOURCE ?= vultr/vultr
 export TERRAFORM_PROVIDER_REPO ?= https://github.com/vultr/terraform-provider-vultr
-export TERRAFORM_PROVIDER_VERSION ?= 2.15.0
+export TERRAFORM_PROVIDER_VERSION ?= 2.15.1
 export TERRAFORM_PROVIDER_DOWNLOAD_NAME ?= terraform-provider-vultr
-export TERRAFORM_NATIVE_PROVIDER_BINARY ?= terraform-provider-vultr_2.15.0
+export TERRAFORM_NATIVE_PROVIDER_BINARY ?= terraform-provider-vultr_2.15.1
 export TERRAFORM_DOCS_PATH ?= website/docs/r
 
 PLATFORMS ?= linux_amd64 linux_arm64
@@ -49,9 +49,9 @@ GO_SUBDIRS += cmd internal apis
 # Setup Kubernetes tools
 
 KIND_VERSION = v0.15.0
-UP_VERSION = v0.14.0
+UP_VERSION = v0.18.0
 UP_CHANNEL = stable
-UPTEST_VERSION = v0.2.1
+UPTEST_VERSION = v0.5.0
 -include build/makelib/k8s_tools.mk
 
 # ====================================================================================

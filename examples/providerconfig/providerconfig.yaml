@@ -6,6 +6,6 @@ spec:
   credentials:
     source: Secret
     secretRef:
-      name: example-creds
+      name: vultr-creds
       namespace: crossplane-system
       key: credentials

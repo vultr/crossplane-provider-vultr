@@ -14,6 +14,7 @@ var ExternalNameConfigs = map[string]config.ExternalName{
 	"vultr_kubernetes":            config.IdentifierFromProvider,
 	"vultr_kubernetes_node_pools": config.IdentifierFromProvider,
 	"vultr_object_storage":        config.NameAsIdentifier,
+	"vultr_instance":              config.NameAsIdentifier,
 }
 
 // ExternalNameConfigurations applies all external name configs listed in the

@@ -12,6 +12,7 @@ import (
 	nodepools "github.com/crossplane-contrib/provider-vultr/internal/controller/kubernetes/nodepools"
 	storage "github.com/crossplane-contrib/provider-vultr/internal/controller/object/storage"
 	providerconfig "github.com/crossplane-contrib/provider-vultr/internal/controller/providerconfig"
+	instance "github.com/crossplane-contrib/provider-vultr/internal/controller/vultr/instance"
 	kubernetes "github.com/crossplane-contrib/provider-vultr/internal/controller/vultr/kubernetes"
 )
 
@@ -22,6 +23,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		nodepools.Setup,
 		storage.Setup,
 		providerconfig.Setup,
+		instance.Setup,
 		kubernetes.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {
