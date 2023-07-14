@@ -1,0 +1,19 @@
+apiVersion: database.vultr.upbound.io/v1alpha1
+kind: ConnectionPool
+metadata:
+  annotations:
+    meta.upbound.io/example-id: database/v1alpha1/connectionpool
+  labels:
+    testing.upbound.io/example-name: my_database_connection_pool
+  name: my-database-connection-pool
+spec:
+  forProvider:
+    database: defaultdb
+    databaseId: ${vultr_database.my_database.id}
+    mode: transaction
+    name: my_database_connection_pool_name
+    size: "3"
+    username: vultradmin
+
+---
+

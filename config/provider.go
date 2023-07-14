@@ -10,10 +10,11 @@ import (
 
 	ujconfig "github.com/upbound/upjet/pkg/config"
 
+	"github.com/crossplane-contrib/provider-vultr/config/database"
+	"github.com/crossplane-contrib/provider-vultr/config/compute"
 	"github.com/crossplane-contrib/provider-vultr/config/kubernetes"
 	"github.com/crossplane-contrib/provider-vultr/config/nodepools"
 	"github.com/crossplane-contrib/provider-vultr/config/object"
-	"github.com/crossplane-contrib/provider-vultr/config/instance"
 )
 
 const (
@@ -40,7 +41,8 @@ func GetProvider() *ujconfig.Provider {
 		kubernetes.Configure,
 		nodepools.Configure,
 		object.Configure,
-		instance.Configure,
+		compute.Configure,
+		database.Configure,
 	} {
 		configure(pc)
 	}

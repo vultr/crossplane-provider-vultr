@@ -7,8 +7,8 @@ package v1alpha1
 
 import resource "github.com/crossplane/crossplane-runtime/pkg/resource"
 
-// GetItems of this DatabaseList.
-func (l *DatabaseList) GetItems() []resource.Managed {
+// GetItems of this ConnectionPoolList.
+func (l *ConnectionPoolList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
 	for i := range l.Items {
 		items[i] = &l.Items[i]
@@ -16,8 +16,8 @@ func (l *DatabaseList) GetItems() []resource.Managed {
 	return items
 }
 
-// GetItems of this InstanceList.
-func (l *InstanceList) GetItems() []resource.Managed {
+// GetItems of this DBList.
+func (l *DBList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
 	for i := range l.Items {
 		items[i] = &l.Items[i]
@@ -25,8 +25,17 @@ func (l *InstanceList) GetItems() []resource.Managed {
 	return items
 }
 
-// GetItems of this KubernetesList.
-func (l *KubernetesList) GetItems() []resource.Managed {
+// GetItems of this ReplicaList.
+func (l *ReplicaList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this UserList.
+func (l *UserList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
 	for i := range l.Items {
 		items[i] = &l.Items[i]
