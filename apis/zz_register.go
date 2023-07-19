@@ -12,6 +12,7 @@ import (
 
 	v1alpha1 "github.com/crossplane-contrib/provider-vultr/apis/database/v1alpha1"
 	v1alpha1kubernetes "github.com/crossplane-contrib/provider-vultr/apis/kubernetes/v1alpha1"
+	v1alpha1load "github.com/crossplane-contrib/provider-vultr/apis/load/v1alpha1"
 	v1alpha1object "github.com/crossplane-contrib/provider-vultr/apis/object/v1alpha1"
 	v1alpha1apis "github.com/crossplane-contrib/provider-vultr/apis/v1alpha1"
 	v1beta1 "github.com/crossplane-contrib/provider-vultr/apis/v1beta1"
@@ -23,6 +24,7 @@ func init() {
 	AddToSchemes = append(AddToSchemes,
 		v1alpha1.SchemeBuilder.AddToScheme,
 		v1alpha1kubernetes.SchemeBuilder.AddToScheme,
+		v1alpha1load.SchemeBuilder.AddToScheme,
 		v1alpha1object.SchemeBuilder.AddToScheme,
 		v1alpha1apis.SchemeBuilder.AddToScheme,
 		v1beta1.SchemeBuilder.AddToScheme,

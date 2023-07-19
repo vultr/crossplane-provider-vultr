@@ -10,9 +10,10 @@ import (
 
 	ujconfig "github.com/upbound/upjet/pkg/config"
 
-	"github.com/crossplane-contrib/provider-vultr/config/database"
 	"github.com/crossplane-contrib/provider-vultr/config/compute"
+	"github.com/crossplane-contrib/provider-vultr/config/database"
 	"github.com/crossplane-contrib/provider-vultr/config/kubernetes"
+	"github.com/crossplane-contrib/provider-vultr/config/loadbalancer"
 	"github.com/crossplane-contrib/provider-vultr/config/nodepools"
 	"github.com/crossplane-contrib/provider-vultr/config/object"
 )
@@ -43,6 +44,7 @@ func GetProvider() *ujconfig.Provider {
 		object.Configure,
 		compute.Configure,
 		database.Configure,
+		loadbalancer.Configure,
 	} {
 		configure(pc)
 	}

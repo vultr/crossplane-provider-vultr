@@ -14,6 +14,7 @@ import (
 	replica "github.com/crossplane-contrib/provider-vultr/internal/controller/database/replica"
 	user "github.com/crossplane-contrib/provider-vultr/internal/controller/database/user"
 	nodepools "github.com/crossplane-contrib/provider-vultr/internal/controller/kubernetes/nodepools"
+	balancer "github.com/crossplane-contrib/provider-vultr/internal/controller/load/balancer"
 	storage "github.com/crossplane-contrib/provider-vultr/internal/controller/object/storage"
 	providerconfig "github.com/crossplane-contrib/provider-vultr/internal/controller/providerconfig"
 	database "github.com/crossplane-contrib/provider-vultr/internal/controller/vultr/database"
@@ -30,6 +31,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		replica.Setup,
 		user.Setup,
 		nodepools.Setup,
+		balancer.Setup,
 		storage.Setup,
 		providerconfig.Setup,
 		database.Setup,
