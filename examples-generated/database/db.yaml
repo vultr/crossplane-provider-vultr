@@ -9,7 +9,6 @@ metadata:
 spec:
   forProvider:
     databaseId: ${vultr_database.my_database.id}
-    name: my_database_db
 
 ---
 

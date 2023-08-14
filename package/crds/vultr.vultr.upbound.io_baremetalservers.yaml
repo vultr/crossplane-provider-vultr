@@ -5,18 +5,18 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.11.3
   creationTimestamp: null
-  name: dbs.database.vultr.upbound.io
+  name: baremetalservers.vultr.vultr.upbound.io
 spec:
-  group: database.vultr.upbound.io
+  group: vultr.vultr.upbound.io
   names:
     categories:
     - crossplane
     - managed
     - vultr
-    kind: DB
-    listKind: DBList
-    plural: dbs
-    singular: db
+    kind: BareMetalServer
+    listKind: BareMetalServerList
+    plural: baremetalservers
+    singular: baremetalserver
   scope: Cluster
   versions:
   - additionalPrinterColumns:
@@ -35,9 +35,9 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: DB is the Schema for the DBs API. Provides a Vultr database DB
-          resource. This can be used to create, read, and delete logical DBs for a
-          managed database on your Vultr account.
+        description: BareMetalServer is the Schema for the BareMetalServers API. Provides
+          a Vultr bare metal server resource. This can be used to create, read, modify,
+          and delete bare metal servers on your Vultr account.
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -52,7 +52,7 @@ spec:
           metadata:
             type: object
           spec:
-            description: DBSpec defines the desired state of DB
+            description: BareMetalServerSpec defines the desired state of BareMetalServer
             properties:
               deletionPolicy:
                 default: Delete
@@ -69,9 +69,69 @@ spec:
                 type: string
               forProvider:
                 properties:
-                  databaseId:
-                    description: The managed database ID you want to attach this logical
-                      DB to.
+                  activationEmail:
+                    description: Whether an activation email will be sent when the
+                      server is ready.
+                    type: boolean
+                  appId:
+                    description: The ID of the Vultr application to be installed on
+                      the server. See List Applications
+                    type: number
+                  enableIpv6:
+                    description: Whether the server has IPv6 networking activated.
+                    type: boolean
+                  hostname:
+                    description: The hostname to assign to the server.
+                    type: string
+                  imageId:
+                    description: 'The ID of the Vultr marketplace application to be
+                      installed on the server. See List Applications Note marketplace
+                      applications are denoted by type: marketplace and you must use
+                      the image_id not the id.'
+                    type: string
+                  label:
+                    description: A label for the server.
+                    type: string
+                  osId:
+                    description: The ID of the operating system to be installed on
+                      the server. See List OS
+                    type: number
+                  plan:
+                    description: The ID of the plan that you want the server to subscribe
+                      to. See List Plans
+                    type: string
+                  region:
+                    description: The ID of the region that the server is to be created
+                      in. See List Regions
+                    type: string
+                  reservedIpv4:
+                    description: The ID of the floating IP to use as the main IP of
+                      this server. See Reserved IPs
+                    type: string
+                  scriptId:
+                    description: The ID of the startup script you want added to the
+                      server.
+                    type: string
+                  snapshotId:
+                    description: The ID of the Vultr snapshot that the server will
+                      restore for the initial installation. See List Snapshots
+                    type: string
+                  sshKeyIds:
+                    description: A list of SSH key IDs to apply to the server on install
+                      (only valid for Linux/FreeBSD).
+                    items:
+                      type: string
+                    type: array
+                  tags:
+                    description: A list of tags to apply to the servier.
+                    items:
+                      type: string
+                    type: array
+                  userData:
+                    description: Generic data store, which some provisioning tools
+                      and cloud operating systems use as a configuration file. It
+                      is generally consumed only once after an instance has been launched,
+                      but individual needs may vary.
                     type: string
                 type: object
               managementPolicy:
@@ -261,19 +321,122 @@ spec:
             - forProvider
             type: object
             x-kubernetes-validations:
-            - message: databaseId is a required parameter
-              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.databaseId)
+            - message: plan is a required parameter
+              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.plan)
+            - message: region is a required parameter
+              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.region)
           status:
-            description: DBStatus defines the observed state of DB.
+            description: BareMetalServerStatus defines the observed state of BareMetalServer.
             properties:
               atProvider:
                 properties:
-                  databaseId:
-                    description: The managed database ID you want to attach this logical
-                      DB to.
+                  activationEmail:
+                    description: Whether an activation email will be sent when the
+                      server is ready.
+                    type: boolean
+                  appId:
+                    description: The ID of the Vultr application to be installed on
+                      the server. See List Applications
+                    type: number
+                  cpuCount:
+                    description: The number of CPUs available on the server.
+                    type: number
+                  dateCreated:
+                    description: The date the server was added to your Vultr account.
+                    type: string
+                  disk:
+                    description: The description of the disk(s) on the server.
+                    type: string
+                  enableIpv6:
+                    description: Whether the server has IPv6 networking activated.
+                    type: boolean
+                  gatewayV4:
+                    description: The server's IPv4 gateway.
+                    type: string
+                  hostname:
+                    description: The hostname to assign to the server.
                     type: string
                   id:
+                    description: ID of the server.
                     type: string
+                  imageId:
+                    description: 'The ID of the Vultr marketplace application to be
+                      installed on the server. See List Applications Note marketplace
+                      applications are denoted by type: marketplace and you must use
+                      the image_id not the id.'
+                    type: string
+                  label:
+                    description: A label for the server.
+                    type: string
+                  macAddress:
+                    description: The MAC address associated with the server.
+                    type: number
+                  mainIp:
+                    description: The server's main IP address.
+                    type: string
+                  netmaskV4:
+                    description: The server's IPv4 netmask.
+                    type: string
+                  os:
+                    description: The string description of the operating system installed
+                      on the server.
+                    type: string
+                  osId:
+                    description: The ID of the operating system to be installed on
+                      the server. See List OS
+                    type: number
+                  plan:
+                    description: The ID of the plan that you want the server to subscribe
+                      to. See List Plans
+                    type: string
+                  ram:
+                    description: The amount of memory available on the server in MB.
+                    type: string
+                  region:
+                    description: The ID of the region that the server is to be created
+                      in. See List Regions
+                    type: string
+                  reservedIpv4:
+                    description: The ID of the floating IP to use as the main IP of
+                      this server. See Reserved IPs
+                    type: string
+                  scriptId:
+                    description: The ID of the startup script you want added to the
+                      server.
+                    type: string
+                  snapshotId:
+                    description: The ID of the Vultr snapshot that the server will
+                      restore for the initial installation. See List Snapshots
+                    type: string
+                  sshKeyIds:
+                    description: A list of SSH key IDs to apply to the server on install
+                      (only valid for Linux/FreeBSD).
+                    items:
+                      type: string
+                    type: array
+                  status:
+                    description: The status of the server's subscription.
+                    type: string
+                  tags:
+                    description: A list of tags to apply to the servier.
+                    items:
+                      type: string
+                    type: array
+                  userData:
+                    description: Generic data store, which some provisioning tools
+                      and cloud operating systems use as a configuration file. It
+                      is generally consumed only once after an instance has been launched,
+                      but individual needs may vary.
+                    type: string
+                  v6MainIp:
+                    description: The main IPv6 network address.
+                    type: string
+                  v6Network:
+                    description: The IPv6 subnet.
+                    type: string
+                  v6NetworkSize:
+                    description: The IPv6 network size in bits.
+                    type: number
                 type: object
               conditions:
                 description: Conditions of the resource.

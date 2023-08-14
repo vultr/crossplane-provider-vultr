@@ -19,9 +19,6 @@ type DBObservation struct {
 	DatabaseID *string `json:"databaseId,omitempty" tf:"database_id,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
-
-	// The name of the new managed database logical DB.
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 }
 
 type DBParameters struct {
@@ -29,10 +26,6 @@ type DBParameters struct {
 	// The managed database ID you want to attach this logical DB to.
 	// +kubebuilder:validation:Optional
 	DatabaseID *string `json:"databaseId,omitempty" tf:"database_id,omitempty"`
-
-	// The name of the new managed database logical DB.
-	// +kubebuilder:validation:Optional
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 }
 
 // DBSpec defines the desired state of DB
@@ -60,7 +53,6 @@ type DB struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.databaseId)",message="databaseId is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.name)",message="name is a required parameter"
 	Spec   DBSpec   `json:"spec"`
 	Status DBStatus `json:"status,omitempty"`
 }

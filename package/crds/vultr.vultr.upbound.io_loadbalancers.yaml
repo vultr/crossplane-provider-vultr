@@ -5,18 +5,18 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.11.3
   creationTimestamp: null
-  name: balancers.load.vultr.upbound.io
+  name: loadbalancers.vultr.vultr.upbound.io
 spec:
-  group: load.vultr.upbound.io
+  group: vultr.vultr.upbound.io
   names:
     categories:
     - crossplane
     - managed
     - vultr
-    kind: Balancer
-    listKind: BalancerList
-    plural: balancers
-    singular: balancer
+    kind: LoadBalancer
+    listKind: LoadBalancerList
+    plural: loadbalancers
+    singular: loadbalancer
   scope: Cluster
   versions:
   - additionalPrinterColumns:
@@ -35,7 +35,7 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: Balancer is the Schema for the Balancers API. Get information
+        description: LoadBalancer is the Schema for the LoadBalancers API. Get information
           about a Vultr Load Balancer.
         properties:
           apiVersion:
@@ -51,7 +51,7 @@ spec:
           metadata:
             type: object
           spec:
-            description: BalancerSpec defines the desired state of Balancer
+            description: LoadBalancerSpec defines the desired state of LoadBalancer
             properties:
               deletionPolicy:
                 default: Delete
@@ -424,7 +424,7 @@ spec:
             - message: region is a required parameter
               rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.region)
           status:
-            description: BalancerStatus defines the observed state of Balancer.
+            description: LoadBalancerStatus defines the observed state of LoadBalancer.
             properties:
               atProvider:
                 properties:

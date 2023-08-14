@@ -13,118 +13,6 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
-type BalancerObservation struct {
-
-	// Array of instances that are currently attached to the load balancer.
-	AttachedInstances []*string `json:"attachedInstances,omitempty" tf:"attached_instances,omitempty"`
-
-	// The balancing algorithm for your load balancer. Options are roundrobin or leastconn. Default value is roundrobin
-	BalancingAlgorithm *string `json:"balancingAlgorithm,omitempty" tf:"balancing_algorithm,omitempty"`
-
-	// Name for your given sticky session.
-	CookieName *string `json:"cookieName,omitempty" tf:"cookie_name,omitempty"`
-
-	// Defines the firewall rules for a load balancer.
-	FirewallRules []FirewallRulesObservation `json:"firewallRules,omitempty" tf:"firewall_rules,omitempty"`
-
-	// List of forwarding rules for a load balancer. The configuration of a forwarding_rules is listened below.
-	ForwardingRules []ForwardingRulesObservation `json:"forwardingRules,omitempty" tf:"forwarding_rules,omitempty"`
-
-	// Boolean value that indicates if SSL is enabled.
-	HasSSL *bool `json:"hasSsl,omitempty" tf:"has_ssl,omitempty"`
-
-	// A block that defines the way load balancers should check for health. The configuration of a health_check is listed below.
-	HealthCheck []HealthCheckObservation `json:"healthCheck,omitempty" tf:"health_check,omitempty"`
-
-	// The load balancer ID.
-	ID *string `json:"id,omitempty" tf:"id,omitempty"`
-
-	// IPv4 address for your load balancer.
-	IPv4 *string `json:"ipv4,omitempty" tf:"ipv4,omitempty"`
-
-	// IPv6 address for your load balancer.
-	IPv6 *string `json:"ipv6,omitempty" tf:"ipv6,omitempty"`
-
-	// The load balancer's label.
-	Label *string `json:"label,omitempty" tf:"label,omitempty"`
-
-	// (Deprecated: use vpc instead) A private network ID that the load balancer should be attached to.
-	PrivateNetwork *string `json:"privateNetwork,omitempty" tf:"private_network,omitempty"`
-
-	// Boolean value that indicates if Proxy Protocol is enabled.
-	ProxyProtocol *bool `json:"proxyProtocol,omitempty" tf:"proxy_protocol,omitempty"`
-
-	// The region your load balancer is deployed in.
-	Region *string `json:"region,omitempty" tf:"region,omitempty"`
-
-	// A block that supplies your ssl configuration to be used with HTTPS. The configuration of a ssl is listed below.
-	SSL []SSLObservation `json:"ssl,omitempty" tf:"ssl,omitempty"`
-
-	// Boolean value that indicates if HTTP calls will be redirected to HTTPS.
-	SSLRedirect *bool `json:"sslRedirect,omitempty" tf:"ssl_redirect,omitempty"`
-
-	// Current status for the load balancer
-	Status *string `json:"status,omitempty" tf:"status,omitempty"`
-
-	// A VPC ID that the load balancer should be attached to.
-	VPC *string `json:"vpc,omitempty" tf:"vpc,omitempty"`
-}
-
-type BalancerParameters struct {
-
-	// Array of instances that are currently attached to the load balancer.
-	// +kubebuilder:validation:Optional
-	AttachedInstances []*string `json:"attachedInstances,omitempty" tf:"attached_instances,omitempty"`
-
-	// The balancing algorithm for your load balancer. Options are roundrobin or leastconn. Default value is roundrobin
-	// +kubebuilder:validation:Optional
-	BalancingAlgorithm *string `json:"balancingAlgorithm,omitempty" tf:"balancing_algorithm,omitempty"`
-
-	// Name for your given sticky session.
-	// +kubebuilder:validation:Optional
-	CookieName *string `json:"cookieName,omitempty" tf:"cookie_name,omitempty"`
-
-	// Defines the firewall rules for a load balancer.
-	// +kubebuilder:validation:Optional
-	FirewallRules []FirewallRulesParameters `json:"firewallRules,omitempty" tf:"firewall_rules,omitempty"`
-
-	// List of forwarding rules for a load balancer. The configuration of a forwarding_rules is listened below.
-	// +kubebuilder:validation:Optional
-	ForwardingRules []ForwardingRulesParameters `json:"forwardingRules,omitempty" tf:"forwarding_rules,omitempty"`
-
-	// A block that defines the way load balancers should check for health. The configuration of a health_check is listed below.
-	// +kubebuilder:validation:Optional
-	HealthCheck []HealthCheckParameters `json:"healthCheck,omitempty" tf:"health_check,omitempty"`
-
-	// The load balancer's label.
-	// +kubebuilder:validation:Optional
-	Label *string `json:"label,omitempty" tf:"label,omitempty"`
-
-	// (Deprecated: use vpc instead) A private network ID that the load balancer should be attached to.
-	// +kubebuilder:validation:Optional
-	PrivateNetwork *string `json:"privateNetwork,omitempty" tf:"private_network,omitempty"`
-
-	// Boolean value that indicates if Proxy Protocol is enabled.
-	// +kubebuilder:validation:Optional
-	ProxyProtocol *bool `json:"proxyProtocol,omitempty" tf:"proxy_protocol,omitempty"`
-
-	// The region your load balancer is deployed in.
-	// +kubebuilder:validation:Optional
-	Region *string `json:"region,omitempty" tf:"region,omitempty"`
-
-	// A block that supplies your ssl configuration to be used with HTTPS. The configuration of a ssl is listed below.
-	// +kubebuilder:validation:Optional
-	SSL []SSLParameters `json:"ssl,omitempty" tf:"ssl,omitempty"`
-
-	// Boolean value that indicates if HTTP calls will be redirected to HTTPS.
-	// +kubebuilder:validation:Optional
-	SSLRedirect *bool `json:"sslRedirect,omitempty" tf:"ssl_redirect,omitempty"`
-
-	// A VPC ID that the load balancer should be attached to.
-	// +kubebuilder:validation:Optional
-	VPC *string `json:"vpc,omitempty" tf:"vpc,omitempty"`
-}
-
 type FirewallRulesObservation struct {
 
 	// The load balancer ID.
@@ -247,6 +135,118 @@ type HealthCheckParameters struct {
 	UnhealthyThreshold *float64 `json:"unhealthyThreshold" tf:"unhealthy_threshold,omitempty"`
 }
 
+type LoadBalancerObservation struct {
+
+	// Array of instances that are currently attached to the load balancer.
+	AttachedInstances []*string `json:"attachedInstances,omitempty" tf:"attached_instances,omitempty"`
+
+	// The balancing algorithm for your load balancer. Options are roundrobin or leastconn. Default value is roundrobin
+	BalancingAlgorithm *string `json:"balancingAlgorithm,omitempty" tf:"balancing_algorithm,omitempty"`
+
+	// Name for your given sticky session.
+	CookieName *string `json:"cookieName,omitempty" tf:"cookie_name,omitempty"`
+
+	// Defines the firewall rules for a load balancer.
+	FirewallRules []FirewallRulesObservation `json:"firewallRules,omitempty" tf:"firewall_rules,omitempty"`
+
+	// List of forwarding rules for a load balancer. The configuration of a forwarding_rules is listened below.
+	ForwardingRules []ForwardingRulesObservation `json:"forwardingRules,omitempty" tf:"forwarding_rules,omitempty"`
+
+	// Boolean value that indicates if SSL is enabled.
+	HasSSL *bool `json:"hasSsl,omitempty" tf:"has_ssl,omitempty"`
+
+	// A block that defines the way load balancers should check for health. The configuration of a health_check is listed below.
+	HealthCheck []HealthCheckObservation `json:"healthCheck,omitempty" tf:"health_check,omitempty"`
+
+	// The load balancer ID.
+	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// IPv4 address for your load balancer.
+	IPv4 *string `json:"ipv4,omitempty" tf:"ipv4,omitempty"`
+
+	// IPv6 address for your load balancer.
+	IPv6 *string `json:"ipv6,omitempty" tf:"ipv6,omitempty"`
+
+	// The load balancer's label.
+	Label *string `json:"label,omitempty" tf:"label,omitempty"`
+
+	// (Deprecated: use vpc instead) A private network ID that the load balancer should be attached to.
+	PrivateNetwork *string `json:"privateNetwork,omitempty" tf:"private_network,omitempty"`
+
+	// Boolean value that indicates if Proxy Protocol is enabled.
+	ProxyProtocol *bool `json:"proxyProtocol,omitempty" tf:"proxy_protocol,omitempty"`
+
+	// The region your load balancer is deployed in.
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+
+	// A block that supplies your ssl configuration to be used with HTTPS. The configuration of a ssl is listed below.
+	SSL []SSLObservation `json:"ssl,omitempty" tf:"ssl,omitempty"`
+
+	// Boolean value that indicates if HTTP calls will be redirected to HTTPS.
+	SSLRedirect *bool `json:"sslRedirect,omitempty" tf:"ssl_redirect,omitempty"`
+
+	// Current status for the load balancer
+	Status *string `json:"status,omitempty" tf:"status,omitempty"`
+
+	// A VPC ID that the load balancer should be attached to.
+	VPC *string `json:"vpc,omitempty" tf:"vpc,omitempty"`
+}
+
+type LoadBalancerParameters struct {
+
+	// Array of instances that are currently attached to the load balancer.
+	// +kubebuilder:validation:Optional
+	AttachedInstances []*string `json:"attachedInstances,omitempty" tf:"attached_instances,omitempty"`
+
+	// The balancing algorithm for your load balancer. Options are roundrobin or leastconn. Default value is roundrobin
+	// +kubebuilder:validation:Optional
+	BalancingAlgorithm *string `json:"balancingAlgorithm,omitempty" tf:"balancing_algorithm,omitempty"`
+
+	// Name for your given sticky session.
+	// +kubebuilder:validation:Optional
+	CookieName *string `json:"cookieName,omitempty" tf:"cookie_name,omitempty"`
+
+	// Defines the firewall rules for a load balancer.
+	// +kubebuilder:validation:Optional
+	FirewallRules []FirewallRulesParameters `json:"firewallRules,omitempty" tf:"firewall_rules,omitempty"`
+
+	// List of forwarding rules for a load balancer. The configuration of a forwarding_rules is listened below.
+	// +kubebuilder:validation:Optional
+	ForwardingRules []ForwardingRulesParameters `json:"forwardingRules,omitempty" tf:"forwarding_rules,omitempty"`
+
+	// A block that defines the way load balancers should check for health. The configuration of a health_check is listed below.
+	// +kubebuilder:validation:Optional
+	HealthCheck []HealthCheckParameters `json:"healthCheck,omitempty" tf:"health_check,omitempty"`
+
+	// The load balancer's label.
+	// +kubebuilder:validation:Optional
+	Label *string `json:"label,omitempty" tf:"label,omitempty"`
+
+	// (Deprecated: use vpc instead) A private network ID that the load balancer should be attached to.
+	// +kubebuilder:validation:Optional
+	PrivateNetwork *string `json:"privateNetwork,omitempty" tf:"private_network,omitempty"`
+
+	// Boolean value that indicates if Proxy Protocol is enabled.
+	// +kubebuilder:validation:Optional
+	ProxyProtocol *bool `json:"proxyProtocol,omitempty" tf:"proxy_protocol,omitempty"`
+
+	// The region your load balancer is deployed in.
+	// +kubebuilder:validation:Optional
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+
+	// A block that supplies your ssl configuration to be used with HTTPS. The configuration of a ssl is listed below.
+	// +kubebuilder:validation:Optional
+	SSL []SSLParameters `json:"ssl,omitempty" tf:"ssl,omitempty"`
+
+	// Boolean value that indicates if HTTP calls will be redirected to HTTPS.
+	// +kubebuilder:validation:Optional
+	SSLRedirect *bool `json:"sslRedirect,omitempty" tf:"ssl_redirect,omitempty"`
+
+	// A VPC ID that the load balancer should be attached to.
+	// +kubebuilder:validation:Optional
+	VPC *string `json:"vpc,omitempty" tf:"vpc,omitempty"`
+}
+
 type SSLObservation struct {
 
 	// The SSL Certificate.
@@ -271,53 +271,53 @@ type SSLParameters struct {
 	PrivateKeySecretRef v1.SecretKeySelector `json:"privateKeySecretRef" tf:"-"`
 }
 
-// BalancerSpec defines the desired state of Balancer
-type BalancerSpec struct {
+// LoadBalancerSpec defines the desired state of LoadBalancer
+type LoadBalancerSpec struct {
 	v1.ResourceSpec `json:",inline"`
-	ForProvider     BalancerParameters `json:"forProvider"`
+	ForProvider     LoadBalancerParameters `json:"forProvider"`
 }
 
-// BalancerStatus defines the observed state of Balancer.
-type BalancerStatus struct {
+// LoadBalancerStatus defines the observed state of LoadBalancer.
+type LoadBalancerStatus struct {
 	v1.ResourceStatus `json:",inline"`
-	AtProvider        BalancerObservation `json:"atProvider,omitempty"`
+	AtProvider        LoadBalancerObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 
-// Balancer is the Schema for the Balancers API. Get information about a Vultr Load Balancer.
+// LoadBalancer is the Schema for the LoadBalancers API. Get information about a Vultr Load Balancer.
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
 // +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,vultr}
-type Balancer struct {
+type LoadBalancer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.forwardingRules)",message="forwardingRules is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.region)",message="region is a required parameter"
-	Spec   BalancerSpec   `json:"spec"`
-	Status BalancerStatus `json:"status,omitempty"`
+	Spec   LoadBalancerSpec   `json:"spec"`
+	Status LoadBalancerStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 
-// BalancerList contains a list of Balancers
-type BalancerList struct {
+// LoadBalancerList contains a list of LoadBalancers
+type LoadBalancerList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []Balancer `json:"items"`
+	Items           []LoadBalancer `json:"items"`
 }
 
 // Repository type metadata.
 var (
-	Balancer_Kind             = "Balancer"
-	Balancer_GroupKind        = schema.GroupKind{Group: CRDGroup, Kind: Balancer_Kind}.String()
-	Balancer_KindAPIVersion   = Balancer_Kind + "." + CRDGroupVersion.String()
-	Balancer_GroupVersionKind = CRDGroupVersion.WithKind(Balancer_Kind)
+	LoadBalancer_Kind             = "LoadBalancer"
+	LoadBalancer_GroupKind        = schema.GroupKind{Group: CRDGroup, Kind: LoadBalancer_Kind}.String()
+	LoadBalancer_KindAPIVersion   = LoadBalancer_Kind + "." + CRDGroupVersion.String()
+	LoadBalancer_GroupVersionKind = CRDGroupVersion.WithKind(LoadBalancer_Kind)
 )
 
 func init() {
-	SchemeBuilder.Register(&Balancer{}, &BalancerList{})
+	SchemeBuilder.Register(&LoadBalancer{}, &LoadBalancerList{})
 }

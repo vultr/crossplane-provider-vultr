@@ -14,12 +14,13 @@ import (
 	replica "github.com/crossplane-contrib/provider-vultr/internal/controller/database/replica"
 	user "github.com/crossplane-contrib/provider-vultr/internal/controller/database/user"
 	nodepools "github.com/crossplane-contrib/provider-vultr/internal/controller/kubernetes/nodepools"
-	balancer "github.com/crossplane-contrib/provider-vultr/internal/controller/load/balancer"
 	storage "github.com/crossplane-contrib/provider-vultr/internal/controller/object/storage"
 	providerconfig "github.com/crossplane-contrib/provider-vultr/internal/controller/providerconfig"
+	baremetalserver "github.com/crossplane-contrib/provider-vultr/internal/controller/vultr/baremetalserver"
 	database "github.com/crossplane-contrib/provider-vultr/internal/controller/vultr/database"
 	instance "github.com/crossplane-contrib/provider-vultr/internal/controller/vultr/instance"
 	kubernetes "github.com/crossplane-contrib/provider-vultr/internal/controller/vultr/kubernetes"
+	loadbalancer "github.com/crossplane-contrib/provider-vultr/internal/controller/vultr/loadbalancer"
 )
 
 // Setup creates all controllers with the supplied logger and adds them to
@@ -31,12 +32,13 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		replica.Setup,
 		user.Setup,
 		nodepools.Setup,
-		balancer.Setup,
 		storage.Setup,
 		providerconfig.Setup,
+		baremetalserver.Setup,
 		database.Setup,
 		instance.Setup,
 		kubernetes.Setup,
+		loadbalancer.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {
 			return err
