@@ -73,6 +73,9 @@ spec:
                     description: The managed database ID you want to attach this logical
                       DB to.
                     type: string
+                  name:
+                    description: The name of the new managed database logical DB.
+                    type: string
                 type: object
               managementPolicy:
                 default: FullControl
@@ -263,6 +266,8 @@ spec:
             x-kubernetes-validations:
             - message: databaseId is a required parameter
               rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.databaseId)
+            - message: name is a required parameter
+              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.name)
           status:
             description: DBStatus defines the observed state of DB.
             properties:
@@ -273,6 +278,9 @@ spec:
                       DB to.
                     type: string
                   id:
+                    type: string
+                  name:
+                    description: The name of the new managed database logical DB.
                     type: string
                 type: object
               conditions:

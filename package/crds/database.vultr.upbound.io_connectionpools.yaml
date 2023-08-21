@@ -82,6 +82,9 @@ spec:
                     description: The mode to configure for the new managed database
                       connection pool (session, transaction, statement).
                     type: string
+                  name:
+                    description: The name of the new managed database connection pool.
+                    type: string
                   size:
                     description: The size of the new managed database connection pool.
                     type: number
@@ -283,6 +286,8 @@ spec:
               rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.databaseId)
             - message: mode is a required parameter
               rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.mode)
+            - message: name is a required parameter
+              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.name)
             - message: size is a required parameter
               rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.size)
             - message: username is a required parameter
@@ -305,6 +310,9 @@ spec:
                   mode:
                     description: The mode to configure for the new managed database
                       connection pool (session, transaction, statement).
+                    type: string
+                  name:
+                    description: The name of the new managed database connection pool.
                     type: string
                   size:
                     description: The size of the new managed database connection pool.

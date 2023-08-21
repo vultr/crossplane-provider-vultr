@@ -13,7 +13,7 @@ var ExternalNameConfigs = map[string]config.ExternalName{
 	"null_resource":               		config.IdentifierFromProvider,
 	"vultr_kubernetes":           		config.IdentifierFromProvider,
 	"vultr_kubernetes_node_pools": 		config.IdentifierFromProvider,
-	"vultr_object_storage":        		config.IdentifierFromProvider,
+	"vultr_object_storage":        		config.NameAsIdentifier,
 	"vultr_instance":              		config.IdentifierFromProvider,
 	"vultr_load_balancer":         		config.IdentifierFromProvider,
 	"vultr_database": 			  		config.IdentifierFromProvider,

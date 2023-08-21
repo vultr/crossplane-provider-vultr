@@ -26,6 +26,9 @@ type ConnectionPoolObservation struct {
 	// The mode to configure for the new managed database connection pool (session, transaction, statement).
 	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
 
+	// The name of the new managed database connection pool.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
 	// The size of the new managed database connection pool.
 	Size *float64 `json:"size,omitempty" tf:"size,omitempty"`
 
@@ -46,6 +49,10 @@ type ConnectionPoolParameters struct {
 	// The mode to configure for the new managed database connection pool (session, transaction, statement).
 	// +kubebuilder:validation:Optional
 	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
+
+	// The name of the new managed database connection pool.
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// The size of the new managed database connection pool.
 	// +kubebuilder:validation:Optional
@@ -83,6 +90,7 @@ type ConnectionPool struct {
 	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.database)",message="database is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.databaseId)",message="databaseId is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.mode)",message="mode is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.name)",message="name is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.size)",message="size is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.username)",message="username is a required parameter"
 	Spec   ConnectionPoolSpec   `json:"spec"`
