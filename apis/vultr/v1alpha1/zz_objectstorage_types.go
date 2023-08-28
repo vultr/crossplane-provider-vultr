@@ -13,7 +13,7 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
-type StorageObservation struct {
+type ObjectStorageObservation struct {
 
 	// The region ID that you want the network to be created in.
 	ClusterID *float64 `json:"clusterId,omitempty" tf:"cluster_id,omitempty"`
@@ -40,7 +40,7 @@ type StorageObservation struct {
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`
 }
 
-type StorageParameters struct {
+type ObjectStorageParameters struct {
 
 	// The region ID that you want the network to be created in.
 	// +kubebuilder:validation:Optional
@@ -51,52 +51,52 @@ type StorageParameters struct {
 	Label *string `json:"label,omitempty" tf:"label,omitempty"`
 }
 
-// StorageSpec defines the desired state of Storage
-type StorageSpec struct {
+// ObjectStorageSpec defines the desired state of ObjectStorage
+type ObjectStorageSpec struct {
 	v1.ResourceSpec `json:",inline"`
-	ForProvider     StorageParameters `json:"forProvider"`
+	ForProvider     ObjectStorageParameters `json:"forProvider"`
 }
 
-// StorageStatus defines the observed state of Storage.
-type StorageStatus struct {
+// ObjectStorageStatus defines the observed state of ObjectStorage.
+type ObjectStorageStatus struct {
 	v1.ResourceStatus `json:",inline"`
-	AtProvider        StorageObservation `json:"atProvider,omitempty"`
+	AtProvider        ObjectStorageObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 
-// Storage is the Schema for the Storages API. Provides a Vultr private object storage resource. This can be used to create, read, update and delete object storage resources on your Vultr account.
+// ObjectStorage is the Schema for the ObjectStorages API. Provides a Vultr private object storage resource. This can be used to create, read, update and delete object storage resources on your Vultr account.
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
 // +kubebuilder:subresource:status
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,vultr}
-type Storage struct {
+type ObjectStorage struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.clusterId)",message="clusterId is a required parameter"
-	Spec   StorageSpec   `json:"spec"`
-	Status StorageStatus `json:"status,omitempty"`
+	Spec   ObjectStorageSpec   `json:"spec"`
+	Status ObjectStorageStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 
-// StorageList contains a list of Storages
-type StorageList struct {
+// ObjectStorageList contains a list of ObjectStorages
+type ObjectStorageList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []Storage `json:"items"`
+	Items           []ObjectStorage `json:"items"`
 }
 
 // Repository type metadata.
 var (
-	Storage_Kind             = "Storage"
-	Storage_GroupKind        = schema.GroupKind{Group: CRDGroup, Kind: Storage_Kind}.String()
-	Storage_KindAPIVersion   = Storage_Kind + "." + CRDGroupVersion.String()
-	Storage_GroupVersionKind = CRDGroupVersion.WithKind(Storage_Kind)
+	ObjectStorage_Kind             = "ObjectStorage"
+	ObjectStorage_GroupKind        = schema.GroupKind{Group: CRDGroup, Kind: ObjectStorage_Kind}.String()
+	ObjectStorage_KindAPIVersion   = ObjectStorage_Kind + "." + CRDGroupVersion.String()
+	ObjectStorage_GroupVersionKind = CRDGroupVersion.WithKind(ObjectStorage_Kind)
 )
 
 func init() {
-	SchemeBuilder.Register(&Storage{}, &StorageList{})
+	SchemeBuilder.Register(&ObjectStorage{}, &ObjectStorageList{})
 }

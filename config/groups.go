@@ -41,6 +41,7 @@ var GroupMap = map[string]GroupKindCalculator{
 	//"aws_alb_listener_certificate":                             ReplaceGroupWords("elbv2", 0),
 	"vultr_load_balancer":                                          ReplaceGroupWords("vultr", 0),
 	"vultr_bare_metal_server":                                      ReplaceGroupWords("vultr", 0),
+	"vultr_object_storage":											ReplaceGroupWords("vultr", 0),
 
 
 }
@@ -49,6 +50,6 @@ var GroupMap = map[string]GroupKindCalculator{
 var KindMap = map[string]string{
 	"vultr_load_balancer":                    "loadbalancer",
 	"vultr_bare_metal_server": 				   "baremetal",
-
+	"vultr_object_storage":						"object",
 
 }

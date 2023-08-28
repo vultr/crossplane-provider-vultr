@@ -382,3 +382,77 @@ func (tr *LoadBalancer) LateInitialize(attrs []byte) (bool, error) {
 func (tr *LoadBalancer) GetTerraformSchemaVersion() int {
 	return 0
 }
+
+// GetTerraformResourceType returns Terraform resource type for this ObjectStorage
+func (mg *ObjectStorage) GetTerraformResourceType() string {
+	return "vultr_object_storage"
+}
+
+// GetConnectionDetailsMapping for this ObjectStorage
+func (tr *ObjectStorage) GetConnectionDetailsMapping() map[string]string {
+	return map[string]string{"s3_access_key": "status.atProvider.s3AccessKey", "s3_secret_key": "status.atProvider.s3SecretKey"}
+}
+
+// GetObservation of this ObjectStorage
+func (tr *ObjectStorage) GetObservation() (map[string]any, error) {
+	o, err := json.TFParser.Marshal(tr.Status.AtProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(o, &base)
+}
+
+// SetObservation for this ObjectStorage
+func (tr *ObjectStorage) SetObservation(obs map[string]any) error {
+	p, err := json.TFParser.Marshal(obs)
+	if err != nil {
+		return err
+	}
+	return json.TFParser.Unmarshal(p, &tr.Status.AtProvider)
+}
+
+// GetID returns ID of underlying Terraform resource of this ObjectStorage
+func (tr *ObjectStorage) GetID() string {
+	if tr.Status.AtProvider.ID == nil {
+		return ""
+	}
+	return *tr.Status.AtProvider.ID
+}
+
+// GetParameters of this ObjectStorage
+func (tr *ObjectStorage) GetParameters() (map[string]any, error) {
+	p, err := json.TFParser.Marshal(tr.Spec.ForProvider)
+	if err != nil {
+		return nil, err
+	}
+	base := map[string]any{}
+	return base, json.TFParser.Unmarshal(p, &base)
+}
+
+// SetParameters for this ObjectStorage
+func (tr *ObjectStorage) SetParameters(params map[string]any) error {
+	p, err := json.TFParser.Marshal(params)
+	if err != nil {
+		return err
+	}
+	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
+}
+
+// LateInitialize this ObjectStorage using its observed tfState.
+// returns True if there are any spec changes for the resource.
+func (tr *ObjectStorage) LateInitialize(attrs []byte) (bool, error) {
+	params := &ObjectStorageParameters{}
+	if err := json.TFParser.Unmarshal(attrs, params); err != nil {
+		return false, errors.Wrap(err, "failed to unmarshal Terraform state parameters for late-initialization")
+	}
+	opts := []resource.GenericLateInitializerOption{resource.WithZeroValueJSONOmitEmptyFilter(resource.CNameWildcard)}
+
+	li := resource.NewGenericLateInitializer(opts...)
+	return li.LateInitialize(&tr.Spec.ForProvider, params)
+}
+
+// GetTerraformSchemaVersion returns the associated Terraform schema version
+func (tr *ObjectStorage) GetTerraformSchemaVersion() int {
+	return 0
+}

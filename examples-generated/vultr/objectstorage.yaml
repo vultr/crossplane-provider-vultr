@@ -1,8 +1,8 @@
-apiVersion: object.vultr.upbound.io/v1alpha1
-kind: Storage
+apiVersion: vultr.vultr.upbound.io/v1alpha1
+kind: ObjectStorage
 metadata:
   annotations:
-    meta.upbound.io/example-id: object/v1alpha1/storage
+    meta.upbound.io/example-id: vultr/v1alpha1/objectstorage
   labels:
     testing.upbound.io/example-name: tf
   name: tf

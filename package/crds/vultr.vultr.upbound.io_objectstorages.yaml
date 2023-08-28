@@ -5,18 +5,18 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.11.3
   creationTimestamp: null
-  name: storages.object.vultr.upbound.io
+  name: objectstorages.vultr.vultr.upbound.io
 spec:
-  group: object.vultr.upbound.io
+  group: vultr.vultr.upbound.io
   names:
     categories:
     - crossplane
     - managed
     - vultr
-    kind: Storage
-    listKind: StorageList
-    plural: storages
-    singular: storage
+    kind: ObjectStorage
+    listKind: ObjectStorageList
+    plural: objectstorages
+    singular: objectstorage
   scope: Cluster
   versions:
   - additionalPrinterColumns:
@@ -35,9 +35,9 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: Storage is the Schema for the Storages API. Provides a Vultr
-          private object storage resource. This can be used to create, read, update
-          and delete object storage resources on your Vultr account.
+        description: ObjectStorage is the Schema for the ObjectStorages API. Provides
+          a Vultr private object storage resource. This can be used to create, read,
+          update and delete object storage resources on your Vultr account.
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -52,7 +52,7 @@ spec:
           metadata:
             type: object
           spec:
-            description: StorageSpec defines the desired state of Storage
+            description: ObjectStorageSpec defines the desired state of ObjectStorage
             properties:
               deletionPolicy:
                 default: Delete
@@ -267,7 +267,7 @@ spec:
             - message: clusterId is a required parameter
               rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.clusterId)
           status:
-            description: StorageStatus defines the observed state of Storage.
+            description: ObjectStorageStatus defines the observed state of ObjectStorage.
             properties:
               atProvider:
                 properties:
