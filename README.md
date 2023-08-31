@@ -5,56 +5,68 @@ is built using [Upjet](https://github.com/upbound/upjet) code
 generation tools and exposes XRM-conformant managed resources for the
 Vultr API.
 
-## Getting Started
+## Overview
 
-Install the provider by using the following command after changing the image tag
-to the [latest release](https://marketplace.upbound.io/providers/crossplane-contrib/provider-vultr):
-```
-up ctp provider install crossplane-contrib/provider-vultr:v0.1.0
-```
+This `provider-vultr` repository is the Crossplane infrastructure provider for
+[vultr](https://vultr.com/). The provider that is built from
+the source code in this repository can be installed into a Crossplane control
+plane and adds the following new functionality:
 
-Alternatively, you can use declarative installation:
-```
-cat <<EOF | kubectl apply -f -
-apiVersion: pkg.crossplane.io/v1
-kind: Provider
-metadata:
-  name: provider-vultr
-spec:
-  package: crossplane-contrib/provider-vultr:v0.1.0
-EOF
-```
+* Custom Resource Definitions (CRDs) that model vultr infrastructure and managed
+  services (e.g. [Vultr Kubernetes Engine](https://www.vultr.com/kubernetes/), [Vultr Loadbalancers](https://www.vultr.com/products/load-balancers/),
+  etc.)
+* Controllers to provision these resources in vultr based on the users desired
+  state captured in CRDs they create
+* Implementations of Crossplane's portable resource abstractions, enabling vultr
+  resources to fulfill a user's general need for cloud services
 
-Notice that in this example Provider resource is referencing ControllerConfig with debug enabled.
+## Getting Started and Documentation
 
-You can see the API reference [here](https://doc.crds.dev/github.com/crossplane-contrib/provider-vultr).
+For getting started guides, installation, deployment, and administration, see
+our [Documentation](https://crossplane.io/docs/latest).
 
-## Developing
+## Contributing
 
-Run code-generation pipeline:
-```console
-go run cmd/generator/main.go "$PWD"
-```
-
-Run against a Kubernetes cluster:
-
-```console
-make run
-```
-
-Build, push, and install:
-
-```console
-make all
-```
-
-Build binary:
-
-```console
-make build
-```
+provider-vultr is a community driven project and we welcome contributions. See
+the Crossplane
+[Contributing](https://github.com/crossplane/crossplane/blob/master/CONTRIBUTING.md)
+guidelines to get started.
 
 ## Report a Bug
 
 For filing bugs, suggesting improvements, or requesting new features, please
-open an [issue](https://github.com/crossplane-contrib/provider-vultr/issues).
+open an [issue](https://github.com/vultr/crossplane-provider-vultr/issues).
+
+## Contact
+
+Please use the following to reach members of the community:
+
+- Slack: Join our [slack channel](https://slack.crossplane.io)
+- Forums:
+  [crossplane-dev](https://groups.google.com/forum/#!forum/crossplane-dev)
+- Twitter: [@crossplane_io](https://twitter.com/crossplane_io)
+- Email: [info@crossplane.io](mailto:info@crossplane.io)
+
+## Roadmap
+
+provider-vultr goals and milestones are currently tracked in the Crossplane
+repository. More information can be found in
+[ROADMAP.md](https://github.com/crossplane/crossplane/blob/master/ROADMAP.md).
+
+## Governance and Owners
+
+provider-vultr is run according to the same
+[Governance](https://github.com/crossplane/crossplane/blob/master/GOVERNANCE.md)
+and [Ownership](https://github.com/crossplane/crossplane/blob/master/OWNERS.md)
+structure as the core Crossplane project.
+
+## Code of Conduct
+
+provider-vultr adheres to the same [Code of
+Conduct](https://github.com/crossplane/crossplane/blob/master/CODE_OF_CONDUCT.md)
+as the core Crossplane project.
+
+## Licensing
+
+provider-vultr is under the Apache 2.0 license.
+
