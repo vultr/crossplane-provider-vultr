@@ -22,6 +22,7 @@ var ExternalNameConfigs = map[string]config.ExternalName{
 	"vultr_database_replica": 			config.IdentifierFromProvider,
 	"vultr_database_user": 				config.IdentifierFromProvider,
 	"vultr_bare_metal_server": 			config.IdentifierFromProvider,
+	"vultr_block_storage": 				config.IdentifierFromProvider,
 }
 
 // ExternalNameConfigurations applies all external name configs listed in the

@@ -9,6 +9,7 @@ import (
 
 	"github.com/upbound/upjet/pkg/controller"
 
+	storage "github.com/crossplane-contrib/provider-vultr/internal/controller/block/storage"
 	connectionpool "github.com/crossplane-contrib/provider-vultr/internal/controller/database/connectionpool"
 	db "github.com/crossplane-contrib/provider-vultr/internal/controller/database/db"
 	replica "github.com/crossplane-contrib/provider-vultr/internal/controller/database/replica"
@@ -27,6 +28,7 @@ import (
 // the supplied manager.
 func Setup(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		storage.Setup,
 		connectionpool.Setup,
 		db.Setup,
 		replica.Setup,

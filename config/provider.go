@@ -11,6 +11,7 @@ import (
 	ujconfig "github.com/upbound/upjet/pkg/config"
 
 	"github.com/crossplane-contrib/provider-vultr/config/baremetal"
+	"github.com/crossplane-contrib/provider-vultr/config/block"
 	"github.com/crossplane-contrib/provider-vultr/config/compute"
 	"github.com/crossplane-contrib/provider-vultr/config/database"
 	"github.com/crossplane-contrib/provider-vultr/config/kubernetes"
@@ -51,6 +52,7 @@ func GetProvider() *ujconfig.Provider {
 		loadbalancer.Configure,
 		database.Configure,
 		baremetal.Configure,
+		block.Configure,
 	
 
 	} {
