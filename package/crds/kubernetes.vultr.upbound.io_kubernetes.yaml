@@ -5,9 +5,9 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.11.3
   creationTimestamp: null
-  name: kubernetes.vultr.vultr.upbound.io
+  name: kubernetes.kubernetes.vultr.upbound.io
 spec:
-  group: vultr.vultr.upbound.io
+  group: kubernetes.vultr.upbound.io
   names:
     categories:
     - crossplane

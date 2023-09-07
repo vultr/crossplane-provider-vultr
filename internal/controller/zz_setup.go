@@ -11,15 +11,15 @@ import (
 
 	storage "github.com/crossplane-contrib/provider-vultr/internal/controller/block/storage"
 	connectionpool "github.com/crossplane-contrib/provider-vultr/internal/controller/database/connectionpool"
+	database "github.com/crossplane-contrib/provider-vultr/internal/controller/database/database"
 	db "github.com/crossplane-contrib/provider-vultr/internal/controller/database/db"
 	replica "github.com/crossplane-contrib/provider-vultr/internal/controller/database/replica"
 	user "github.com/crossplane-contrib/provider-vultr/internal/controller/database/user"
+	kubernetes "github.com/crossplane-contrib/provider-vultr/internal/controller/kubernetes/kubernetes"
 	nodepools "github.com/crossplane-contrib/provider-vultr/internal/controller/kubernetes/nodepools"
 	providerconfig "github.com/crossplane-contrib/provider-vultr/internal/controller/providerconfig"
 	baremetalserver "github.com/crossplane-contrib/provider-vultr/internal/controller/vultr/baremetalserver"
-	database "github.com/crossplane-contrib/provider-vultr/internal/controller/vultr/database"
 	instance "github.com/crossplane-contrib/provider-vultr/internal/controller/vultr/instance"
-	kubernetes "github.com/crossplane-contrib/provider-vultr/internal/controller/vultr/kubernetes"
 	loadbalancer "github.com/crossplane-contrib/provider-vultr/internal/controller/vultr/loadbalancer"
 	objectstorage "github.com/crossplane-contrib/provider-vultr/internal/controller/vultr/objectstorage"
 )
@@ -30,15 +30,15 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
 		storage.Setup,
 		connectionpool.Setup,
+		database.Setup,
 		db.Setup,
 		replica.Setup,
 		user.Setup,
+		kubernetes.Setup,
 		nodepools.Setup,
 		providerconfig.Setup,
 		baremetalserver.Setup,
-		database.Setup,
 		instance.Setup,
-		kubernetes.Setup,
 		loadbalancer.Setup,
 		objectstorage.Setup,
 	} {

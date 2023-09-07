@@ -1,8 +1,8 @@
-apiVersion: vultr.vultr.upbound.io/v1alpha1
+apiVersion: kubernetes.vultr.upbound.io/v1alpha1
 kind: Kubernetes
 metadata:
   annotations:
-    meta.upbound.io/example-id: vultr/v1alpha1/kubernetes
+    meta.upbound.io/example-id: kubernetes/v1alpha1/kubernetes
   labels:
     testing.upbound.io/example-name: k8
   name: k8

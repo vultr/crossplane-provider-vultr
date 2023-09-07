@@ -159,6 +159,82 @@ func (mg *DB) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
+// GetCondition of this Database.
+func (mg *Database) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+	return mg.Status.GetCondition(ct)
+}
+
+// GetDeletionPolicy of this Database.
+func (mg *Database) GetDeletionPolicy() xpv1.DeletionPolicy {
+	return mg.Spec.DeletionPolicy
+}
+
+// GetManagementPolicy of this Database.
+func (mg *Database) GetManagementPolicy() xpv1.ManagementPolicy {
+	return mg.Spec.ManagementPolicy
+}
+
+// GetProviderConfigReference of this Database.
+func (mg *Database) GetProviderConfigReference() *xpv1.Reference {
+	return mg.Spec.ProviderConfigReference
+}
+
+/*
+GetProviderReference of this Database.
+Deprecated: Use GetProviderConfigReference.
+*/
+func (mg *Database) GetProviderReference() *xpv1.Reference {
+	return mg.Spec.ProviderReference
+}
+
+// GetPublishConnectionDetailsTo of this Database.
+func (mg *Database) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
+	return mg.Spec.PublishConnectionDetailsTo
+}
+
+// GetWriteConnectionSecretToReference of this Database.
+func (mg *Database) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+	return mg.Spec.WriteConnectionSecretToReference
+}
+
+// SetConditions of this Database.
+func (mg *Database) SetConditions(c ...xpv1.Condition) {
+	mg.Status.SetConditions(c...)
+}
+
+// SetDeletionPolicy of this Database.
+func (mg *Database) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+	mg.Spec.DeletionPolicy = r
+}
+
+// SetManagementPolicy of this Database.
+func (mg *Database) SetManagementPolicy(r xpv1.ManagementPolicy) {
+	mg.Spec.ManagementPolicy = r
+}
+
+// SetProviderConfigReference of this Database.
+func (mg *Database) SetProviderConfigReference(r *xpv1.Reference) {
+	mg.Spec.ProviderConfigReference = r
+}
+
+/*
+SetProviderReference of this Database.
+Deprecated: Use SetProviderConfigReference.
+*/
+func (mg *Database) SetProviderReference(r *xpv1.Reference) {
+	mg.Spec.ProviderReference = r
+}
+
+// SetPublishConnectionDetailsTo of this Database.
+func (mg *Database) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
+	mg.Spec.PublishConnectionDetailsTo = r
+}
+
+// SetWriteConnectionSecretToReference of this Database.
+func (mg *Database) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+	mg.Spec.WriteConnectionSecretToReference = r
+}
+
 // GetCondition of this Replica.
 func (mg *Replica) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)
