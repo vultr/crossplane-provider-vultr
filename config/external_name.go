@@ -10,19 +10,19 @@ import "github.com/upbound/upjet/pkg/config"
 // provider.
 var ExternalNameConfigs = map[string]config.ExternalName{
 	// Import requires using a randomly generated ID from provider: nl-2e21sda
-	"null_resource":               		config.IdentifierFromProvider,
-	"vultr_kubernetes":           		config.IdentifierFromProvider,
-	"vultr_kubernetes_node_pools": 		config.IdentifierFromProvider,
-	"vultr_object_storage":        		config.IdentifierFromProvider,
-	"vultr_instance":              		config.IdentifierFromProvider,
-	"vultr_load_balancer":         		config.IdentifierFromProvider,
-	"vultr_database": 			  		config.IdentifierFromProvider,
-	"vultr_database_connection_pool": 	config.IdentifierFromProvider,
-	"vultr_database_db": 			    config.IdentifierFromProvider,
-	"vultr_database_replica": 			config.IdentifierFromProvider,
-	"vultr_database_user": 				config.IdentifierFromProvider,
-	"vultr_bare_metal_server": 			config.IdentifierFromProvider,
-	"vultr_block_storage": 				config.IdentifierFromProvider,
+	"null_resource":                  config.IdentifierFromProvider,
+	"vultr_kubernetes":               config.IdentifierFromProvider,
+	"vultr_kubernetes_node_pools":    config.IdentifierFromProvider,
+	"vultr_object_storage":           config.IdentifierFromProvider,
+	"vultr_instance":                 config.IdentifierFromProvider,
+	"vultr_load_balancer":            config.IdentifierFromProvider,
+	"vultr_database":                 config.IdentifierFromProvider,
+	"vultr_database_connection_pool": config.IdentifierFromProvider,
+	"vultr_database_db":              config.IdentifierFromProvider,
+	"vultr_database_replica":         config.IdentifierFromProvider,
+	"vultr_database_user":            config.IdentifierFromProvider,
+	"vultr_bare_metal_server":        config.IdentifierFromProvider,
+	"vultr_block_storage":            config.IdentifierFromProvider,
 }
 
 // ExternalNameConfigurations applies all external name configs listed in the

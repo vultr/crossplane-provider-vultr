@@ -21,7 +21,6 @@ func GroupKindOverrides() config.ResourceOption {
 	}
 }
 
-
 // GroupKindCalculator returns the correct group and kind name for given TF
 // resource.
 type GroupKindCalculator func(resource string) (string, string)
@@ -36,19 +35,15 @@ func ReplaceGroupWords(group string, count int) GroupKindCalculator {
 	}
 }
 
-
-var GroupMap = map[string]GroupKindCalculator{	                    
-	"vultr_load_balancer":                                          ReplaceGroupWords("vultr", 0),
-	"vultr_bare_metal_server":                                      ReplaceGroupWords("vultr", 0),
-	"vultr_object_storage":											ReplaceGroupWords("vultr", 0),
-
-
+var GroupMap = map[string]GroupKindCalculator{
+	"vultr_load_balancer":     ReplaceGroupWords("vultr", 0),
+	"vultr_bare_metal_server": ReplaceGroupWords("vultr", 0),
+	"vultr_object_storage":    ReplaceGroupWords("vultr", 0),
 }
 
 // KindMap contains kind string overrides.
 var KindMap = map[string]string{
-	"vultr_load_balancer":                    "loadbalancer",
-	"vultr_bare_metal_server": 				   "baremetal",
-	"vultr_object_storage":						"object",
-
+	"vultr_load_balancer":     "loadbalancer",
+	"vultr_bare_metal_server": "baremetal",
+	"vultr_object_storage":    "object",
 }
