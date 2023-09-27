@@ -10,8 +10,12 @@ import (
 
 	ujconfig "github.com/upbound/upjet/pkg/config"
 
+	"github.com/crossplane-contrib/provider-vultr/config/baremetal"
+	"github.com/crossplane-contrib/provider-vultr/config/block"
+	"github.com/crossplane-contrib/provider-vultr/config/compute"
+	"github.com/crossplane-contrib/provider-vultr/config/database"
 	"github.com/crossplane-contrib/provider-vultr/config/kubernetes"
-	"github.com/crossplane-contrib/provider-vultr/config/nodepools"
+	"github.com/crossplane-contrib/provider-vultr/config/loadbalancer"
 	"github.com/crossplane-contrib/provider-vultr/config/object"
 )
 
@@ -33,12 +37,17 @@ func GetProvider() *ujconfig.Provider {
 		ujconfig.WithFeaturesPackage("internal/features"),
 		ujconfig.WithDefaultResourceOptions(
 			ExternalNameConfigurations(),
+			GroupKindOverrides(),
 		))
 
 	for _, configure := range []func(provider *ujconfig.Provider){
 		kubernetes.Configure,
-		nodepools.Configure,
 		object.Configure,
+		compute.Configure,
+		loadbalancer.Configure,
+		database.Configure,
+		baremetal.Configure,
+		block.Configure,
 	} {
 		configure(pc)
 	}

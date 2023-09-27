@@ -1,0 +1,17 @@
+apiVersion: database.vultr.upbound.io/v1alpha1
+kind: Replica
+metadata:
+  annotations:
+    meta.upbound.io/example-id: database/v1alpha1/replica
+  labels:
+    testing.upbound.io/example-name: my_database_replica
+  name: my-database-replica
+spec:
+  forProvider:
+    databaseId: ${vultr_database.my_database.id}
+    label: my_database_replica_label
+    region: sea
+    tag: test tag
+
+---
+

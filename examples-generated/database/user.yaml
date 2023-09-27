@@ -1,0 +1,16 @@
+apiVersion: database.vultr.upbound.io/v1alpha1
+kind: User
+metadata:
+  annotations:
+    meta.upbound.io/example-id: database/v1alpha1/user
+  labels:
+    testing.upbound.io/example-name: my_database_user
+  name: my-database-user
+spec:
+  forProvider:
+    databaseId: ${vultr_database.my_database.id}
+    password: randomTestPW40298
+    username: my_database_user
+
+---
+

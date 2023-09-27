@@ -1,0 +1,23 @@
+apiVersion: kubernetes.vultr.upbound.io/v1alpha1
+kind: Kubernetes
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kubernetes/v1alpha1/kubernetes
+  labels:
+    testing.upbound.io/example-name: k8
+  name: k8
+spec:
+  forProvider:
+    label: tf-test
+    nodePools:
+    - autoScaler: true
+      label: my-label
+      maxNodes: 2
+      minNodes: 1
+      nodeQuantity: 1
+      plan: vc2-2c-4gb
+    region: ewr
+    version: v1.23.5+1
+
+---
+

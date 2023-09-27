@@ -13,7 +13,25 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
-type NodePoolsObservation struct {
+type NodePoolsNodesObservation struct {
+
+	// Date of node pool creation.
+	DateCreated *string `json:"dateCreated,omitempty" tf:"date_created,omitempty"`
+
+	// The Nodepool ID.
+	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The label to be used as a prefix for nodes in this node pool.
+	Label *string `json:"label,omitempty" tf:"label,omitempty"`
+
+	// Status of node pool.
+	Status *string `json:"status,omitempty" tf:"status,omitempty"`
+}
+
+type NodePoolsNodesParameters struct {
+}
+
+type NodePoolsObservation_2 struct {
 
 	// Enable the auto scaler for the default node pool.
 	AutoScaler *bool `json:"autoScaler,omitempty" tf:"auto_scaler,omitempty"`
@@ -43,7 +61,7 @@ type NodePoolsObservation struct {
 	NodeQuantity *float64 `json:"nodeQuantity,omitempty" tf:"node_quantity,omitempty"`
 
 	// Array that contains information about nodes within this node pool.
-	Nodes []NodesObservation `json:"nodes,omitempty" tf:"nodes,omitempty"`
+	Nodes []NodePoolsNodesObservation `json:"nodes,omitempty" tf:"nodes,omitempty"`
 
 	// The plan to be used in this node pool. See Plans List Note the minimum plan requirements must have at least 1 core and 2 gbs of memory.
 	Plan *string `json:"plan,omitempty" tf:"plan,omitempty"`
@@ -55,7 +73,7 @@ type NodePoolsObservation struct {
 	Tag *string `json:"tag,omitempty" tf:"tag,omitempty"`
 }
 
-type NodePoolsParameters struct {
+type NodePoolsParameters_2 struct {
 
 	// Enable the auto scaler for the default node pool.
 	// +kubebuilder:validation:Optional
@@ -90,34 +108,16 @@ type NodePoolsParameters struct {
 	Tag *string `json:"tag,omitempty" tf:"tag,omitempty"`
 }
 
-type NodesObservation struct {
-
-	// Date of node pool creation.
-	DateCreated *string `json:"dateCreated,omitempty" tf:"date_created,omitempty"`
-
-	// The Nodepool ID.
-	ID *string `json:"id,omitempty" tf:"id,omitempty"`
-
-	// The label to be used as a prefix for nodes in this node pool.
-	Label *string `json:"label,omitempty" tf:"label,omitempty"`
-
-	// Status of node pool.
-	Status *string `json:"status,omitempty" tf:"status,omitempty"`
-}
-
-type NodesParameters struct {
-}
-
 // NodePoolsSpec defines the desired state of NodePools
 type NodePoolsSpec struct {
 	v1.ResourceSpec `json:",inline"`
-	ForProvider     NodePoolsParameters `json:"forProvider"`
+	ForProvider     NodePoolsParameters_2 `json:"forProvider"`
 }
 
 // NodePoolsStatus defines the observed state of NodePools.
 type NodePoolsStatus struct {
 	v1.ResourceStatus `json:",inline"`
-	AtProvider        NodePoolsObservation `json:"atProvider,omitempty"`
+	AtProvider        NodePoolsObservation_2 `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

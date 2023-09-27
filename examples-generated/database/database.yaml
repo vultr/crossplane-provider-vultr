@@ -1,0 +1,18 @@
+apiVersion: database.vultr.upbound.io/v1alpha1
+kind: Database
+metadata:
+  annotations:
+    meta.upbound.io/example-id: database/v1alpha1/database
+  labels:
+    testing.upbound.io/example-name: my_database
+  name: my-database
+spec:
+  forProvider:
+    databaseEngine: pg
+    databaseEngineVersion: "15"
+    label: my_database_label
+    plan: vultr-dbaas-startup-cc-1-55-2
+    region: ewr
+
+---
+

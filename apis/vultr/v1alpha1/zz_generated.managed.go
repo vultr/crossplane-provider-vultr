@@ -7,78 +7,306 @@ package v1alpha1
 
 import xpv1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 
-// GetCondition of this Kubernetes.
-func (mg *Kubernetes) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+// GetCondition of this BareMetalServer.
+func (mg *BareMetalServer) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)
 }
 
-// GetDeletionPolicy of this Kubernetes.
-func (mg *Kubernetes) GetDeletionPolicy() xpv1.DeletionPolicy {
+// GetDeletionPolicy of this BareMetalServer.
+func (mg *BareMetalServer) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
-// GetManagementPolicy of this Kubernetes.
-func (mg *Kubernetes) GetManagementPolicy() xpv1.ManagementPolicy {
+// GetManagementPolicy of this BareMetalServer.
+func (mg *BareMetalServer) GetManagementPolicy() xpv1.ManagementPolicy {
 	return mg.Spec.ManagementPolicy
 }
 
-// GetProviderConfigReference of this Kubernetes.
-func (mg *Kubernetes) GetProviderConfigReference() *xpv1.Reference {
+// GetProviderConfigReference of this BareMetalServer.
+func (mg *BareMetalServer) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
 /*
-GetProviderReference of this Kubernetes.
+GetProviderReference of this BareMetalServer.
 Deprecated: Use GetProviderConfigReference.
 */
-func (mg *Kubernetes) GetProviderReference() *xpv1.Reference {
+func (mg *BareMetalServer) GetProviderReference() *xpv1.Reference {
 	return mg.Spec.ProviderReference
 }
 
-// GetPublishConnectionDetailsTo of this Kubernetes.
-func (mg *Kubernetes) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
+// GetPublishConnectionDetailsTo of this BareMetalServer.
+func (mg *BareMetalServer) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
 	return mg.Spec.PublishConnectionDetailsTo
 }
 
-// GetWriteConnectionSecretToReference of this Kubernetes.
-func (mg *Kubernetes) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+// GetWriteConnectionSecretToReference of this BareMetalServer.
+func (mg *BareMetalServer) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
 }
 
-// SetConditions of this Kubernetes.
-func (mg *Kubernetes) SetConditions(c ...xpv1.Condition) {
+// SetConditions of this BareMetalServer.
+func (mg *BareMetalServer) SetConditions(c ...xpv1.Condition) {
 	mg.Status.SetConditions(c...)
 }
 
-// SetDeletionPolicy of this Kubernetes.
-func (mg *Kubernetes) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+// SetDeletionPolicy of this BareMetalServer.
+func (mg *BareMetalServer) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
-// SetManagementPolicy of this Kubernetes.
-func (mg *Kubernetes) SetManagementPolicy(r xpv1.ManagementPolicy) {
+// SetManagementPolicy of this BareMetalServer.
+func (mg *BareMetalServer) SetManagementPolicy(r xpv1.ManagementPolicy) {
 	mg.Spec.ManagementPolicy = r
 }
 
-// SetProviderConfigReference of this Kubernetes.
-func (mg *Kubernetes) SetProviderConfigReference(r *xpv1.Reference) {
+// SetProviderConfigReference of this BareMetalServer.
+func (mg *BareMetalServer) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
 /*
-SetProviderReference of this Kubernetes.
+SetProviderReference of this BareMetalServer.
 Deprecated: Use SetProviderConfigReference.
 */
-func (mg *Kubernetes) SetProviderReference(r *xpv1.Reference) {
+func (mg *BareMetalServer) SetProviderReference(r *xpv1.Reference) {
 	mg.Spec.ProviderReference = r
 }
 
-// SetPublishConnectionDetailsTo of this Kubernetes.
-func (mg *Kubernetes) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
+// SetPublishConnectionDetailsTo of this BareMetalServer.
+func (mg *BareMetalServer) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
 	mg.Spec.PublishConnectionDetailsTo = r
 }
 
-// SetWriteConnectionSecretToReference of this Kubernetes.
-func (mg *Kubernetes) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+// SetWriteConnectionSecretToReference of this BareMetalServer.
+func (mg *BareMetalServer) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+	mg.Spec.WriteConnectionSecretToReference = r
+}
+
+// GetCondition of this Instance.
+func (mg *Instance) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+	return mg.Status.GetCondition(ct)
+}
+
+// GetDeletionPolicy of this Instance.
+func (mg *Instance) GetDeletionPolicy() xpv1.DeletionPolicy {
+	return mg.Spec.DeletionPolicy
+}
+
+// GetManagementPolicy of this Instance.
+func (mg *Instance) GetManagementPolicy() xpv1.ManagementPolicy {
+	return mg.Spec.ManagementPolicy
+}
+
+// GetProviderConfigReference of this Instance.
+func (mg *Instance) GetProviderConfigReference() *xpv1.Reference {
+	return mg.Spec.ProviderConfigReference
+}
+
+/*
+GetProviderReference of this Instance.
+Deprecated: Use GetProviderConfigReference.
+*/
+func (mg *Instance) GetProviderReference() *xpv1.Reference {
+	return mg.Spec.ProviderReference
+}
+
+// GetPublishConnectionDetailsTo of this Instance.
+func (mg *Instance) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
+	return mg.Spec.PublishConnectionDetailsTo
+}
+
+// GetWriteConnectionSecretToReference of this Instance.
+func (mg *Instance) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+	return mg.Spec.WriteConnectionSecretToReference
+}
+
+// SetConditions of this Instance.
+func (mg *Instance) SetConditions(c ...xpv1.Condition) {
+	mg.Status.SetConditions(c...)
+}
+
+// SetDeletionPolicy of this Instance.
+func (mg *Instance) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+	mg.Spec.DeletionPolicy = r
+}
+
+// SetManagementPolicy of this Instance.
+func (mg *Instance) SetManagementPolicy(r xpv1.ManagementPolicy) {
+	mg.Spec.ManagementPolicy = r
+}
+
+// SetProviderConfigReference of this Instance.
+func (mg *Instance) SetProviderConfigReference(r *xpv1.Reference) {
+	mg.Spec.ProviderConfigReference = r
+}
+
+/*
+SetProviderReference of this Instance.
+Deprecated: Use SetProviderConfigReference.
+*/
+func (mg *Instance) SetProviderReference(r *xpv1.Reference) {
+	mg.Spec.ProviderReference = r
+}
+
+// SetPublishConnectionDetailsTo of this Instance.
+func (mg *Instance) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
+	mg.Spec.PublishConnectionDetailsTo = r
+}
+
+// SetWriteConnectionSecretToReference of this Instance.
+func (mg *Instance) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+	mg.Spec.WriteConnectionSecretToReference = r
+}
+
+// GetCondition of this LoadBalancer.
+func (mg *LoadBalancer) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+	return mg.Status.GetCondition(ct)
+}
+
+// GetDeletionPolicy of this LoadBalancer.
+func (mg *LoadBalancer) GetDeletionPolicy() xpv1.DeletionPolicy {
+	return mg.Spec.DeletionPolicy
+}
+
+// GetManagementPolicy of this LoadBalancer.
+func (mg *LoadBalancer) GetManagementPolicy() xpv1.ManagementPolicy {
+	return mg.Spec.ManagementPolicy
+}
+
+// GetProviderConfigReference of this LoadBalancer.
+func (mg *LoadBalancer) GetProviderConfigReference() *xpv1.Reference {
+	return mg.Spec.ProviderConfigReference
+}
+
+/*
+GetProviderReference of this LoadBalancer.
+Deprecated: Use GetProviderConfigReference.
+*/
+func (mg *LoadBalancer) GetProviderReference() *xpv1.Reference {
+	return mg.Spec.ProviderReference
+}
+
+// GetPublishConnectionDetailsTo of this LoadBalancer.
+func (mg *LoadBalancer) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
+	return mg.Spec.PublishConnectionDetailsTo
+}
+
+// GetWriteConnectionSecretToReference of this LoadBalancer.
+func (mg *LoadBalancer) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+	return mg.Spec.WriteConnectionSecretToReference
+}
+
+// SetConditions of this LoadBalancer.
+func (mg *LoadBalancer) SetConditions(c ...xpv1.Condition) {
+	mg.Status.SetConditions(c...)
+}
+
+// SetDeletionPolicy of this LoadBalancer.
+func (mg *LoadBalancer) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+	mg.Spec.DeletionPolicy = r
+}
+
+// SetManagementPolicy of this LoadBalancer.
+func (mg *LoadBalancer) SetManagementPolicy(r xpv1.ManagementPolicy) {
+	mg.Spec.ManagementPolicy = r
+}
+
+// SetProviderConfigReference of this LoadBalancer.
+func (mg *LoadBalancer) SetProviderConfigReference(r *xpv1.Reference) {
+	mg.Spec.ProviderConfigReference = r
+}
+
+/*
+SetProviderReference of this LoadBalancer.
+Deprecated: Use SetProviderConfigReference.
+*/
+func (mg *LoadBalancer) SetProviderReference(r *xpv1.Reference) {
+	mg.Spec.ProviderReference = r
+}
+
+// SetPublishConnectionDetailsTo of this LoadBalancer.
+func (mg *LoadBalancer) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
+	mg.Spec.PublishConnectionDetailsTo = r
+}
+
+// SetWriteConnectionSecretToReference of this LoadBalancer.
+func (mg *LoadBalancer) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+	mg.Spec.WriteConnectionSecretToReference = r
+}
+
+// GetCondition of this ObjectStorage.
+func (mg *ObjectStorage) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+	return mg.Status.GetCondition(ct)
+}
+
+// GetDeletionPolicy of this ObjectStorage.
+func (mg *ObjectStorage) GetDeletionPolicy() xpv1.DeletionPolicy {
+	return mg.Spec.DeletionPolicy
+}
+
+// GetManagementPolicy of this ObjectStorage.
+func (mg *ObjectStorage) GetManagementPolicy() xpv1.ManagementPolicy {
+	return mg.Spec.ManagementPolicy
+}
+
+// GetProviderConfigReference of this ObjectStorage.
+func (mg *ObjectStorage) GetProviderConfigReference() *xpv1.Reference {
+	return mg.Spec.ProviderConfigReference
+}
+
+/*
+GetProviderReference of this ObjectStorage.
+Deprecated: Use GetProviderConfigReference.
+*/
+func (mg *ObjectStorage) GetProviderReference() *xpv1.Reference {
+	return mg.Spec.ProviderReference
+}
+
+// GetPublishConnectionDetailsTo of this ObjectStorage.
+func (mg *ObjectStorage) GetPublishConnectionDetailsTo() *xpv1.PublishConnectionDetailsTo {
+	return mg.Spec.PublishConnectionDetailsTo
+}
+
+// GetWriteConnectionSecretToReference of this ObjectStorage.
+func (mg *ObjectStorage) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+	return mg.Spec.WriteConnectionSecretToReference
+}
+
+// SetConditions of this ObjectStorage.
+func (mg *ObjectStorage) SetConditions(c ...xpv1.Condition) {
+	mg.Status.SetConditions(c...)
+}
+
+// SetDeletionPolicy of this ObjectStorage.
+func (mg *ObjectStorage) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+	mg.Spec.DeletionPolicy = r
+}
+
+// SetManagementPolicy of this ObjectStorage.
+func (mg *ObjectStorage) SetManagementPolicy(r xpv1.ManagementPolicy) {
+	mg.Spec.ManagementPolicy = r
+}
+
+// SetProviderConfigReference of this ObjectStorage.
+func (mg *ObjectStorage) SetProviderConfigReference(r *xpv1.Reference) {
+	mg.Spec.ProviderConfigReference = r
+}
+
+/*
+SetProviderReference of this ObjectStorage.
+Deprecated: Use SetProviderConfigReference.
+*/
+func (mg *ObjectStorage) SetProviderReference(r *xpv1.Reference) {
+	mg.Spec.ProviderReference = r
+}
+
+// SetPublishConnectionDetailsTo of this ObjectStorage.
+func (mg *ObjectStorage) SetPublishConnectionDetailsTo(r *xpv1.PublishConnectionDetailsTo) {
+	mg.Spec.PublishConnectionDetailsTo = r
+}
+
+// SetWriteConnectionSecretToReference of this ObjectStorage.
+func (mg *ObjectStorage) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }
