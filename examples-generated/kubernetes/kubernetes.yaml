@@ -8,16 +8,16 @@ metadata:
   name: k8
 spec:
   forProvider:
-    label: tf-test
+    label: vke-test
     nodePools:
     - autoScaler: true
-      label: my-label
+      label: vke-nodepool
       maxNodes: 2
       minNodes: 1
       nodeQuantity: 1
-      plan: vc2-2c-4gb
+      plan: vc2-1c-1gb
     region: ewr
-    version: v1.23.5+1
+    version: v1.28.2+1
 
 ---
 

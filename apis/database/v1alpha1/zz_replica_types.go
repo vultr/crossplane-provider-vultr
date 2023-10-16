@@ -101,6 +101,9 @@ type ReplicaObservation struct {
 
 	// The primary admin user for the managed database read replica.
 	User *string `json:"user,omitempty" tf:"user,omitempty"`
+
+	// The ID of the managed database read replica.
+	VPCID *string `json:"vpcId,omitempty" tf:"vpc_id,omitempty"`
 }
 
 type ReplicaParameters struct {
