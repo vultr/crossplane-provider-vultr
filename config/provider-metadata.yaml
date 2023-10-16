@@ -520,7 +520,7 @@ resources:
                       "max_nodes": 2,
                       "min_nodes": 1,
                       "node_quantity": 1,
-                      "plan": "vc2-1c-1gb"
+                      "plan": "vc2-1c-2gb"
                     }
                   ],
                   "region": "ewr",
@@ -542,7 +542,7 @@ resources:
                       "max_nodes": 2,
                       "min_nodes": 1,
                       "node_quantity": 1,
-                      "plan": "vc2-1c-1gb"
+                      "plan": "vc2-1c-2gb"
                     }
         argumentDocs:
             auto_scaler: '- (Optional) Enable the auto scaler for the default node pool.'

@@ -15,7 +15,7 @@ spec:
       maxNodes: 2
       minNodes: 1
       nodeQuantity: 1
-      plan: vc2-1c-1gb
+      plan: vc2-1c-2gb
     region: ewr
     version: v1.28.2+1
 
