@@ -8,6 +8,7 @@ metadata:
   name: my-blockstorage
 spec:
   forProvider:
+    label: vultr-block-storage
     region: ewr
     sizeGb: 10
 

@@ -36,7 +36,7 @@ type KubernetesObservation struct {
 	// Contains the default node pool that was deployed.
 	NodePools []NodePoolsObservation `json:"nodePools,omitempty" tf:"node_pools,omitempty"`
 
-	// The region your VKE cluster will be deployed in. Currently, supported values are ewr and lax
+	// The region your VKE cluster will be deployed in.
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
 	// IP range that services will run on this cluster.
@@ -59,7 +59,7 @@ type KubernetesParameters struct {
 	// +kubebuilder:validation:Optional
 	NodePools []NodePoolsParameters `json:"nodePools,omitempty" tf:"node_pools,omitempty"`
 
-	// The region your VKE cluster will be deployed in. Currently, supported values are ewr and lax
+	// The region your VKE cluster will be deployed in.
 	// +kubebuilder:validation:Optional
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
