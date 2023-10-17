@@ -101,6 +101,9 @@ type DatabaseObservation struct {
 
 	// The primary admin user for the managed database.
 	User *string `json:"user,omitempty" tf:"user,omitempty"`
+
+	// The ID of the managed database.
+	VPCID *string `json:"vpcId,omitempty" tf:"vpc_id,omitempty"`
 }
 
 type DatabaseParameters struct {
@@ -176,6 +179,10 @@ type DatabaseParameters struct {
 	// A list of allowed IP addresses for the managed database.
 	// +kubebuilder:validation:Optional
 	TrustedIps []*string `json:"trustedIps,omitempty" tf:"trusted_ips,omitempty"`
+
+	// The ID of the managed database.
+	// +kubebuilder:validation:Optional
+	VPCID *string `json:"vpcId,omitempty" tf:"vpc_id,omitempty"`
 }
 
 type ReadReplicasObservation struct {
@@ -263,6 +270,9 @@ type ReadReplicasObservation struct {
 
 	// The primary admin user for the managed database.
 	User *string `json:"user,omitempty" tf:"user,omitempty"`
+
+	// The ID of the managed database.
+	VPCID *string `json:"vpcId,omitempty" tf:"vpc_id,omitempty"`
 }
 
 type ReadReplicasParameters struct {

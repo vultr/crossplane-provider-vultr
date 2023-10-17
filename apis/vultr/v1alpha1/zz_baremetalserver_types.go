@@ -101,6 +101,9 @@ type BareMetalServerObservation struct {
 
 	// The IPv6 network size in bits.
 	V6NetworkSize *float64 `json:"v6NetworkSize,omitempty" tf:"v6_network_size,omitempty"`
+
+	// A list of VPC 2.0 IDs to be attached to the server.
+	Vpc2Ids []*string `json:"vpc2Ids,omitempty" tf:"vpc2_ids,omitempty"`
 }
 
 type BareMetalServerParameters struct {
@@ -164,6 +167,10 @@ type BareMetalServerParameters struct {
 	// Generic data store, which some provisioning tools and cloud operating systems use as a configuration file. It is generally consumed only once after an instance has been launched, but individual needs may vary.
 	// +kubebuilder:validation:Optional
 	UserData *string `json:"userData,omitempty" tf:"user_data,omitempty"`
+
+	// A list of VPC 2.0 IDs to be attached to the server.
+	// +kubebuilder:validation:Optional
+	Vpc2Ids []*string `json:"vpc2Ids,omitempty" tf:"vpc2_ids,omitempty"`
 }
 
 // BareMetalServerSpec defines the desired state of BareMetalServer

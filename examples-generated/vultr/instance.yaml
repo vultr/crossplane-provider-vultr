@@ -8,7 +8,7 @@ metadata:
   name: my-instance
 spec:
   forProvider:
-    osId: 167
+    osId: 1743
     plan: vc2-1c-1gb
     region: sea
 

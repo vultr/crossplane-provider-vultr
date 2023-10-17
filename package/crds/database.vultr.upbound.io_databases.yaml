@@ -202,6 +202,9 @@ spec:
                     items:
                       type: string
                     type: array
+                  vpcId:
+                    description: The ID of the managed database.
+                    type: string
                 type: object
               managementPolicy:
                 default: FullControl
@@ -613,6 +616,9 @@ spec:
                         user:
                           description: The primary admin user for the managed database.
                           type: string
+                        vpcId:
+                          description: The ID of the managed database.
+                          type: string
                       type: object
                     type: array
                   redisEvictionPolicy:
@@ -639,6 +645,9 @@ spec:
                     type: array
                   user:
                     description: The primary admin user for the managed database.
+                    type: string
+                  vpcId:
+                    description: The ID of the managed database.
                     type: string
                 type: object
               conditions:

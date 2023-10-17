@@ -133,6 +133,11 @@ spec:
                       is generally consumed only once after an instance has been launched,
                       but individual needs may vary.
                     type: string
+                  vpc2Ids:
+                    description: A list of VPC 2.0 IDs to be attached to the server.
+                    items:
+                      type: string
+                    type: array
                 type: object
               managementPolicy:
                 default: FullControl
@@ -437,6 +442,11 @@ spec:
                   v6NetworkSize:
                     description: The IPv6 network size in bits.
                     type: number
+                  vpc2Ids:
+                    description: A list of VPC 2.0 IDs to be attached to the server.
+                    items:
+                      type: string
+                    type: array
                 type: object
               conditions:
                 description: Conditions of the resource.

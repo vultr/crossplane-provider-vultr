@@ -186,6 +186,11 @@ spec:
                       is generally consumed only once after an instance has been launched,
                       but individual needs may vary.
                     type: string
+                  vpc2Ids:
+                    description: A list of VPC 2.0 IDs to be attached to the server.
+                    items:
+                      type: string
+                    type: array
                   vpcIds:
                     description: A list of VPC IDs to be attached to the server.
                     items:
@@ -565,6 +570,11 @@ spec:
                   vcpuCount:
                     description: The number of virtual CPUs available on the server.
                     type: number
+                  vpc2Ids:
+                    description: A list of VPC 2.0 IDs to be attached to the server.
+                    items:
+                      type: string
+                    type: array
                   vpcIds:
                     description: A list of VPC IDs to be attached to the server.
                     items:

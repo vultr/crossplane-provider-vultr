@@ -22,7 +22,7 @@ spec:
       protocol: http
       responseTimeout: 1
       unhealthyThreshold: 2
-    label: terraform lb example
+    label: vultr-load-balancer
     region: ewr
 
 ---

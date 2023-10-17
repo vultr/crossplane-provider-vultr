@@ -172,6 +172,9 @@ type InstanceObservation struct {
 
 	// The number of virtual CPUs available on the server.
 	VcpuCount *float64 `json:"vcpuCount,omitempty" tf:"vcpu_count,omitempty"`
+
+	// A list of VPC 2.0 IDs to be attached to the server.
+	Vpc2Ids []*string `json:"vpc2Ids,omitempty" tf:"vpc2_ids,omitempty"`
 }
 
 type InstanceParameters struct {
@@ -264,6 +267,10 @@ type InstanceParameters struct {
 	// A list of VPC IDs to be attached to the server.
 	// +kubebuilder:validation:Optional
 	VPCIds []*string `json:"vpcIds,omitempty" tf:"vpc_ids,omitempty"`
+
+	// A list of VPC 2.0 IDs to be attached to the server.
+	// +kubebuilder:validation:Optional
+	Vpc2Ids []*string `json:"vpc2Ids,omitempty" tf:"vpc2_ids,omitempty"`
 }
 
 // InstanceSpec defines the desired state of Instance

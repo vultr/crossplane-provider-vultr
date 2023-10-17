@@ -107,7 +107,6 @@ spec:
                     type: array
                   region:
                     description: The region your VKE cluster will be deployed in.
-                      Currently, supported values are ewr and lax
                     type: string
                   version:
                     description: The version your VKE cluster you want deployed. See
@@ -395,7 +394,6 @@ spec:
                     type: array
                   region:
                     description: The region your VKE cluster will be deployed in.
-                      Currently, supported values are ewr and lax
                     type: string
                   serviceSubnet:
                     description: IP range that services will run on this cluster.

@@ -8,7 +8,7 @@ metadata:
   name: my-server
 spec:
   forProvider:
-    osId: 270
+    osId: 1743
     plan: vbm-4c-32gb
     region: ewr
 
