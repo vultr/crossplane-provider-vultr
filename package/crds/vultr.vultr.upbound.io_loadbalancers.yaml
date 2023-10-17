@@ -168,12 +168,8 @@ spec:
                             failover. Default value is 5.
                           type: number
                       required:
-                      - checkInterval
-                      - healthyThreshold
                       - port
                       - protocol
-                      - responseTimeout
-                      - unhealthyThreshold
                       type: object
                     type: array
                   label:
