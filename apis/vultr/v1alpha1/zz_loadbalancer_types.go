@@ -107,12 +107,12 @@ type HealthCheckObservation struct {
 type HealthCheckParameters struct {
 
 	// Time in seconds to perform health check. Default value is 15.
-	// +kubebuilder:validation:Required
-	CheckInterval *float64 `json:"checkInterval" tf:"check_interval,omitempty"`
+	// +kubebuilder:validation:Optional
+	CheckInterval *float64 `json:"checkInterval,omitempty" tf:"check_interval,omitempty"`
 
 	// Number of failed attempts encountered before failover. Default value is 5.
-	// +kubebuilder:validation:Required
-	HealthyThreshold *float64 `json:"healthyThreshold" tf:"healthy_threshold,omitempty"`
+	// +kubebuilder:validation:Optional
+	HealthyThreshold *float64 `json:"healthyThreshold,omitempty" tf:"healthy_threshold,omitempty"`
 
 	// The path on the attached instances that the load balancer should check against. Default value is /
 	// +kubebuilder:validation:Optional
@@ -127,12 +127,12 @@ type HealthCheckParameters struct {
 	Protocol *string `json:"protocol" tf:"protocol,omitempty"`
 
 	// Time in seconds to wait for a health check response. Default value is 5.
-	// +kubebuilder:validation:Required
-	ResponseTimeout *float64 `json:"responseTimeout" tf:"response_timeout,omitempty"`
+	// +kubebuilder:validation:Optional
+	ResponseTimeout *float64 `json:"responseTimeout,omitempty" tf:"response_timeout,omitempty"`
 
 	// Number of failed attempts encountered before failover. Default value is 5.
-	// +kubebuilder:validation:Required
-	UnhealthyThreshold *float64 `json:"unhealthyThreshold" tf:"unhealthy_threshold,omitempty"`
+	// +kubebuilder:validation:Optional
+	UnhealthyThreshold *float64 `json:"unhealthyThreshold,omitempty" tf:"unhealthy_threshold,omitempty"`
 }
 
 type LoadBalancerObservation struct {

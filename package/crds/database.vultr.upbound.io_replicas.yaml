@@ -434,6 +434,9 @@ spec:
                     description: The primary admin user for the managed database read
                       replica.
                     type: string
+                  vpcId:
+                    description: The ID of the managed database read replica.
+                    type: string
                 type: object
               conditions:
                 description: Conditions of the resource.
