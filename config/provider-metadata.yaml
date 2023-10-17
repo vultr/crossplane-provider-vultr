@@ -9,7 +9,7 @@ resources:
             - name: my_server
               manifest: |-
                 {
-                  "os_id": 270,
+                  "os_id": 1743,
                   "plan": "vbm-4c-32gb",
                   "region": "ewr"
                 }
@@ -20,7 +20,7 @@ resources:
                   "enable_ipv6": true,
                   "hostname": "my-server-hostname",
                   "label": "my-server-label",
-                  "os_id": 270,
+                  "os_id": 1743,
                   "plan": "vbm-4c-32gb",
                   "region": "ewr",
                   "tags": [
@@ -60,6 +60,7 @@ resources:
             v6_main_ip: '- The main IPv6 network address.'
             v6_network: '- The IPv6 subnet.'
             v6_network_size: '- The IPv6 network size in bits.'
+            vpc2_ids: '- (Optional) A list of VPC 2.0 IDs to be attached to the server.'
         importStatements: []
     vultr_block_storage:
         subCategory: ""
@@ -70,6 +71,7 @@ resources:
             - name: my_blockstorage
               manifest: |-
                 {
+                  "label": "vultr-block-storage",
                   "region": "ewr",
                   "size_gb": 10
                 }
@@ -376,7 +378,7 @@ resources:
             - name: my_instance
               manifest: |-
                 {
-                  "os_id": 167,
+                  "os_id": 1743,
                   "plan": "vc2-1c-1gb",
                   "region": "sea"
                 }
@@ -394,7 +396,7 @@ resources:
                   "enable_ipv6": true,
                   "hostname": "my-instance-hostname",
                   "label": "my-instance-label",
-                  "os_id": 167,
+                  "os_id": 1743,
                   "plan": "vc2-1c-1gb",
                   "region": "sea",
                   "tags": [
@@ -449,6 +451,7 @@ resources:
             v6_network_size: '- The IPv6 network size in bits.'
             vcpu_count: '- The number of virtual CPUs available on the server.'
             vpc_ids: '- (Optional) A list of VPC IDs to be attached to the server.'
+            vpc2_ids: '- (Optional) A list of VPC 2.0 IDs to be attached to the server.'
         importStatements: []
     vultr_instance_ipv4:
         subCategory: ""
@@ -509,37 +512,37 @@ resources:
             - name: k8
               manifest: |-
                 {
-                  "label": "tf-test",
+                  "label": "vke-test",
                   "node_pools": [
                     {
                       "auto_scaler": true,
-                      "label": "my-label",
+                      "label": "vke-nodepool",
                       "max_nodes": 2,
                       "min_nodes": 1,
                       "node_quantity": 1,
-                      "plan": "vc2-2c-4gb"
+                      "plan": "vc2-1c-2gb"
                     }
                   ],
                   "region": "ewr",
-                  "version": "v1.23.5+1"
+                  "version": "v1.28.2+1"
                 }
             - name: k8
               manifest: |-
                 {
-                  "label": "tf-test",
+                  "label": "vke-test",
                   "region": "ewr",
-                  "version": "v1.23.5+1"
+                  "version": "v1.28.2+1"
                 }
               dependencies:
                 vultr_kubernetes_node_pools.np: |-
                     {
                       "auto_scaler": true,
                       "cluster_id": "${vultr_kubernetes.k8.id}",
-                      "label": "my-label",
+                      "label": "vke-nodepool",
                       "max_nodes": 2,
                       "min_nodes": 1,
                       "node_quantity": 1,
-                      "plan": "vc2-2c-4gb"
+                      "plan": "vc2-1c-2gb"
                     }
         argumentDocs:
             auto_scaler: '- (Optional) Enable the auto scaler for the default node pool.'
@@ -560,7 +563,7 @@ resources:
             node_quantity: '- (Required) The number of nodes in this node pool.'
             nodes: '- Array that contains information about nodes within this node pool.'
             plan: '- (Required) The plan to be used in this node pool. See Plans List Note the minimum plan requirements must have at least 1 core and 2 gbs of memory.'
-            region: '- (Required) The region your VKE cluster will be deployed in. Currently, supported values are ewr and lax'
+            region: '- (Required) The region your VKE cluster will be deployed in.'
             service_subnet: '- IP range that services will run on this cluster.'
             status: '- The overall status of the cluster.'
             tag: '- Tag for node pool.'
@@ -630,7 +633,7 @@ resources:
                       "unhealthy_threshold": 2
                     }
                   ],
-                  "label": "terraform lb example",
+                  "label": "vultr-load-balancer",
                   "region": "ewr"
                 }
         argumentDocs:
@@ -679,7 +682,7 @@ resources:
               manifest: |-
                 {
                   "cluster_id": 2,
-                  "label": "tf-label"
+                  "label": "vultr-object-storage"
                 }
         argumentDocs:
             cluster_id: '- (Required) The region ID that you want the network to be created in.'
@@ -967,4 +970,33 @@ resources:
             region: '- (Required) The region ID that you want the VPC to be created in.'
             v4_subnet: '- (Optional) The IPv4 subnet to be used when attaching instances to this VPC.'
             v4_subnet_mask: '- The number of bits for the netmask in CIDR notation. Example: 32'
+        importStatements: []
+    vultr_vpc2:
+        subCategory: ""
+        description: Provides a Vultr VPC 2.0 resource. This can be used to create, read, and delete VPCs 2.0 on your Vultr account.
+        name: vultr_vpc2
+        title: vultr_vpc2
+        examples:
+            - name: my_vpc2
+              manifest: |-
+                {
+                  "description": "my vpc2",
+                  "region": "ewr"
+                }
+            - name: my_vpc2
+              manifest: |-
+                {
+                  "description": "my private vpc2",
+                  "ip_block": "10.0.0.0",
+                  "prefix_length": 24,
+                  "region": "ewr"
+                }
+        argumentDocs:
+            date_created: '- The date that the VPC 2.0 was added to your Vultr account.'
+            description: '- (Optional) The description you want to give your VPC 2.0.'
+            id: '- ID of the VPC 2.0.'
+            ip_block: '- (Optional) The IPv4 subnet to be used when attaching instances to this VPC 2.0.'
+            ip_type: '- (Optional) Accepted values: v4.'
+            prefix_length: '- The number of bits for the netmask in CIDR notation. Example: 32'
+            region: '- (Required) The region ID that you want the VPC 2.0 to be created in.'
         importStatements: []
