@@ -52,6 +52,7 @@ KIND_VERSION = v0.15.0
 UP_VERSION = v0.18.0
 UP_CHANNEL = stable
 UPTEST_VERSION = v0.5.0
+CROSSPLANE_VERSION = 1.16.0
 -include build/makelib/k8s_tools.mk
 
 # ====================================================================================
