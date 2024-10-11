@@ -21,8 +21,17 @@ type KubernetesObservation struct {
 	// Date of VKE cluster creation.
 	DateCreated *string `json:"dateCreated,omitempty" tf:"date_created,omitempty"`
 
+	// Boolean indicating if the cluster should be created with a managed firewall.
+	EnableFirewall *bool `json:"enableFirewall,omitempty" tf:"enable_firewall,omitempty"`
+
 	// Domain for your Kubernetes clusters control plane.
 	Endpoint *string `json:"endpoint,omitempty" tf:"endpoint,omitempty"`
+
+	// The ID of the firewall group managed by this cluster.
+	FirewallGroupID *string `json:"firewallGroupId,omitempty" tf:"firewall_group_id,omitempty"`
+
+	// Boolean indicating if the cluster should be created with multiple, highly available controlplanes.
+	HaControlplanes *bool `json:"haControlplanes,omitempty" tf:"ha_controlplanes,omitempty"`
 
 	// The VKE cluster ID.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -50,6 +59,14 @@ type KubernetesObservation struct {
 }
 
 type KubernetesParameters struct {
+
+	// Boolean indicating if the cluster should be created with a managed firewall.
+	// +kubebuilder:validation:Optional
+	EnableFirewall *bool `json:"enableFirewall,omitempty" tf:"enable_firewall,omitempty"`
+
+	// Boolean indicating if the cluster should be created with multiple, highly available controlplanes.
+	// +kubebuilder:validation:Optional
+	HaControlplanes *bool `json:"haControlplanes,omitempty" tf:"ha_controlplanes,omitempty"`
 
 	// The VKE clusters label.
 	// +kubebuilder:validation:Optional

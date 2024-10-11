@@ -30,6 +30,9 @@ type DatabaseObservation struct {
 	// The managed database's default logical database.
 	Dbname *string `json:"dbname,omitempty" tf:"dbname,omitempty"`
 
+	// An associated list of FerretDB connection credentials (FerretDB + PostgreSQL engine types only).
+	FerretdbCredentials map[string]*string `json:"ferretdbCredentials,omitempty" tf:"ferretdb_credentials,omitempty"`
+
 	// The hostname assigned to the managed database.
 	Host *string `json:"host,omitempty" tf:"host,omitempty"`
 
@@ -81,6 +84,9 @@ type DatabaseObservation struct {
 	// The connection port for the managed database.
 	Port *string `json:"port,omitempty" tf:"port,omitempty"`
 
+	// The public hostname assigned to the managed database (VPC-attached only).
+	PublicHost *string `json:"publicHost,omitempty" tf:"public_host,omitempty"`
+
 	// A list of read replicas attached to the managed database.
 	ReadReplicas []ReadReplicasObservation `json:"readReplicas,omitempty" tf:"read_replicas,omitempty"`
 
@@ -119,6 +125,10 @@ type DatabaseParameters struct {
 	// The database engine version of the new managed database.
 	// +kubebuilder:validation:Optional
 	DatabaseEngineVersion *string `json:"databaseEngineVersion,omitempty" tf:"database_engine_version,omitempty"`
+
+	// An associated list of FerretDB connection credentials (FerretDB + PostgreSQL engine types only).
+	// +kubebuilder:validation:Optional
+	FerretdbCredentials map[string]*string `json:"ferretdbCredentials,omitempty" tf:"ferretdb_credentials,omitempty"`
 
 	// A label for the managed database.
 	// +kubebuilder:validation:Optional
@@ -159,6 +169,10 @@ type DatabaseParameters struct {
 	// The description of the disk(s) on the managed database.
 	// +kubebuilder:validation:Optional
 	PlanDisk *float64 `json:"planDisk,omitempty" tf:"plan_disk,omitempty"`
+
+	// The public hostname assigned to the managed database (VPC-attached only).
+	// +kubebuilder:validation:Optional
+	PublicHost *string `json:"publicHost,omitempty" tf:"public_host,omitempty"`
 
 	// A list of read replicas attached to the managed database.
 	// +kubebuilder:validation:Optional
@@ -202,6 +216,9 @@ type ReadReplicasObservation struct {
 	// The managed database's default logical database.
 	Dbname *string `json:"dbname,omitempty" tf:"dbname,omitempty"`
 
+	// An associated list of FerretDB connection credentials (FerretDB + PostgreSQL engine types only).
+	FerretdbCredentials map[string]*string `json:"ferretdbCredentials,omitempty" tf:"ferretdb_credentials,omitempty"`
+
 	// The hostname assigned to the managed database.
 	Host *string `json:"host,omitempty" tf:"host,omitempty"`
 
@@ -253,6 +270,9 @@ type ReadReplicasObservation struct {
 	// The connection port for the managed database.
 	Port *string `json:"port,omitempty" tf:"port,omitempty"`
 
+	// The public hostname assigned to the managed database (VPC-attached only).
+	PublicHost *string `json:"publicHost,omitempty" tf:"public_host,omitempty"`
+
 	// The configuration value for the data eviction policy on the managed database (Redis engine types only - noeviction, allkeys-lru, volatile-lru, allkeys-random, volatile-random, volatile-ttl, volatile-lfu, allkeys-lfu).
 	RedisEvictionPolicy *string `json:"redisEvictionPolicy,omitempty" tf:"redis_eviction_policy,omitempty"`
 
@@ -277,6 +297,10 @@ type ReadReplicasObservation struct {
 
 type ReadReplicasParameters struct {
 
+	// An associated list of FerretDB connection credentials (FerretDB + PostgreSQL engine types only).
+	// +kubebuilder:validation:Optional
+	FerretdbCredentials map[string]*string `json:"ferretdbCredentials,omitempty" tf:"ferretdb_credentials,omitempty"`
+
 	// A label for the managed database.
 	// +kubebuilder:validation:Required
 	Label *string `json:"label" tf:"label,omitempty"`
@@ -300,6 +324,10 @@ type ReadReplicasParameters struct {
 	// The description of the disk(s) on the managed database.
 	// +kubebuilder:validation:Optional
 	PlanDisk *float64 `json:"planDisk,omitempty" tf:"plan_disk,omitempty"`
+
+	// The public hostname assigned to the managed database (VPC-attached only).
+	// +kubebuilder:validation:Optional
+	PublicHost *string `json:"publicHost,omitempty" tf:"public_host,omitempty"`
 
 	// The configuration value for the data eviction policy on the managed database (Redis engine types only - noeviction, allkeys-lru, volatile-lru, allkeys-random, volatile-random, volatile-ttl, volatile-lfu, allkeys-lfu).
 	// +kubebuilder:validation:Optional

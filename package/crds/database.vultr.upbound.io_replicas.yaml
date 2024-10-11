@@ -73,6 +73,12 @@ spec:
                     description: The managed database ID you want to attach this replica
                       to.
                     type: string
+                  ferretdbCredentials:
+                    additionalProperties:
+                      type: string
+                    description: An associated list of FerretDB connection credentials
+                      (FerretDB + PostgreSQL engine types only).
+                    type: object
                   label:
                     description: A label for the managed database read replica.
                     type: string
@@ -100,6 +106,10 @@ spec:
                     description: The description of the disk(s) on the managed database
                       read replica.
                     type: number
+                  publicHost:
+                    description: The public hostname assigned to the managed database
+                      read replica (VPC-attached only).
+                    type: string
                   redisEvictionPolicy:
                     description: The configuration value for the data eviction policy
                       on the managed database read replica (Redis engine types only).
@@ -340,6 +350,12 @@ spec:
                     description: The managed database read replica's default logical
                       database.
                     type: string
+                  ferretdbCredentials:
+                    additionalProperties:
+                      type: string
+                    description: An associated list of FerretDB connection credentials
+                      (FerretDB + PostgreSQL engine types only).
+                    type: object
                   host:
                     description: The hostname assigned to the managed database read
                       replica.
@@ -408,6 +424,10 @@ spec:
                   port:
                     description: The connection port for the managed database read
                       replica.
+                    type: string
+                  publicHost:
+                    description: The public hostname assigned to the managed database
+                      read replica (VPC-attached only).
                     type: string
                   redisEvictionPolicy:
                     description: The configuration value for the data eviction policy

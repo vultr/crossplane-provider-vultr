@@ -33,6 +33,9 @@ type ReplicaObservation struct {
 	// The managed database read replica's default logical database.
 	Dbname *string `json:"dbname,omitempty" tf:"dbname,omitempty"`
 
+	// An associated list of FerretDB connection credentials (FerretDB + PostgreSQL engine types only).
+	FerretdbCredentials map[string]*string `json:"ferretdbCredentials,omitempty" tf:"ferretdb_credentials,omitempty"`
+
 	// The hostname assigned to the managed database read replica.
 	Host *string `json:"host,omitempty" tf:"host,omitempty"`
 
@@ -84,6 +87,9 @@ type ReplicaObservation struct {
 	// The connection port for the managed database read replica.
 	Port *string `json:"port,omitempty" tf:"port,omitempty"`
 
+	// The public hostname assigned to the managed database read replica (VPC-attached only).
+	PublicHost *string `json:"publicHost,omitempty" tf:"public_host,omitempty"`
+
 	// The configuration value for the data eviction policy on the managed database read replica (Redis engine types only).
 	RedisEvictionPolicy *string `json:"redisEvictionPolicy,omitempty" tf:"redis_eviction_policy,omitempty"`
 
@@ -112,6 +118,10 @@ type ReplicaParameters struct {
 	// +kubebuilder:validation:Optional
 	DatabaseID *string `json:"databaseId,omitempty" tf:"database_id,omitempty"`
 
+	// An associated list of FerretDB connection credentials (FerretDB + PostgreSQL engine types only).
+	// +kubebuilder:validation:Optional
+	FerretdbCredentials map[string]*string `json:"ferretdbCredentials,omitempty" tf:"ferretdb_credentials,omitempty"`
+
 	// A label for the managed database read replica.
 	// +kubebuilder:validation:Optional
 	Label *string `json:"label,omitempty" tf:"label,omitempty"`
@@ -135,6 +145,10 @@ type ReplicaParameters struct {
 	// The description of the disk(s) on the managed database read replica.
 	// +kubebuilder:validation:Optional
 	PlanDisk *float64 `json:"planDisk,omitempty" tf:"plan_disk,omitempty"`
+
+	// The public hostname assigned to the managed database read replica (VPC-attached only).
+	// +kubebuilder:validation:Optional
+	PublicHost *string `json:"publicHost,omitempty" tf:"public_host,omitempty"`
 
 	// The configuration value for the data eviction policy on the managed database read replica (Redis engine types only).
 	// +kubebuilder:validation:Optional
