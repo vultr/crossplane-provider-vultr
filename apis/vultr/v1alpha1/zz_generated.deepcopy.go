@@ -155,6 +155,21 @@ func (in *BareMetalServerObservation) DeepCopyInto(out *BareMetalServerObservati
 		*out = new(float64)
 		**out = **in
 	}
+	if in.AppVariables != nil {
+		in, out := &in.AppVariables, &out.AppVariables
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				in, out := &val, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.CPUCount != nil {
 		in, out := &in.CPUCount, &out.CPUCount
 		*out = new(float64)
@@ -210,6 +225,11 @@ func (in *BareMetalServerObservation) DeepCopyInto(out *BareMetalServerObservati
 		*out = new(string)
 		**out = **in
 	}
+	if in.MdiskMode != nil {
+		in, out := &in.MdiskMode, &out.MdiskMode
+		*out = new(string)
+		**out = **in
+	}
 	if in.NetmaskV4 != nil {
 		in, out := &in.NetmaskV4, &out.NetmaskV4
 		*out = new(string)
@@ -223,6 +243,11 @@ func (in *BareMetalServerObservation) DeepCopyInto(out *BareMetalServerObservati
 	if in.OsID != nil {
 		in, out := &in.OsID, &out.OsID
 		*out = new(float64)
+		**out = **in
+	}
+	if in.PersistentPxe != nil {
+		in, out := &in.PersistentPxe, &out.PersistentPxe
+		*out = new(bool)
 		**out = **in
 	}
 	if in.Plan != nil {
@@ -338,6 +363,21 @@ func (in *BareMetalServerParameters) DeepCopyInto(out *BareMetalServerParameters
 		*out = new(float64)
 		**out = **in
 	}
+	if in.AppVariables != nil {
+		in, out := &in.AppVariables, &out.AppVariables
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				in, out := &val, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.EnableIPv6 != nil {
 		in, out := &in.EnableIPv6, &out.EnableIPv6
 		*out = new(bool)
@@ -358,9 +398,19 @@ func (in *BareMetalServerParameters) DeepCopyInto(out *BareMetalServerParameters
 		*out = new(string)
 		**out = **in
 	}
+	if in.MdiskMode != nil {
+		in, out := &in.MdiskMode, &out.MdiskMode
+		*out = new(string)
+		**out = **in
+	}
 	if in.OsID != nil {
 		in, out := &in.OsID, &out.OsID
 		*out = new(float64)
+		**out = **in
+	}
+	if in.PersistentPxe != nil {
+		in, out := &in.PersistentPxe, &out.PersistentPxe
+		*out = new(bool)
 		**out = **in
 	}
 	if in.Plan != nil {
@@ -789,6 +839,21 @@ func (in *InstanceObservation) DeepCopyInto(out *InstanceObservation) {
 		*out = new(float64)
 		**out = **in
 	}
+	if in.AppVariables != nil {
+		in, out := &in.AppVariables, &out.AppVariables
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				in, out := &val, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.Backups != nil {
 		in, out := &in.Backups, &out.Backups
 		*out = new(string)
@@ -808,6 +873,11 @@ func (in *InstanceObservation) DeepCopyInto(out *InstanceObservation) {
 	}
 	if in.DdosProtection != nil {
 		in, out := &in.DdosProtection, &out.DdosProtection
+		*out = new(bool)
+		**out = **in
+	}
+	if in.DisablePublicIPv4 != nil {
+		in, out := &in.DisablePublicIPv4, &out.DisablePublicIPv4
 		*out = new(bool)
 		**out = **in
 	}
@@ -906,17 +976,6 @@ func (in *InstanceObservation) DeepCopyInto(out *InstanceObservation) {
 		in, out := &in.PowerStatus, &out.PowerStatus
 		*out = new(string)
 		**out = **in
-	}
-	if in.PrivateNetworkIds != nil {
-		in, out := &in.PrivateNetworkIds, &out.PrivateNetworkIds
-		*out = make([]*string, len(*in))
-		for i := range *in {
-			if (*in)[i] != nil {
-				in, out := &(*in)[i], &(*out)[i]
-				*out = new(string)
-				**out = **in
-			}
-		}
 	}
 	if in.RAM != nil {
 		in, out := &in.RAM, &out.RAM
@@ -1047,6 +1106,21 @@ func (in *InstanceParameters) DeepCopyInto(out *InstanceParameters) {
 		*out = new(float64)
 		**out = **in
 	}
+	if in.AppVariables != nil {
+		in, out := &in.AppVariables, &out.AppVariables
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				in, out := &val, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.Backups != nil {
 		in, out := &in.Backups, &out.Backups
 		*out = new(string)
@@ -1061,6 +1135,11 @@ func (in *InstanceParameters) DeepCopyInto(out *InstanceParameters) {
 	}
 	if in.DdosProtection != nil {
 		in, out := &in.DdosProtection, &out.DdosProtection
+		*out = new(bool)
+		**out = **in
+	}
+	if in.DisablePublicIPv4 != nil {
+		in, out := &in.DisablePublicIPv4, &out.DisablePublicIPv4
 		*out = new(bool)
 		**out = **in
 	}
@@ -1103,17 +1182,6 @@ func (in *InstanceParameters) DeepCopyInto(out *InstanceParameters) {
 		in, out := &in.Plan, &out.Plan
 		*out = new(string)
 		**out = **in
-	}
-	if in.PrivateNetworkIds != nil {
-		in, out := &in.PrivateNetworkIds, &out.PrivateNetworkIds
-		*out = make([]*string, len(*in))
-		for i := range *in {
-			if (*in)[i] != nil {
-				in, out := &(*in)[i], &(*out)[i]
-				*out = new(string)
-				**out = **in
-			}
-		}
 	}
 	if in.Region != nil {
 		in, out := &in.Region, &out.Region
@@ -1359,11 +1427,6 @@ func (in *LoadBalancerObservation) DeepCopyInto(out *LoadBalancerObservation) {
 		*out = new(string)
 		**out = **in
 	}
-	if in.PrivateNetwork != nil {
-		in, out := &in.PrivateNetwork, &out.PrivateNetwork
-		*out = new(string)
-		**out = **in
-	}
 	if in.ProxyProtocol != nil {
 		in, out := &in.ProxyProtocol, &out.ProxyProtocol
 		*out = new(bool)
@@ -1455,11 +1518,6 @@ func (in *LoadBalancerParameters) DeepCopyInto(out *LoadBalancerParameters) {
 	}
 	if in.Label != nil {
 		in, out := &in.Label, &out.Label
-		*out = new(string)
-		**out = **in
-	}
-	if in.PrivateNetwork != nil {
-		in, out := &in.PrivateNetwork, &out.PrivateNetwork
 		*out = new(string)
 		**out = **in
 	}
