@@ -21,6 +21,9 @@ type BareMetalServerObservation struct {
 	// The ID of the Vultr application to be installed on the server. See List Applications
 	AppID *float64 `json:"appId,omitempty" tf:"app_id,omitempty"`
 
+	// A map of user-supplied variable keys and values for Vultr Marketplace apps. See List Marketplace App Variables
+	AppVariables map[string]*string `json:"appVariables,omitempty" tf:"app_variables,omitempty"`
+
 	// The number of CPUs available on the server.
 	CPUCount *float64 `json:"cpuCount,omitempty" tf:"cpu_count,omitempty"`
 
@@ -54,6 +57,8 @@ type BareMetalServerObservation struct {
 	// The server's main IP address.
 	MainIP *string `json:"mainIp,omitempty" tf:"main_ip,omitempty"`
 
+	MdiskMode *string `json:"mdiskMode,omitempty" tf:"mdisk_mode,omitempty"`
+
 	// The server's IPv4 netmask.
 	NetmaskV4 *string `json:"netmaskV4,omitempty" tf:"netmask_v4,omitempty"`
 
@@ -62,6 +67,8 @@ type BareMetalServerObservation struct {
 
 	// The ID of the operating system to be installed on the server. See List OS
 	OsID *float64 `json:"osId,omitempty" tf:"os_id,omitempty"`
+
+	PersistentPxe *bool `json:"persistentPxe,omitempty" tf:"persistent_pxe,omitempty"`
 
 	// The ID of the plan that you want the server to subscribe to. See List Plans
 	Plan *string `json:"plan,omitempty" tf:"plan,omitempty"`
@@ -116,6 +123,10 @@ type BareMetalServerParameters struct {
 	// +kubebuilder:validation:Optional
 	AppID *float64 `json:"appId,omitempty" tf:"app_id,omitempty"`
 
+	// A map of user-supplied variable keys and values for Vultr Marketplace apps. See List Marketplace App Variables
+	// +kubebuilder:validation:Optional
+	AppVariables map[string]*string `json:"appVariables,omitempty" tf:"app_variables,omitempty"`
+
 	// Whether the server has IPv6 networking activated.
 	// +kubebuilder:validation:Optional
 	EnableIPv6 *bool `json:"enableIpv6,omitempty" tf:"enable_ipv6,omitempty"`
@@ -132,9 +143,15 @@ type BareMetalServerParameters struct {
 	// +kubebuilder:validation:Optional
 	Label *string `json:"label,omitempty" tf:"label,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	MdiskMode *string `json:"mdiskMode,omitempty" tf:"mdisk_mode,omitempty"`
+
 	// The ID of the operating system to be installed on the server. See List OS
 	// +kubebuilder:validation:Optional
 	OsID *float64 `json:"osId,omitempty" tf:"os_id,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	PersistentPxe *bool `json:"persistentPxe,omitempty" tf:"persistent_pxe,omitempty"`
 
 	// The ID of the plan that you want the server to subscribe to. See List Plans
 	// +kubebuilder:validation:Optional
