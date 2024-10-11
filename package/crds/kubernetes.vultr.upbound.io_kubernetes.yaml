@@ -69,6 +69,14 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  enableFirewall:
+                    description: Boolean indicating if the cluster should be created
+                      with a managed firewall.
+                    type: boolean
+                  haControlplanes:
+                    description: Boolean indicating if the cluster should be created
+                      with multiple, highly available controlplanes.
+                    type: boolean
                   label:
                     description: The VKE clusters label.
                     type: string
@@ -317,9 +325,20 @@ spec:
                   dateCreated:
                     description: Date of VKE cluster creation.
                     type: string
+                  enableFirewall:
+                    description: Boolean indicating if the cluster should be created
+                      with a managed firewall.
+                    type: boolean
                   endpoint:
                     description: Domain for your Kubernetes clusters control plane.
                     type: string
+                  firewallGroupId:
+                    description: The ID of the firewall group managed by this cluster.
+                    type: string
+                  haControlplanes:
+                    description: Boolean indicating if the cluster should be created
+                      with multiple, highly available controlplanes.
+                    type: boolean
                   id:
                     description: The VKE cluster ID.
                     type: string

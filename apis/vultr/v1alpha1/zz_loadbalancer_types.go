@@ -170,9 +170,6 @@ type LoadBalancerObservation struct {
 	// The load balancer's label.
 	Label *string `json:"label,omitempty" tf:"label,omitempty"`
 
-	// (Deprecated: use vpc instead) A private network ID that the load balancer should be attached to.
-	PrivateNetwork *string `json:"privateNetwork,omitempty" tf:"private_network,omitempty"`
-
 	// Boolean value that indicates if Proxy Protocol is enabled.
 	ProxyProtocol *bool `json:"proxyProtocol,omitempty" tf:"proxy_protocol,omitempty"`
 
@@ -221,10 +218,6 @@ type LoadBalancerParameters struct {
 	// The load balancer's label.
 	// +kubebuilder:validation:Optional
 	Label *string `json:"label,omitempty" tf:"label,omitempty"`
-
-	// (Deprecated: use vpc instead) A private network ID that the load balancer should be attached to.
-	// +kubebuilder:validation:Optional
-	PrivateNetwork *string `json:"privateNetwork,omitempty" tf:"private_network,omitempty"`
 
 	// Boolean value that indicates if Proxy Protocol is enabled.
 	// +kubebuilder:validation:Optional

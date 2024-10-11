@@ -9,7 +9,7 @@ metadata:
 spec:
   forProvider:
     osId: 1743
-    plan: vc2-1c-1gb
+    plan: vc2-1c-2gb
     region: sea
 
 ---

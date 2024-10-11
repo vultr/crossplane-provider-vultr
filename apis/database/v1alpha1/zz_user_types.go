@@ -13,7 +13,42 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AccessControlObservation struct {
+
+	// The list of command category rules for this managed database user.
+	RedisACLCategories []*string `json:"redisAclCategories,omitempty" tf:"redis_acl_categories,omitempty"`
+
+	// The list of publish/subscribe channel patterns for this managed database user.
+	RedisACLChannels []*string `json:"redisAclChannels,omitempty" tf:"redis_acl_channels,omitempty"`
+
+	// The list of individual command rules for this managed database user.
+	RedisACLCommands []*string `json:"redisAclCommands,omitempty" tf:"redis_acl_commands,omitempty"`
+
+	// The list of access rules for this managed database user.
+	RedisACLKeys []*string `json:"redisAclKeys,omitempty" tf:"redis_acl_keys,omitempty"`
+}
+
+type AccessControlParameters struct {
+
+	// The list of command category rules for this managed database user.
+	// +kubebuilder:validation:Required
+	RedisACLCategories []*string `json:"redisAclCategories" tf:"redis_acl_categories,omitempty"`
+
+	// The list of publish/subscribe channel patterns for this managed database user.
+	// +kubebuilder:validation:Required
+	RedisACLChannels []*string `json:"redisAclChannels" tf:"redis_acl_channels,omitempty"`
+
+	// The list of individual command rules for this managed database user.
+	// +kubebuilder:validation:Required
+	RedisACLCommands []*string `json:"redisAclCommands" tf:"redis_acl_commands,omitempty"`
+
+	// The list of access rules for this managed database user.
+	// +kubebuilder:validation:Required
+	RedisACLKeys []*string `json:"redisAclKeys" tf:"redis_acl_keys,omitempty"`
+}
+
 type UserObservation struct {
+	AccessControl []AccessControlObservation `json:"accessControl,omitempty" tf:"access_control,omitempty"`
 
 	// The managed database ID you want to attach this user to.
 	DatabaseID *string `json:"databaseId,omitempty" tf:"database_id,omitempty"`
@@ -31,6 +66,9 @@ type UserObservation struct {
 }
 
 type UserParameters struct {
+
+	// +kubebuilder:validation:Optional
+	AccessControl []AccessControlParameters `json:"accessControl,omitempty" tf:"access_control,omitempty"`
 
 	// The managed database ID you want to attach this user to.
 	// +kubebuilder:validation:Optional
