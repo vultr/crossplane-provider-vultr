@@ -69,6 +69,40 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  accessControl:
+                    items:
+                      properties:
+                        redisAclCategories:
+                          description: The list of command category rules for this
+                            managed database user.
+                          items:
+                            type: string
+                          type: array
+                        redisAclChannels:
+                          description: The list of publish/subscribe channel patterns
+                            for this managed database user.
+                          items:
+                            type: string
+                          type: array
+                        redisAclCommands:
+                          description: The list of individual command rules for this
+                            managed database user.
+                          items:
+                            type: string
+                          type: array
+                        redisAclKeys:
+                          description: The list of access rules for this managed database
+                            user.
+                          items:
+                            type: string
+                          type: array
+                      required:
+                      - redisAclCategories
+                      - redisAclChannels
+                      - redisAclCommands
+                      - redisAclKeys
+                      type: object
+                    type: array
                   databaseId:
                     description: The managed database ID you want to attach this user
                       to.
@@ -280,6 +314,35 @@ spec:
             properties:
               atProvider:
                 properties:
+                  accessControl:
+                    items:
+                      properties:
+                        redisAclCategories:
+                          description: The list of command category rules for this
+                            managed database user.
+                          items:
+                            type: string
+                          type: array
+                        redisAclChannels:
+                          description: The list of publish/subscribe channel patterns
+                            for this managed database user.
+                          items:
+                            type: string
+                          type: array
+                        redisAclCommands:
+                          description: The list of individual command rules for this
+                            managed database user.
+                          items:
+                            type: string
+                          type: array
+                        redisAclKeys:
+                          description: The list of access rules for this managed database
+                            user.
+                          items:
+                            type: string
+                          type: array
+                      type: object
+                    type: array
                   databaseId:
                     description: The managed database ID you want to attach this user
                       to.
