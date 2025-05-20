@@ -51,6 +51,8 @@ type NodePoolsObservation_2 struct {
 	// The label to be used as a prefix for nodes in this node pool.
 	Label *string `json:"label,omitempty" tf:"label,omitempty"`
 
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
 	// The maximum number of nodes to use with the auto scaler.
 	MaxNodes *float64 `json:"maxNodes,omitempty" tf:"max_nodes,omitempty"`
 
@@ -71,6 +73,8 @@ type NodePoolsObservation_2 struct {
 
 	// A tag that is assigned to this node pool.
 	Tag *string `json:"tag,omitempty" tf:"tag,omitempty"`
+
+	Taints []NodePoolsTaintsObservation `json:"taints,omitempty" tf:"taints,omitempty"`
 }
 
 type NodePoolsParameters_2 struct {
@@ -86,6 +90,9 @@ type NodePoolsParameters_2 struct {
 	// The label to be used as a prefix for nodes in this node pool.
 	// +kubebuilder:validation:Optional
 	Label *string `json:"label,omitempty" tf:"label,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The maximum number of nodes to use with the auto scaler.
 	// +kubebuilder:validation:Optional
@@ -106,6 +113,29 @@ type NodePoolsParameters_2 struct {
 	// A tag that is assigned to this node pool.
 	// +kubebuilder:validation:Optional
 	Tag *string `json:"tag,omitempty" tf:"tag,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Taints []NodePoolsTaintsParameters `json:"taints,omitempty" tf:"taints,omitempty"`
+}
+
+type NodePoolsTaintsObservation struct {
+	Effect *string `json:"effect,omitempty" tf:"effect,omitempty"`
+
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type NodePoolsTaintsParameters struct {
+
+	// +kubebuilder:validation:Required
+	Effect *string `json:"effect" tf:"effect,omitempty"`
+
+	// +kubebuilder:validation:Required
+	Key *string `json:"key" tf:"key,omitempty"`
+
+	// +kubebuilder:validation:Required
+	Value *string `json:"value" tf:"value,omitempty"`
 }
 
 // NodePoolsSpec defines the desired state of NodePools

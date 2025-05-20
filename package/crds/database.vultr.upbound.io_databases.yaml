@@ -69,6 +69,10 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  accessCert:
+                    type: string
+                  accessKey:
+                    type: string
                   clusterTimeZone:
                     description: The configured time zone for the Managed Database
                       in TZ database format (e.g. UTC, America/New_York, Europe/London).
@@ -79,6 +83,14 @@ spec:
                   databaseEngineVersion:
                     description: The database engine version of the new managed database.
                     type: string
+                  evictionPolicy:
+                    type: string
+                  ferretdbCredentials:
+                    additionalProperties:
+                      type: string
+                    description: An associated list of FerretDB connection credentials
+                      (FerretDB + PostgreSQL engine types only).
+                    type: object
                   label:
                     description: A label for the managed database.
                     type: string
@@ -120,13 +132,31 @@ spec:
                     description: The ID of the plan that you want the managed database
                       to subscribe to. See List Managed Database Plans
                     type: string
+                  planBrokers:
+                    type: number
                   planDisk:
                     description: The description of the disk(s) on the managed database.
                     type: number
+                  planReplicas:
+                    description: The number of standby nodes available on the managed
+                      database.
+                    type: number
+                  publicHost:
+                    description: The public hostname assigned to the managed database
+                      (VPC-attached only).
+                    type: string
                   readReplicas:
                     description: A list of read replicas attached to the managed database.
                     items:
                       properties:
+                        evictionPolicy:
+                          type: string
+                        ferretdbCredentials:
+                          additionalProperties:
+                            type: string
+                          description: An associated list of FerretDB connection credentials
+                            (FerretDB + PostgreSQL engine types only).
+                          type: object
                         label:
                           description: A label for the managed database.
                           type: string
@@ -160,11 +190,9 @@ spec:
                           description: The description of the disk(s) on the managed
                             database.
                           type: number
-                        redisEvictionPolicy:
-                          description: The configuration value for the data eviction
-                            policy on the managed database (Redis engine types only
-                            - noeviction, allkeys-lru, volatile-lru, allkeys-random,
-                            volatile-random, volatile-ttl, volatile-lfu, allkeys-lfu).
+                        publicHost:
+                          description: The public hostname assigned to the managed
+                            database (VPC-attached only).
                           type: string
                         region:
                           description: The ID of the region that the managed database
@@ -184,15 +212,12 @@ spec:
                       - region
                       type: object
                     type: array
-                  redisEvictionPolicy:
-                    description: The configuration value for the data eviction policy
-                      on the managed database (Redis engine types only - noeviction,
-                      allkeys-lru, volatile-lru, allkeys-random, volatile-random,
-                      volatile-ttl, volatile-lfu, allkeys-lfu).
-                    type: string
                   region:
                     description: The ID of the region that the managed database is
                       to be created in. See List Regions
+                    type: string
+                  saslPort:
+                    description: The connection port for the managed database.
                     type: string
                   tag:
                     description: The tag to assign to the managed database.
@@ -203,7 +228,8 @@ spec:
                       type: string
                     type: array
                   vpcId:
-                    description: The ID of the managed database.
+                    description: The ID of the VPC Network to attach to the Managed
+                      Database.
                     type: string
                 type: object
               managementPolicy:
@@ -408,6 +434,10 @@ spec:
             properties:
               atProvider:
                 properties:
+                  accessCert:
+                    type: string
+                  accessKey:
+                    type: string
                   clusterTimeZone:
                     description: The configured time zone for the Managed Database
                       in TZ database format (e.g. UTC, America/New_York, Europe/London).
@@ -425,6 +455,14 @@ spec:
                   dbname:
                     description: The managed database's default logical database.
                     type: string
+                  evictionPolicy:
+                    type: string
+                  ferretdbCredentials:
+                    additionalProperties:
+                      type: string
+                    description: An associated list of FerretDB connection credentials
+                      (FerretDB + PostgreSQL engine types only).
+                    type: object
                   host:
                     description: The hostname assigned to the managed database.
                     type: string
@@ -476,6 +514,8 @@ spec:
                     description: The ID of the plan that you want the managed database
                       to subscribe to. See List Managed Database Plans
                     type: string
+                  planBrokers:
+                    type: number
                   planDisk:
                     description: The description of the disk(s) on the managed database.
                     type: number
@@ -493,6 +533,10 @@ spec:
                     type: number
                   port:
                     description: The connection port for the managed database.
+                    type: string
+                  publicHost:
+                    description: The public hostname assigned to the managed database
+                      (VPC-attached only).
                     type: string
                   readReplicas:
                     description: A list of read replicas attached to the managed database.
@@ -516,6 +560,14 @@ spec:
                         dbname:
                           description: The managed database's default logical database.
                           type: string
+                        evictionPolicy:
+                          type: string
+                        ferretdbCredentials:
+                          additionalProperties:
+                            type: string
+                          description: An associated list of FerretDB connection credentials
+                            (FerretDB + PostgreSQL engine types only).
+                          type: object
                         host:
                           description: The hostname assigned to the managed database.
                           type: string
@@ -590,11 +642,9 @@ spec:
                         port:
                           description: The connection port for the managed database.
                           type: string
-                        redisEvictionPolicy:
-                          description: The configuration value for the data eviction
-                            policy on the managed database (Redis engine types only
-                            - noeviction, allkeys-lru, volatile-lru, allkeys-random,
-                            volatile-random, volatile-ttl, volatile-lfu, allkeys-lfu).
+                        publicHost:
+                          description: The public hostname assigned to the managed
+                            database (VPC-attached only).
                           type: string
                         region:
                           description: The ID of the region that the managed database
@@ -602,7 +652,7 @@ spec:
                           type: string
                         status:
                           description: The current status of the managed database
-                            (poweroff, rebuilding, rebalancing, running).
+                            (poweroff, rebuilding, rebalancing, configuring, running).
                           type: string
                         tag:
                           description: The tag to assign to the managed database.
@@ -617,23 +667,21 @@ spec:
                           description: The primary admin user for the managed database.
                           type: string
                         vpcId:
-                          description: The ID of the managed database.
+                          description: The ID of the VPC Network to attach to the
+                            Managed Database.
                           type: string
                       type: object
                     type: array
-                  redisEvictionPolicy:
-                    description: The configuration value for the data eviction policy
-                      on the managed database (Redis engine types only - noeviction,
-                      allkeys-lru, volatile-lru, allkeys-random, volatile-random,
-                      volatile-ttl, volatile-lfu, allkeys-lfu).
-                    type: string
                   region:
                     description: The ID of the region that the managed database is
                       to be created in. See List Regions
                     type: string
+                  saslPort:
+                    description: The connection port for the managed database.
+                    type: string
                   status:
                     description: The current status of the managed database (poweroff,
-                      rebuilding, rebalancing, running).
+                      rebuilding, rebalancing, configuring, running).
                     type: string
                   tag:
                     description: The tag to assign to the managed database.
@@ -647,7 +695,8 @@ spec:
                     description: The primary admin user for the managed database.
                     type: string
                   vpcId:
-                    description: The ID of the managed database.
+                    description: The ID of the VPC Network to attach to the Managed
+                      Database.
                     type: string
                 type: object
               conditions:

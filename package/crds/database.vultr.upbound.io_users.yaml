@@ -69,6 +69,32 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  accessControl:
+                    items:
+                      properties:
+                        aclCategories:
+                          items:
+                            type: string
+                          type: array
+                        aclChannels:
+                          items:
+                            type: string
+                          type: array
+                        aclCommands:
+                          items:
+                            type: string
+                          type: array
+                        aclKeys:
+                          items:
+                            type: string
+                          type: array
+                      required:
+                      - aclCategories
+                      - aclChannels
+                      - aclCommands
+                      - aclKeys
+                      type: object
+                    type: array
                   databaseId:
                     description: The managed database ID you want to attach this user
                       to.
@@ -79,6 +105,8 @@ spec:
                     type: string
                   password:
                     description: The password of the new managed database user.
+                    type: string
+                  permission:
                     type: string
                   username:
                     description: The username of the new managed database user.
@@ -280,6 +308,31 @@ spec:
             properties:
               atProvider:
                 properties:
+                  accessCert:
+                    type: string
+                  accessControl:
+                    items:
+                      properties:
+                        aclCategories:
+                          items:
+                            type: string
+                          type: array
+                        aclChannels:
+                          items:
+                            type: string
+                          type: array
+                        aclCommands:
+                          items:
+                            type: string
+                          type: array
+                        aclKeys:
+                          items:
+                            type: string
+                          type: array
+                      type: object
+                    type: array
+                  accessKey:
+                    type: string
                   databaseId:
                     description: The managed database ID you want to attach this user
                       to.
@@ -292,6 +345,8 @@ spec:
                     type: string
                   password:
                     description: The password of the new managed database user.
+                    type: string
+                  permission:
                     type: string
                   username:
                     description: The username of the new managed database user.
