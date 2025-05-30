@@ -203,7 +203,8 @@ spec:
                       type: string
                     type: array
                   vpcId:
-                    description: The ID of the managed database.
+                    description: The ID of the VPC Network to attach to the Managed
+                      Database.
                     type: string
                 type: object
               managementPolicy:
@@ -602,7 +603,7 @@ spec:
                           type: string
                         status:
                           description: The current status of the managed database
-                            (poweroff, rebuilding, rebalancing, running).
+                            (poweroff, rebuilding, rebalancing, configuring, running).
                           type: string
                         tag:
                           description: The tag to assign to the managed database.
@@ -617,7 +618,8 @@ spec:
                           description: The primary admin user for the managed database.
                           type: string
                         vpcId:
-                          description: The ID of the managed database.
+                          description: The ID of the VPC Network to attach to the
+                            Managed Database.
                           type: string
                       type: object
                     type: array
@@ -633,7 +635,7 @@ spec:
                     type: string
                   status:
                     description: The current status of the managed database (poweroff,
-                      rebuilding, rebalancing, running).
+                      rebuilding, rebalancing, configuring, running).
                     type: string
                   tag:
                     description: The tag to assign to the managed database.
@@ -647,7 +649,8 @@ spec:
                     description: The primary admin user for the managed database.
                     type: string
                   vpcId:
-                    description: The ID of the managed database.
+                    description: The ID of the VPC Network to attach to the Managed
+                      Database.
                     type: string
                 type: object
               conditions:

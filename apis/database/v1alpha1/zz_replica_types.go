@@ -90,7 +90,7 @@ type ReplicaObservation struct {
 	// The ID of the region that the managed database read replica is to be created in. See List Regions
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
-	// The current status of the managed database read replica (poweroff, rebuilding, rebalancing, running).
+	// The current status of the managed database read replica (poweroff, rebuilding, rebalancing, configuring, running).
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`
 
 	// The tag to assign to the managed database read replica.
@@ -102,7 +102,7 @@ type ReplicaObservation struct {
 	// The primary admin user for the managed database read replica.
 	User *string `json:"user,omitempty" tf:"user,omitempty"`
 
-	// The ID of the managed database read replica.
+	// The ID of the VPC Network attached to the managed database read replica.
 	VPCID *string `json:"vpcId,omitempty" tf:"vpc_id,omitempty"`
 }
 
