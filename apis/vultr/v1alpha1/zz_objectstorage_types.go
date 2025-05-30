@@ -38,6 +38,9 @@ type ObjectStorageObservation struct {
 
 	// Current status of this object storage subscription.
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`
+
+	// The id of the object storage subscription.
+	TierID *float64 `json:"tierId,omitempty" tf:"tier_id,omitempty"`
 }
 
 type ObjectStorageParameters struct {
@@ -49,6 +52,10 @@ type ObjectStorageParameters struct {
 	// The description you want to give your network.
 	// +kubebuilder:validation:Optional
 	Label *string `json:"label,omitempty" tf:"label,omitempty"`
+
+	// The id of the object storage subscription.
+	// +kubebuilder:validation:Optional
+	TierID *float64 `json:"tierId,omitempty" tf:"tier_id,omitempty"`
 }
 
 // ObjectStorageSpec defines the desired state of ObjectStorage
@@ -76,6 +83,7 @@ type ObjectStorage struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.clusterId)",message="clusterId is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.tierId)",message="tierId is a required parameter"
 	Spec   ObjectStorageSpec   `json:"spec"`
 	Status ObjectStorageStatus `json:"status,omitempty"`
 }

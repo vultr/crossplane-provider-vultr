@@ -58,6 +58,9 @@ type InstanceObservation struct {
 	// The ID of the Vultr application to be installed on the server. See List Applications
 	AppID *float64 `json:"appId,omitempty" tf:"app_id,omitempty"`
 
+	// A map of user-supplied variable keys and values for Vultr Marketplace apps. See List Marketplace App Variables
+	AppVariables map[string]*string `json:"appVariables,omitempty" tf:"app_variables,omitempty"`
+
 	// Whether automatic backups will be enabled for this server (these have an extra charge associated with them). Values can be enabled or disabled.
 	Backups *string `json:"backups,omitempty" tf:"backups,omitempty"`
 
@@ -69,6 +72,11 @@ type InstanceObservation struct {
 
 	// Whether DDOS protection will be enabled on the server (there is an additional charge for this).
 	DdosProtection *bool `json:"ddosProtection,omitempty" tf:"ddos_protection,omitempty"`
+
+	// Whether the server has a public IPv4 address assigned (only possible with enable_ipv6 set to true)
+	// Don't set up a public IPv4 address when IPv6 is enabled.
+	// Will not do anything unless enable_ipv6 is also true.
+	DisablePublicIPv4 *bool `json:"disablePublicIpv4,omitempty" tf:"disable_public_ipv4,omitempty"`
 
 	// The description of the disk(s) on the server.
 	Disk *float64 `json:"disk,omitempty" tf:"disk,omitempty"`
@@ -86,7 +94,9 @@ type InstanceObservation struct {
 	GatewayV4 *string `json:"gatewayV4,omitempty" tf:"gateway_v4,omitempty"`
 
 	// The hostname to assign to the server.
-	// The hostname of the instance. Updating the hostname will cause a force new. This behavior is in place to prevent accidental reinstalls. Issuing an update to the hostname on UI or API issues a reinstall of the OS.
+	// The hostname of the instance. Updating the
+	// hostname will cause a force new. This behavior is in place to prevent accidental reinstalls. Issuing an update to the
+	// hostname on UI or API issues a reinstall of the OS.
 	Hostname *string `json:"hostname,omitempty" tf:"hostname,omitempty"`
 
 	// ID of the server.
@@ -97,6 +107,8 @@ type InstanceObservation struct {
 
 	// The server's internal IP address.
 	InternalIP *string `json:"internalIp,omitempty" tf:"internal_ip,omitempty"`
+
+	IpxeChainURL *string `json:"ipxeChainUrl,omitempty" tf:"ipxe_chain_url,omitempty"`
 
 	// The ID of the ISO file to be installed on the server. See List ISO
 	IsoID *string `json:"isoId,omitempty" tf:"iso_id,omitempty"`
@@ -124,9 +136,6 @@ type InstanceObservation struct {
 
 	// Whether the server is powered on or not.
 	PowerStatus *string `json:"powerStatus,omitempty" tf:"power_status,omitempty"`
-
-	// (Deprecated: use vpc_ids instead) A list of private network IDs to be attached to the server.
-	PrivateNetworkIds []*string `json:"privateNetworkIds,omitempty" tf:"private_network_ids,omitempty"`
 
 	// The amount of memory available on the server in MB.
 	RAM *float64 `json:"ram,omitempty" tf:"ram,omitempty"`
@@ -158,6 +167,8 @@ type InstanceObservation struct {
 	// Generic data store, which some provisioning tools and cloud operating systems use as a configuration file. It is generally consumed only once after an instance has been launched, but individual needs may vary.
 	UserData *string `json:"userData,omitempty" tf:"user_data,omitempty"`
 
+	UserScheme *string `json:"userScheme,omitempty" tf:"user_scheme,omitempty"`
+
 	// The main IPv6 network address.
 	V6MainIP *string `json:"v6MainIp,omitempty" tf:"v6_main_ip,omitempty"`
 
@@ -187,6 +198,10 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	AppID *float64 `json:"appId,omitempty" tf:"app_id,omitempty"`
 
+	// A map of user-supplied variable keys and values for Vultr Marketplace apps. See List Marketplace App Variables
+	// +kubebuilder:validation:Optional
+	AppVariables map[string]*string `json:"appVariables,omitempty" tf:"app_variables,omitempty"`
+
 	// Whether automatic backups will be enabled for this server (these have an extra charge associated with them). Values can be enabled or disabled.
 	// +kubebuilder:validation:Optional
 	Backups *string `json:"backups,omitempty" tf:"backups,omitempty"`
@@ -199,6 +214,12 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	DdosProtection *bool `json:"ddosProtection,omitempty" tf:"ddos_protection,omitempty"`
 
+	// Whether the server has a public IPv4 address assigned (only possible with enable_ipv6 set to true)
+	// Don't set up a public IPv4 address when IPv6 is enabled.
+	// Will not do anything unless enable_ipv6 is also true.
+	// +kubebuilder:validation:Optional
+	DisablePublicIPv4 *bool `json:"disablePublicIpv4,omitempty" tf:"disable_public_ipv4,omitempty"`
+
 	// Whether the server has IPv6 networking activated.
 	// +kubebuilder:validation:Optional
 	EnableIPv6 *bool `json:"enableIpv6,omitempty" tf:"enable_ipv6,omitempty"`
@@ -208,13 +229,18 @@ type InstanceParameters struct {
 	FirewallGroupID *string `json:"firewallGroupId,omitempty" tf:"firewall_group_id,omitempty"`
 
 	// The hostname to assign to the server.
-	// The hostname of the instance. Updating the hostname will cause a force new. This behavior is in place to prevent accidental reinstalls. Issuing an update to the hostname on UI or API issues a reinstall of the OS.
+	// The hostname of the instance. Updating the
+	// hostname will cause a force new. This behavior is in place to prevent accidental reinstalls. Issuing an update to the
+	// hostname on UI or API issues a reinstall of the OS.
 	// +kubebuilder:validation:Optional
 	Hostname *string `json:"hostname,omitempty" tf:"hostname,omitempty"`
 
 	// The ID of the Vultr marketplace application to be installed on the server. See List Applications Note marketplace applications are denoted by type: marketplace and you must use the image_id not the id.
 	// +kubebuilder:validation:Optional
 	ImageID *string `json:"imageId,omitempty" tf:"image_id,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	IpxeChainURL *string `json:"ipxeChainUrl,omitempty" tf:"ipxe_chain_url,omitempty"`
 
 	// The ID of the ISO file to be installed on the server. See List ISO
 	// +kubebuilder:validation:Optional
@@ -231,10 +257,6 @@ type InstanceParameters struct {
 	// The ID of the plan that you want the instance to subscribe to. See List Plans
 	// +kubebuilder:validation:Optional
 	Plan *string `json:"plan,omitempty" tf:"plan,omitempty"`
-
-	// (Deprecated: use vpc_ids instead) A list of private network IDs to be attached to the server.
-	// +kubebuilder:validation:Optional
-	PrivateNetworkIds []*string `json:"privateNetworkIds,omitempty" tf:"private_network_ids,omitempty"`
 
 	// The ID of the region that the instance is to be created in. See List Regions
 	// +kubebuilder:validation:Optional
@@ -263,6 +285,9 @@ type InstanceParameters struct {
 	// Generic data store, which some provisioning tools and cloud operating systems use as a configuration file. It is generally consumed only once after an instance has been launched, but individual needs may vary.
 	// +kubebuilder:validation:Optional
 	UserData *string `json:"userData,omitempty" tf:"user_data,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	UserScheme *string `json:"userScheme,omitempty" tf:"user_scheme,omitempty"`
 
 	// A list of VPC IDs to be attached to the server.
 	// +kubebuilder:validation:Optional

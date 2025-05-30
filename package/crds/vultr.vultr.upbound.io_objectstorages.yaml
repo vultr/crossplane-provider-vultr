@@ -76,6 +76,9 @@ spec:
                   label:
                     description: The description you want to give your network.
                     type: string
+                  tierId:
+                    description: The id of the object storage subscription.
+                    type: number
                 type: object
               managementPolicy:
                 default: FullControl
@@ -266,6 +269,8 @@ spec:
             x-kubernetes-validations:
             - message: clusterId is a required parameter
               rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.clusterId)
+            - message: tierId is a required parameter
+              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.tierId)
           status:
             description: ObjectStorageStatus defines the observed state of ObjectStorage.
             properties:
@@ -296,6 +301,9 @@ spec:
                   status:
                     description: Current status of this object storage subscription.
                     type: string
+                  tierId:
+                    description: The id of the object storage subscription.
+                    type: number
                 type: object
               conditions:
                 description: Conditions of the resource.
