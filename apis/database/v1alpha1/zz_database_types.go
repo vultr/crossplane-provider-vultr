@@ -90,7 +90,7 @@ type DatabaseObservation struct {
 	// The ID of the region that the managed database is to be created in. See List Regions
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
-	// The current status of the managed database (poweroff, rebuilding, rebalancing, running).
+	// The current status of the managed database (poweroff, rebuilding, rebalancing, configuring, running).
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`
 
 	// The tag to assign to the managed database.
@@ -102,7 +102,7 @@ type DatabaseObservation struct {
 	// The primary admin user for the managed database.
 	User *string `json:"user,omitempty" tf:"user,omitempty"`
 
-	// The ID of the managed database.
+	// The ID of the VPC Network to attach to the Managed Database.
 	VPCID *string `json:"vpcId,omitempty" tf:"vpc_id,omitempty"`
 }
 
@@ -180,7 +180,7 @@ type DatabaseParameters struct {
 	// +kubebuilder:validation:Optional
 	TrustedIps []*string `json:"trustedIps,omitempty" tf:"trusted_ips,omitempty"`
 
-	// The ID of the managed database.
+	// The ID of the VPC Network to attach to the Managed Database.
 	// +kubebuilder:validation:Optional
 	VPCID *string `json:"vpcId,omitempty" tf:"vpc_id,omitempty"`
 }
@@ -259,7 +259,7 @@ type ReadReplicasObservation struct {
 	// The ID of the region that the managed database is to be created in. See List Regions
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
-	// The current status of the managed database (poweroff, rebuilding, rebalancing, running).
+	// The current status of the managed database (poweroff, rebuilding, rebalancing, configuring, running).
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`
 
 	// The tag to assign to the managed database.
@@ -271,7 +271,7 @@ type ReadReplicasObservation struct {
 	// The primary admin user for the managed database.
 	User *string `json:"user,omitempty" tf:"user,omitempty"`
 
-	// The ID of the managed database.
+	// The ID of the VPC Network to attach to the Managed Database.
 	VPCID *string `json:"vpcId,omitempty" tf:"vpc_id,omitempty"`
 }
 

@@ -419,7 +419,7 @@ spec:
                     type: string
                   status:
                     description: The current status of the managed database read replica
-                      (poweroff, rebuilding, rebalancing, running).
+                      (poweroff, rebuilding, rebalancing, configuring, running).
                     type: string
                   tag:
                     description: The tag to assign to the managed database read replica.
@@ -435,7 +435,8 @@ spec:
                       replica.
                     type: string
                   vpcId:
-                    description: The ID of the managed database read replica.
+                    description: The ID of the VPC Network attached to the managed
+                      database read replica.
                     type: string
                 type: object
               conditions:
