@@ -18,7 +18,7 @@ spec:
     - checkInterval: 3
       healthyThreshold: 4
       path: /test
-      port: "8080"
+      port: 8080
       protocol: http
       responseTimeout: 1
       unhealthyThreshold: 2

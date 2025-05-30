@@ -175,10 +175,6 @@ spec:
                   label:
                     description: The load balancer's label.
                     type: string
-                  privateNetwork:
-                    description: '(Deprecated: use vpc instead) A private network
-                      ID that the load balancer should be attached to.'
-                    type: string
                   proxyProtocol:
                     description: Boolean value that indicates if Proxy Protocol is
                       enabled.
@@ -536,10 +532,6 @@ spec:
                     type: string
                   label:
                     description: The load balancer's label.
-                    type: string
-                  privateNetwork:
-                    description: '(Deprecated: use vpc instead) A private network
-                      ID that the load balancer should be attached to.'
                     type: string
                   proxyProtocol:
                     description: Boolean value that indicates if Proxy Protocol is
