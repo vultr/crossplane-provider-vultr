@@ -21,8 +21,17 @@ type KubernetesObservation struct {
 	// Date of VKE cluster creation.
 	DateCreated *string `json:"dateCreated,omitempty" tf:"date_created,omitempty"`
 
+	// Boolean indicating if the cluster should be created with a managed firewall.
+	EnableFirewall *bool `json:"enableFirewall,omitempty" tf:"enable_firewall,omitempty"`
+
 	// Domain for your Kubernetes clusters control plane.
 	Endpoint *string `json:"endpoint,omitempty" tf:"endpoint,omitempty"`
+
+	// The ID of the firewall group managed by this cluster.
+	FirewallGroupID *string `json:"firewallGroupId,omitempty" tf:"firewall_group_id,omitempty"`
+
+	// Boolean indicating if the cluster should be created with multiple, highly available controlplanes.
+	HaControlplanes *bool `json:"haControlplanes,omitempty" tf:"ha_controlplanes,omitempty"`
 
 	// The VKE cluster ID.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -45,11 +54,22 @@ type KubernetesObservation struct {
 	// The overall status of the cluster.
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`
 
+	// The VKE cluster ID.
+	VPCID *string `json:"vpcId,omitempty" tf:"vpc_id,omitempty"`
+
 	// The version your VKE cluster you want deployed. See Available Version
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
 }
 
 type KubernetesParameters struct {
+
+	// Boolean indicating if the cluster should be created with a managed firewall.
+	// +kubebuilder:validation:Optional
+	EnableFirewall *bool `json:"enableFirewall,omitempty" tf:"enable_firewall,omitempty"`
+
+	// Boolean indicating if the cluster should be created with multiple, highly available controlplanes.
+	// +kubebuilder:validation:Optional
+	HaControlplanes *bool `json:"haControlplanes,omitempty" tf:"ha_controlplanes,omitempty"`
 
 	// The VKE clusters label.
 	// +kubebuilder:validation:Optional
@@ -62,6 +82,10 @@ type KubernetesParameters struct {
 	// The region your VKE cluster will be deployed in.
 	// +kubebuilder:validation:Optional
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+
+	// The VKE cluster ID.
+	// +kubebuilder:validation:Optional
+	VPCID *string `json:"vpcId,omitempty" tf:"vpc_id,omitempty"`
 
 	// The version your VKE cluster you want deployed. See Available Version
 	// +kubebuilder:validation:Optional
@@ -85,6 +109,8 @@ type NodePoolsObservation struct {
 	// The VKE clusters label.
 	Label *string `json:"label,omitempty" tf:"label,omitempty"`
 
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
 	// The maximum number of nodes to use with the auto scaler.
 	MaxNodes *float64 `json:"maxNodes,omitempty" tf:"max_nodes,omitempty"`
 
@@ -105,6 +131,8 @@ type NodePoolsObservation struct {
 
 	// Tag for node pool.
 	Tag *string `json:"tag,omitempty" tf:"tag,omitempty"`
+
+	Taints []TaintsObservation `json:"taints,omitempty" tf:"taints,omitempty"`
 }
 
 type NodePoolsParameters struct {
@@ -116,6 +144,9 @@ type NodePoolsParameters struct {
 	// The VKE clusters label.
 	// +kubebuilder:validation:Required
 	Label *string `json:"label" tf:"label,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The maximum number of nodes to use with the auto scaler.
 	// +kubebuilder:validation:Optional
@@ -132,6 +163,9 @@ type NodePoolsParameters struct {
 	// The plan to be used in this node pool. See Plans List Note the minimum plan requirements must have at least 1 core and 2 gbs of memory.
 	// +kubebuilder:validation:Required
 	Plan *string `json:"plan" tf:"plan,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Taints []TaintsParameters `json:"taints,omitempty" tf:"taints,omitempty"`
 }
 
 type NodesObservation struct {
@@ -150,6 +184,26 @@ type NodesObservation struct {
 }
 
 type NodesParameters struct {
+}
+
+type TaintsObservation struct {
+	Effect *string `json:"effect,omitempty" tf:"effect,omitempty"`
+
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type TaintsParameters struct {
+
+	// +kubebuilder:validation:Required
+	Effect *string `json:"effect" tf:"effect,omitempty"`
+
+	// +kubebuilder:validation:Required
+	Key *string `json:"key" tf:"key,omitempty"`
+
+	// +kubebuilder:validation:Required
+	Value *string `json:"value" tf:"value,omitempty"`
 }
 
 // KubernetesSpec defines the desired state of Kubernetes

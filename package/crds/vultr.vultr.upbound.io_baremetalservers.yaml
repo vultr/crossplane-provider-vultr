@@ -77,6 +77,12 @@ spec:
                     description: The ID of the Vultr application to be installed on
                       the server. See List Applications
                     type: number
+                  appVariables:
+                    additionalProperties:
+                      type: string
+                    description: A map of user-supplied variable keys and values for
+                      Vultr Marketplace apps. See List Marketplace App Variables
+                    type: object
                   enableIpv6:
                     description: Whether the server has IPv6 networking activated.
                     type: boolean
@@ -92,10 +98,14 @@ spec:
                   label:
                     description: A label for the server.
                     type: string
+                  mdiskMode:
+                    type: string
                   osId:
                     description: The ID of the operating system to be installed on
                       the server. See List OS
                     type: number
+                  persistentPxe:
+                    type: boolean
                   plan:
                     description: The ID of the plan that you want the server to subscribe
                       to. See List Plans
@@ -133,11 +143,16 @@ spec:
                       is generally consumed only once after an instance has been launched,
                       but individual needs may vary.
                     type: string
+                  userScheme:
+                    type: string
                   vpc2Ids:
                     description: A list of VPC 2.0 IDs to be attached to the server.
                     items:
                       type: string
                     type: array
+                  vpcId:
+                    description: ID of the server.
+                    type: string
                 type: object
               managementPolicy:
                 default: FullControl
@@ -343,6 +358,12 @@ spec:
                     description: The ID of the Vultr application to be installed on
                       the server. See List Applications
                     type: number
+                  appVariables:
+                    additionalProperties:
+                      type: string
+                    description: A map of user-supplied variable keys and values for
+                      Vultr Marketplace apps. See List Marketplace App Variables
+                    type: object
                   cpuCount:
                     description: The number of CPUs available on the server.
                     type: number
@@ -379,6 +400,8 @@ spec:
                   mainIp:
                     description: The server's main IP address.
                     type: string
+                  mdiskMode:
+                    type: string
                   netmaskV4:
                     description: The server's IPv4 netmask.
                     type: string
@@ -390,6 +413,8 @@ spec:
                     description: The ID of the operating system to be installed on
                       the server. See List OS
                     type: number
+                  persistentPxe:
+                    type: boolean
                   plan:
                     description: The ID of the plan that you want the server to subscribe
                       to. See List Plans
@@ -433,6 +458,8 @@ spec:
                       is generally consumed only once after an instance has been launched,
                       but individual needs may vary.
                     type: string
+                  userScheme:
+                    type: string
                   v6MainIp:
                     description: The main IPv6 network address.
                     type: string
@@ -447,6 +474,9 @@ spec:
                     items:
                       type: string
                     type: array
+                  vpcId:
+                    description: ID of the server.
+                    type: string
                 type: object
               conditions:
                 description: Conditions of the resource.

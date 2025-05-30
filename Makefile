@@ -8,9 +8,9 @@ export TERRAFORM_VERSION ?= 1.3.3
 
 export TERRAFORM_PROVIDER_SOURCE ?= vultr/vultr
 export TERRAFORM_PROVIDER_REPO ?= https://github.com/vultr/terraform-provider-vultr
-export TERRAFORM_PROVIDER_VERSION ?= 2.16.4
+export TERRAFORM_PROVIDER_VERSION ?= 2.26.0
 export TERRAFORM_PROVIDER_DOWNLOAD_NAME ?= terraform-provider-vultr
-export TERRAFORM_NATIVE_PROVIDER_BINARY ?= terraform-provider-vultr_2.16.4
+export TERRAFORM_NATIVE_PROVIDER_BINARY ?= terraform-provider-vultr_2.26.0
 export TERRAFORM_DOCS_PATH ?= website/docs/r
 
 PLATFORMS ?= linux_amd64 linux_arm64

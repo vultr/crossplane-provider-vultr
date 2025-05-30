@@ -80,6 +80,10 @@ spec:
                     description: The label to be used as a prefix for nodes in this
                       node pool.
                     type: string
+                  labels:
+                    additionalProperties:
+                      type: string
+                    type: object
                   maxNodes:
                     description: The maximum number of nodes to use with the auto
                       scaler.
@@ -99,6 +103,21 @@ spec:
                   tag:
                     description: A tag that is assigned to this node pool.
                     type: string
+                  taints:
+                    items:
+                      properties:
+                        effect:
+                          type: string
+                        key:
+                          type: string
+                        value:
+                          type: string
+                      required:
+                      - effect
+                      - key
+                      - value
+                      type: object
+                    type: array
                 type: object
               managementPolicy:
                 default: FullControl
@@ -320,6 +339,10 @@ spec:
                     description: The label to be used as a prefix for nodes in this
                       node pool.
                     type: string
+                  labels:
+                    additionalProperties:
+                      type: string
+                    type: object
                   maxNodes:
                     description: The maximum number of nodes to use with the auto
                       scaler.
@@ -362,6 +385,17 @@ spec:
                   tag:
                     description: A tag that is assigned to this node pool.
                     type: string
+                  taints:
+                    items:
+                      properties:
+                        effect:
+                          type: string
+                        key:
+                          type: string
+                        value:
+                          type: string
+                      type: object
+                    type: array
                 type: object
               conditions:
                 description: Conditions of the resource.

@@ -21,6 +21,9 @@ type BareMetalServerObservation struct {
 	// The ID of the Vultr application to be installed on the server. See List Applications
 	AppID *float64 `json:"appId,omitempty" tf:"app_id,omitempty"`
 
+	// A map of user-supplied variable keys and values for Vultr Marketplace apps. See List Marketplace App Variables
+	AppVariables map[string]*string `json:"appVariables,omitempty" tf:"app_variables,omitempty"`
+
 	// The number of CPUs available on the server.
 	CPUCount *float64 `json:"cpuCount,omitempty" tf:"cpu_count,omitempty"`
 
@@ -54,6 +57,8 @@ type BareMetalServerObservation struct {
 	// The server's main IP address.
 	MainIP *string `json:"mainIp,omitempty" tf:"main_ip,omitempty"`
 
+	MdiskMode *string `json:"mdiskMode,omitempty" tf:"mdisk_mode,omitempty"`
+
 	// The server's IPv4 netmask.
 	NetmaskV4 *string `json:"netmaskV4,omitempty" tf:"netmask_v4,omitempty"`
 
@@ -62,6 +67,8 @@ type BareMetalServerObservation struct {
 
 	// The ID of the operating system to be installed on the server. See List OS
 	OsID *float64 `json:"osId,omitempty" tf:"os_id,omitempty"`
+
+	PersistentPxe *bool `json:"persistentPxe,omitempty" tf:"persistent_pxe,omitempty"`
 
 	// The ID of the plan that you want the server to subscribe to. See List Plans
 	Plan *string `json:"plan,omitempty" tf:"plan,omitempty"`
@@ -93,6 +100,8 @@ type BareMetalServerObservation struct {
 	// Generic data store, which some provisioning tools and cloud operating systems use as a configuration file. It is generally consumed only once after an instance has been launched, but individual needs may vary.
 	UserData *string `json:"userData,omitempty" tf:"user_data,omitempty"`
 
+	UserScheme *string `json:"userScheme,omitempty" tf:"user_scheme,omitempty"`
+
 	// The main IPv6 network address.
 	V6MainIP *string `json:"v6MainIp,omitempty" tf:"v6_main_ip,omitempty"`
 
@@ -101,6 +110,9 @@ type BareMetalServerObservation struct {
 
 	// The IPv6 network size in bits.
 	V6NetworkSize *float64 `json:"v6NetworkSize,omitempty" tf:"v6_network_size,omitempty"`
+
+	// ID of the server.
+	VPCID *string `json:"vpcId,omitempty" tf:"vpc_id,omitempty"`
 
 	// A list of VPC 2.0 IDs to be attached to the server.
 	Vpc2Ids []*string `json:"vpc2Ids,omitempty" tf:"vpc2_ids,omitempty"`
@@ -115,6 +127,10 @@ type BareMetalServerParameters struct {
 	// The ID of the Vultr application to be installed on the server. See List Applications
 	// +kubebuilder:validation:Optional
 	AppID *float64 `json:"appId,omitempty" tf:"app_id,omitempty"`
+
+	// A map of user-supplied variable keys and values for Vultr Marketplace apps. See List Marketplace App Variables
+	// +kubebuilder:validation:Optional
+	AppVariables map[string]*string `json:"appVariables,omitempty" tf:"app_variables,omitempty"`
 
 	// Whether the server has IPv6 networking activated.
 	// +kubebuilder:validation:Optional
@@ -132,9 +148,15 @@ type BareMetalServerParameters struct {
 	// +kubebuilder:validation:Optional
 	Label *string `json:"label,omitempty" tf:"label,omitempty"`
 
+	// +kubebuilder:validation:Optional
+	MdiskMode *string `json:"mdiskMode,omitempty" tf:"mdisk_mode,omitempty"`
+
 	// The ID of the operating system to be installed on the server. See List OS
 	// +kubebuilder:validation:Optional
 	OsID *float64 `json:"osId,omitempty" tf:"os_id,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	PersistentPxe *bool `json:"persistentPxe,omitempty" tf:"persistent_pxe,omitempty"`
 
 	// The ID of the plan that you want the server to subscribe to. See List Plans
 	// +kubebuilder:validation:Optional
@@ -167,6 +189,13 @@ type BareMetalServerParameters struct {
 	// Generic data store, which some provisioning tools and cloud operating systems use as a configuration file. It is generally consumed only once after an instance has been launched, but individual needs may vary.
 	// +kubebuilder:validation:Optional
 	UserData *string `json:"userData,omitempty" tf:"user_data,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	UserScheme *string `json:"userScheme,omitempty" tf:"user_scheme,omitempty"`
+
+	// ID of the server.
+	// +kubebuilder:validation:Optional
+	VPCID *string `json:"vpcId,omitempty" tf:"vpc_id,omitempty"`
 
 	// A list of VPC 2.0 IDs to be attached to the server.
 	// +kubebuilder:validation:Optional

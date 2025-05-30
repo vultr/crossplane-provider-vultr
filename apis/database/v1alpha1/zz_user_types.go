@@ -13,7 +13,37 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AccessControlObservation struct {
+	ACLCategories []*string `json:"aclCategories,omitempty" tf:"acl_categories,omitempty"`
+
+	ACLChannels []*string `json:"aclChannels,omitempty" tf:"acl_channels,omitempty"`
+
+	ACLCommands []*string `json:"aclCommands,omitempty" tf:"acl_commands,omitempty"`
+
+	ACLKeys []*string `json:"aclKeys,omitempty" tf:"acl_keys,omitempty"`
+}
+
+type AccessControlParameters struct {
+
+	// +kubebuilder:validation:Required
+	ACLCategories []*string `json:"aclCategories" tf:"acl_categories,omitempty"`
+
+	// +kubebuilder:validation:Required
+	ACLChannels []*string `json:"aclChannels" tf:"acl_channels,omitempty"`
+
+	// +kubebuilder:validation:Required
+	ACLCommands []*string `json:"aclCommands" tf:"acl_commands,omitempty"`
+
+	// +kubebuilder:validation:Required
+	ACLKeys []*string `json:"aclKeys" tf:"acl_keys,omitempty"`
+}
+
 type UserObservation struct {
+	AccessCert *string `json:"accessCert,omitempty" tf:"access_cert,omitempty"`
+
+	AccessControl []AccessControlObservation `json:"accessControl,omitempty" tf:"access_control,omitempty"`
+
+	AccessKey *string `json:"accessKey,omitempty" tf:"access_key,omitempty"`
 
 	// The managed database ID you want to attach this user to.
 	DatabaseID *string `json:"databaseId,omitempty" tf:"database_id,omitempty"`
@@ -26,11 +56,16 @@ type UserObservation struct {
 	// The password of the new managed database user.
 	Password *string `json:"password,omitempty" tf:"password,omitempty"`
 
+	Permission *string `json:"permission,omitempty" tf:"permission,omitempty"`
+
 	// The username of the new managed database user.
 	Username *string `json:"username,omitempty" tf:"username,omitempty"`
 }
 
 type UserParameters struct {
+
+	// +kubebuilder:validation:Optional
+	AccessControl []AccessControlParameters `json:"accessControl,omitempty" tf:"access_control,omitempty"`
 
 	// The managed database ID you want to attach this user to.
 	// +kubebuilder:validation:Optional
@@ -43,6 +78,9 @@ type UserParameters struct {
 	// The password of the new managed database user.
 	// +kubebuilder:validation:Optional
 	Password *string `json:"password,omitempty" tf:"password,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Permission *string `json:"permission,omitempty" tf:"permission,omitempty"`
 
 	// The username of the new managed database user.
 	// +kubebuilder:validation:Optional

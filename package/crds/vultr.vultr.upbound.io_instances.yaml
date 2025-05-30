@@ -77,6 +77,12 @@ spec:
                     description: The ID of the Vultr application to be installed on
                       the server. See List Applications
                     type: number
+                  appVariables:
+                    additionalProperties:
+                      type: string
+                    description: A map of user-supplied variable keys and values for
+                      Vultr Marketplace apps. See List Marketplace App Variables
+                    type: object
                   backups:
                     description: Whether automatic backups will be enabled for this
                       server (these have an extra charge associated with them). Values
@@ -113,6 +119,12 @@ spec:
                     description: Whether DDOS protection will be enabled on the server
                       (there is an additional charge for this).
                     type: boolean
+                  disablePublicIpv4:
+                    description: Whether the server has a public IPv4 address assigned
+                      (only possible with enable_ipv6 set to true) Don't set up a
+                      public IPv4 address when IPv6 is enabled. Will not do anything
+                      unless enable_ipv6 is also true.
+                    type: boolean
                   enableIpv6:
                     description: Whether the server has IPv6 networking activated.
                     type: boolean
@@ -132,6 +144,8 @@ spec:
                       applications are denoted by type: marketplace and you must use
                       the image_id not the id.'
                     type: string
+                  ipxeChainUrl:
+                    type: string
                   isoId:
                     description: The ID of the ISO file to be installed on the server.
                       See List ISO
@@ -147,12 +161,6 @@ spec:
                     description: The ID of the plan that you want the instance to
                       subscribe to. See List Plans
                     type: string
-                  privateNetworkIds:
-                    description: '(Deprecated: use vpc_ids instead) A list of private
-                      network IDs to be attached to the server.'
-                    items:
-                      type: string
-                    type: array
                   region:
                     description: The ID of the region that the instance is to be created
                       in. See List Regions
@@ -185,6 +193,8 @@ spec:
                       and cloud operating systems use as a configuration file. It
                       is generally consumed only once after an instance has been launched,
                       but individual needs may vary.
+                    type: string
+                  userScheme:
                     type: string
                   vpc2Ids:
                     description: A list of VPC 2.0 IDs to be attached to the server.
@@ -404,6 +414,12 @@ spec:
                     description: The ID of the Vultr application to be installed on
                       the server. See List Applications
                     type: number
+                  appVariables:
+                    additionalProperties:
+                      type: string
+                    description: A map of user-supplied variable keys and values for
+                      Vultr Marketplace apps. See List Marketplace App Variables
+                    type: object
                   backups:
                     description: Whether automatic backups will be enabled for this
                       server (these have an extra charge associated with them). Values
@@ -441,6 +457,12 @@ spec:
                     description: Whether DDOS protection will be enabled on the server
                       (there is an additional charge for this).
                     type: boolean
+                  disablePublicIpv4:
+                    description: Whether the server has a public IPv4 address assigned
+                      (only possible with enable_ipv6 set to true) Don't set up a
+                      public IPv4 address when IPv6 is enabled. Will not do anything
+                      unless enable_ipv6 is also true.
+                    type: boolean
                   disk:
                     description: The description of the disk(s) on the server.
                     type: number
@@ -477,6 +499,8 @@ spec:
                   internalIp:
                     description: The server's internal IP address.
                     type: string
+                  ipxeChainUrl:
+                    type: string
                   isoId:
                     description: The ID of the ISO file to be installed on the server.
                       See List ISO
@@ -509,12 +533,6 @@ spec:
                   powerStatus:
                     description: Whether the server is powered on or not.
                     type: string
-                  privateNetworkIds:
-                    description: '(Deprecated: use vpc_ids instead) A list of private
-                      network IDs to be attached to the server.'
-                    items:
-                      type: string
-                    type: array
                   ram:
                     description: The amount of memory available on the server in MB.
                     type: number
@@ -557,6 +575,8 @@ spec:
                       and cloud operating systems use as a configuration file. It
                       is generally consumed only once after an instance has been launched,
                       but individual needs may vary.
+                    type: string
+                  userScheme:
                     type: string
                   v6MainIp:
                     description: The main IPv6 network address.
