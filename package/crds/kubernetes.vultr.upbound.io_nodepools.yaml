@@ -80,6 +80,11 @@ spec:
                     description: The label to be used as a prefix for nodes in this
                       node pool.
                     type: string
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: A map of key/value pairs for Kubernetes node labels.
+                    type: object
                   maxNodes:
                     description: The maximum number of nodes to use with the auto
                       scaler.
@@ -98,6 +103,28 @@ spec:
                     type: string
                   tag:
                     description: A tag that is assigned to this node pool.
+                    type: string
+                  taints:
+                    description: Taints to apply to the nodes in the node pool. Should
+                      contain key, value and effect.  The effect should be one of
+                      NoSchedule, PreferNoSchedule or NoExecute.
+                    items:
+                      properties:
+                        effect:
+                          type: string
+                        key:
+                          type: string
+                        value:
+                          type: string
+                      required:
+                      - effect
+                      - key
+                      - value
+                      type: object
+                    type: array
+                  userData:
+                    description: A base64 encoded string containing the user data
+                      to apply to nodes in the node pool.
                     type: string
                 type: object
               managementPolicy:
@@ -320,6 +347,11 @@ spec:
                     description: The label to be used as a prefix for nodes in this
                       node pool.
                     type: string
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: A map of key/value pairs for Kubernetes node labels.
+                    type: object
                   maxNodes:
                     description: The maximum number of nodes to use with the auto
                       scaler.
@@ -361,6 +393,24 @@ spec:
                     type: string
                   tag:
                     description: A tag that is assigned to this node pool.
+                    type: string
+                  taints:
+                    description: Taints to apply to the nodes in the node pool. Should
+                      contain key, value and effect.  The effect should be one of
+                      NoSchedule, PreferNoSchedule or NoExecute.
+                    items:
+                      properties:
+                        effect:
+                          type: string
+                        key:
+                          type: string
+                        value:
+                          type: string
+                      type: object
+                    type: array
+                  userData:
+                    description: A base64 encoded string containing the user data
+                      to apply to nodes in the node pool.
                     type: string
                 type: object
               conditions:

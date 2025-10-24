@@ -69,10 +69,26 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  backupHour:
+                    description: The preferred hour of the day (UTC) for daily backups
+                      to take place (unavailable for Kafka engine types).
+                    type: string
+                  backupMinute:
+                    description: The preferred minute of the backup hour for daily
+                      backups to take place (unavailable for Kafka engine types).
+                    type: string
                   databaseId:
                     description: The managed database ID you want to attach this replica
                       to.
                     type: string
+                  evictionPolicy:
+                    description: The configuration value for the data eviction policy
+                      on the managed database read replica (Valkey engine types only).
+                    type: string
+                  ferretdbCredentials:
+                    additionalProperties:
+                      type: string
+                    type: object
                   label:
                     description: A label for the managed database read replica.
                     type: string
@@ -100,9 +116,9 @@ spec:
                     description: The description of the disk(s) on the managed database
                       read replica.
                     type: number
-                  redisEvictionPolicy:
-                    description: The configuration value for the data eviction policy
-                      on the managed database read replica (Redis engine types only).
+                  publicHost:
+                    description: The public hostname assigned to the managed database
+                      read replica (VPC-attached only).
                     type: string
                   region:
                     description: The ID of the region that the managed database read
@@ -316,6 +332,14 @@ spec:
             properties:
               atProvider:
                 properties:
+                  backupHour:
+                    description: The preferred hour of the day (UTC) for daily backups
+                      to take place (unavailable for Kafka engine types).
+                    type: string
+                  backupMinute:
+                    description: The preferred minute of the backup hour for daily
+                      backups to take place (unavailable for Kafka engine types).
+                    type: string
                   clusterTimeZone:
                     description: The configured time zone for the managed database
                       read replica in TZ database format.
@@ -340,6 +364,14 @@ spec:
                     description: The managed database read replica's default logical
                       database.
                     type: string
+                  evictionPolicy:
+                    description: The configuration value for the data eviction policy
+                      on the managed database read replica (Valkey engine types only).
+                    type: string
+                  ferretdbCredentials:
+                    additionalProperties:
+                      type: string
+                    type: object
                   host:
                     description: The hostname assigned to the managed database read
                       replica.
@@ -409,9 +441,9 @@ spec:
                     description: The connection port for the managed database read
                       replica.
                     type: string
-                  redisEvictionPolicy:
-                    description: The configuration value for the data eviction policy
-                      on the managed database read replica (Redis engine types only).
+                  publicHost:
+                    description: The public hostname assigned to the managed database
+                      read replica (VPC-attached only).
                     type: string
                   region:
                     description: The ID of the region that the managed database read
@@ -419,7 +451,7 @@ spec:
                     type: string
                   status:
                     description: The current status of the managed database read replica
-                      (poweroff, rebuilding, rebalancing, running).
+                      (poweroff, rebuilding, rebalancing, configuring, running).
                     type: string
                   tag:
                     description: The tag to assign to the managed database read replica.
@@ -435,7 +467,8 @@ spec:
                       replica.
                     type: string
                   vpcId:
-                    description: The ID of the managed database read replica.
+                    description: The ID of the VPC Network attached to the managed
+                      database read replica.
                     type: string
                 type: object
               conditions:

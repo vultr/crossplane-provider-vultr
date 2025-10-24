@@ -12,7 +12,7 @@ spec:
     databaseId: ${vultr_database.my_database.id}
     mode: transaction
     name: my_database_connection_pool_name
-    size: "3"
+    size: 3
     username: vultradmin
 
 ---

@@ -31,6 +31,7 @@ resources:
         argumentDocs:
             activation_email: '- (Optional) Whether an activation email will be sent when the server is ready.'
             app_id: '- (Optional) The ID of the Vultr application to be installed on the server. See List Applications'
+            app_variables: '- (Optional) A map of user-supplied variable keys and values for Vultr Marketplace apps. See List Marketplace App Variables'
             cpu_count: '- The number of CPUs available on the server.'
             date_created: '- The date the server was added to your Vultr account.'
             default_password: '- The server''s default password.'
@@ -57,10 +58,12 @@ resources:
             tag: '- (Deprecated: use tags instead) (Optional) The tag to assign to the server.'
             tags: '- (Optional) A list of tags to apply to the servier.'
             user_data: '- (Optional) Generic data store, which some provisioning tools and cloud operating systems use as a configuration file. It is generally consumed only once after an instance has been launched, but individual needs may vary.'
+            user_scheme: '- (Optional) The scheme used for the default user. Possible values are root or limited (linux servers only).'
             v6_main_ip: '- The main IPv6 network address.'
             v6_network: '- The IPv6 subnet.'
             v6_network_size: '- The IPv6 network size in bits.'
-            vpc2_ids: '- (Optional) A list of VPC 2.0 IDs to be attached to the server.'
+            vpc_id: '- (Optional) The VPC ID to use when creating the server.'
+            vpc2_ids: '- (Deprecated) A list of VPC 2.0 IDs to be attached to the server.'
         importStatements: []
     vultr_block_storage:
         subCategory: ""
@@ -94,6 +97,36 @@ resources:
             size_gb: '- The size of the given block storage.'
             status: '- Current status of your block storage.'
         importStatements: []
+    vultr_container_registry:
+        subCategory: ""
+        description: Provides a Vultr container registry resource. This can be used to create, read, modify, and delete registries on your Vultr account.
+        name: vultr_container_registry
+        title: vultr_container_registry
+        examples:
+            - name: vcr1
+              manifest: |-
+                {
+                  "name": "examplecontainerregistry",
+                  "plan": "start_up",
+                  "public": false,
+                  "region": "sjc"
+                }
+        argumentDocs:
+            allowed: '- Amount of storage space available in gigabytes.'
+            date_created: '- A date-time denoting when the container registry was created.'
+            date_modified: '- A date-time of when the root user was last modified.'
+            id: '- The container registry ID.'
+            name: '- (Required) The name for your container registry.  Must be lowercase and only alphanumeric characters.'
+            password: '- The password used to login as the root user.'
+            plan: '- (Required) The billing plan for the container registry. See available plans'
+            public: '- (Required) Boolean indicating if the container registry should be created with public visibility or if it should require credentials.'
+            region: '- (Required) The region where your container registry will be deployed. See available regions'
+            root_user: '- The user associated with the container registry.'
+            storage: '- A listing of current storage usage relevant to the container registry.'
+            urn: '- The URN of the container registry.'
+            used: '- Amount of storage space used in gigabytes.'
+            username: '- The username used to login as the root user.'
+        importStatements: []
     vultr_database:
         subCategory: ""
         description: Provides a Vultr database resource. This can be used to create, read, modify, and delete managed databases on your Vultr account.
@@ -123,13 +156,24 @@ resources:
                   "tag": "some tag"
                 }
         argumentDocs:
+            access_cert: '- The certificate to authenticate the default user (Kafka engine types only).'
+            access_key: '- The private key to authenticate the default user (Kafka engine types only).'
+            backhour_hour: '- (Optional) The preferred hour of the day (UTC) for daily backups to take place (unavailable for Kafka engine types).'
+            backhour_minute: '- (Optional) The preferred minute of the backup hour for daily backups to take place (unavailable for Kafka engine types).'
+            backup_hour: '- The preferred hour of the day (UTC) for daily backups to take place (unavailable for Kafka engine types).'
+            backup_minute: '- The preferred minute of the backup hour for daily backups to take place (unavailable for Kafka engine types).'
             cluster_time_zone: '- (Optional) The configured time zone for the Managed Database in TZ database format (e.g. UTC, America/New_York, Europe/London).'
             database_engine: '- (Required) The database engine of the new managed database.'
             database_engine_version: '- (Required) The database engine version of the new managed database.'
             date_created: '- The date the managed database was added to your Vultr account.'
             dbname: '- The managed database''s default logical database.'
+            enable_kafka_connect: '- (Optional) The configuration value for Kafka Connect support (Kafka engine types only).'
+            enable_kafka_rest: '- (Optional) The configuration value for Kafka REST support (Kafka engine types only).'
+            enable_schema_registry: '- (Optional) The configuration value for Schema Registry support (Kafka engine types only).'
+            eviction_policy: '- (Optional) The configuration value for the data eviction policy on the managed database (Valkey engine types only - noeviction, allkeys-lru, volatile-lru, allkeys-random, volatile-random, volatile-ttl, volatile-lfu, allkeys-lfu).'
             host: '- The hostname assigned to the managed database.'
             id: '- The ID of the managed database.'
+            kafka_rest_uri: '- The URI to access the RESTful interface of your Kafka cluster if Kafka REST is enabled (Kafka engine types only).'
             label: '- (Required) A label for the managed database.'
             latest_backup: '- The date of the latest backup available on the managed database.'
             maintenance_dow: '- (Optional) The preferred maintenance day of week for the managed database.'
@@ -140,18 +184,22 @@ resources:
             mysql_sql_modes: '- (Optional) A list of SQL modes to configure for the managed database (MySQL engine types only - ALLOW_INVALID_DATES, ANSI, ANSI_QUOTES, ERROR_FOR_DIVISION_BY_ZERO, HIGH_NOT_PRECEDENCE, IGNORE_SPACE, NO_AUTO_VALUE_ON_ZERO, NO_DIR_IN_CREATE, NO_ENGINE_SUBSTITUTION, NO_UNSIGNED_SUBTRACTION, NO_ZERO_DATE, NO_ZERO_IN_DATE, ONLY_FULL_GROUP_BY, PIPES_AS_CONCAT, REAL_AS_FLOAT, STRICT_ALL_TABLES, STRICT_TRANS_TABLES, TIME_TRUNCATE_FRACTIONAL, TRADITIONAL).'
             password: '- The password for the managed database''s primary admin user.'
             plan: '- (Required) The ID of the plan that you want the managed database to subscribe to. See List Managed Database Plans'
+            plan_brokers: '- The number of brokers available on the managed database (Kafka engine types only).'
             plan_disk: '- The description of the disk(s) on the managed database.'
             plan_ram: '- The amount of memory available on the managed database in MB.'
-            plan_replicas: '- The number of standby nodes available on the managed database.'
+            plan_replicas: '- The number of standby nodes available on the managed database (excluded for Kafka engine types).'
             plan_vcpus: '- The number of virtual CPUs available on the managed database.'
             port: '- The connection port for the managed database.'
+            public_host: '- The public hostname assigned to the managed database (VPC-attached only).'
             read_replicas: '- A list of read replicas attached to the managed database.'
-            redis_eviction_policy: '- (Optional) The configuration value for the data eviction policy on the managed database (Redis engine types only - noeviction, allkeys-lru, volatile-lru, allkeys-random, volatile-random, volatile-ttl, volatile-lfu, allkeys-lfu).'
             region: '- (Required) The ID of the region that the managed database is to be created in. See List Regions'
-            status: '- The current status of the managed database (poweroff, rebuilding, rebalancing, running).'
+            sasl_port: '- The SASL connection port for the managed database (Kafka engine types only).'
+            schema_registry_uri: '- The URI to access the Schema Registry service of your Kafka cluster if Schema Registry is enabled (Kafka engine types only).'
+            status: '- The current status of the managed database (poweroff, rebuilding, rebalancing, configuring, running).'
             tag: '- (Optional) The tag to assign to the managed database.'
             trusted_ips: '- (Optional) A list of allowed IP addresses for the managed database.'
             user: '- The primary admin user for the managed database.'
+            vpc_id: '- (Optional) The ID of the VPC Network to attach to the Managed Database.'
         importStatements: []
     vultr_database_connection_pool:
         subCategory: ""
@@ -166,7 +214,7 @@ resources:
                   "database_id": "${vultr_database.my_database.id}",
                   "mode": "transaction",
                   "name": "my_database_connection_pool_name",
-                  "size": "3",
+                  "size": 3,
                   "username": "vultradmin"
                 }
               references:
@@ -178,6 +226,30 @@ resources:
             name: '- (Required) The name of the new managed database connection pool.'
             size: '- (Required) The size of the new managed database connection pool.'
             username: '- (Required) The database user to use for the new managed database connection pool.'
+        importStatements: []
+    vultr_database_connector:
+        subCategory: ""
+        description: Provides a Vultr database connector resource. This can be used to create, read, modify, and delete connectors for a managed database on your Vultr account.
+        name: vultr_database_connector
+        title: vultr_database_connector
+        examples:
+            - name: my_database_connector
+              manifest: |-
+                {
+                  "class": "com.couchbase.connect.kafka.CouchbaseSinkConnector",
+                  "config": "${jsonencode({\n\t\t\"couchbase.seed.nodes\" = \"3\"\n\t\t\"couchbase.username\" = \"some_username\"\n\t\t\"couchbase.password\" = \"some_password\"\n\t})}",
+                  "database_id": "${vultr_database.my_database.id}",
+                  "name": "my_database_connector",
+                  "topics": "my_database_topic"
+                }
+              references:
+                database_id: vultr_database.my_database.id
+        argumentDocs:
+            class: '- (Required) The class for the new managed database connector.'
+            config: '- (Optional) A JSON string containing the configuration properties you wish to use with the new managed database connector.'
+            database_id: '- (Required) The managed database ID you want to attach this connector to.'
+            name: '- (Required) The name for the new managed database connector.'
+            topics: '- (Required) A comma-separated list of topics to use with the new managed database connector.'
         importStatements: []
     vultr_database_db:
         subCategory: ""
@@ -197,6 +269,32 @@ resources:
             database_id: '- (Required) The managed database ID you want to attach this logical DB to.'
             name: '- (Required) The name of the new managed database logical DB.'
         importStatements: []
+    vultr_database_quota:
+        subCategory: ""
+        description: Provides a Vultr database quota resource. This can be used to create, read, and delete quotas for a managed database on your Vultr account.
+        name: vultr_database_quota
+        title: vultr_database_quota
+        examples:
+            - name: my_database_quota
+              manifest: |-
+                {
+                  "client_id": "my_database_quota",
+                  "consumer_byte_rate": "3",
+                  "database_id": "${vultr_database.my_database.id}",
+                  "producer_byte_rate": "2",
+                  "request_percentage": "120",
+                  "user": "my_database_user"
+                }
+              references:
+                database_id: vultr_database.my_database.id
+        argumentDocs:
+            client_id: '- (Required) The client ID for the new database quota.'
+            consumer_byte_rate: '- (Required) The consumer byte rate for the new managed database quota.'
+            database_id: '- (Required) The managed database ID you want to attach this quota to.'
+            producer_byte_rate: '- (Required) The producer byte rate for the new managed database quota.'
+            request_percentage: '- (Required) The CPU request percentage for the new managed database quota.'
+            user: '- (Required) The user for the new managed database quota.'
+        importStatements: []
     vultr_database_replica:
         subCategory: ""
         description: Provides a Vultr database replica resource. This can be used to create, read, modify, and delete managed database read replicas on your Vultr account.
@@ -214,12 +312,15 @@ resources:
               references:
                 database_id: vultr_database.my_database.id
         argumentDocs:
+            backup_hour: '- The preferred hour of the day (UTC) for daily backups to take place (unavailable for Kafka engine types).'
+            backup_minute: '- The preferred minute of the backup hour for daily backups to take place (unavailable for Kafka engine types).'
             cluster_time_zone: '- The configured time zone for the managed database read replica in TZ database format.'
             database_engine: '- The database engine of the managed database read replica.'
             database_engine_version: '- The database engine version of the managed database read replica.'
             database_id: '- (Required) The managed database ID you want to attach this replica to.'
             date_created: '- The date the managed database read replica was added to your Vultr account.'
             dbname: '- The managed database read replica''s default logical database.'
+            eviction_policy: '- The configuration value for the data eviction policy on the managed database read replica (Valkey engine types only).'
             host: '- The hostname assigned to the managed database read replica.'
             id: '- The ID of the managed database read replica.'
             label: '- (Required) A label for the managed database read replica.'
@@ -237,12 +338,39 @@ resources:
             plan_replicas: '- The number of standby nodes available on the managed database read replica.'
             plan_vcpus: '- The number of virtual CPUs available on the managed database read replica.'
             port: '- The connection port for the managed database read replica.'
-            redis_eviction_policy: '- The configuration value for the data eviction policy on the managed database read replica (Redis engine types only).'
+            public_host: '- The public hostname assigned to the managed database read replica (VPC-attached only).'
             region: '- (Required) The ID of the region that the managed database read replica is to be created in. See List Regions'
-            status: '- The current status of the managed database read replica (poweroff, rebuilding, rebalancing, running).'
+            status: '- The current status of the managed database read replica (poweroff, rebuilding, rebalancing, configuring, running).'
             tag: '- (Optional) The tag to assign to the managed database read replica.'
             trusted_ips: '- A list of allowed IP addresses for the managed database read replica.'
             user: '- The primary admin user for the managed database read replica.'
+            vpc_id: '- The ID of the VPC Network attached to the managed database read replica.'
+        importStatements: []
+    vultr_database_topic:
+        subCategory: ""
+        description: Provides a Vultr database topic resource. This can be used to create, read, modify, and delete topics for a managed database on your Vultr account.
+        name: vultr_database_topic
+        title: vultr_database_topic
+        examples:
+            - name: my_database_topic
+              manifest: |-
+                {
+                  "database_id": "${vultr_database.my_database.id}",
+                  "name": "my_database_topic",
+                  "partitions": "3",
+                  "replication": "2",
+                  "retention_bytes": "-1",
+                  "retention_hours": "120"
+                }
+              references:
+                database_id: vultr_database.my_database.id
+        argumentDocs:
+            database_id: '- (Required) The managed database ID you want to attach this topic to.'
+            name: '- (Required) The name for the new managed database topic.'
+            partitions: '- (Required) The number of partitions for the new managed database topic.'
+            replication: '- (Required) The replication factor for the new managed database topic.'
+            retention_bytes: '- (Required) The retention bytes for the new managed database topic.'
+            retention_hours: '- (Required) The retention hours for the new managed database topic.'
         importStatements: []
     vultr_database_user:
         subCategory: ""
@@ -260,9 +388,14 @@ resources:
               references:
                 database_id: vultr_database.my_database.id
         argumentDocs:
+            acl_categories: '- (Required) The list of command category rules for this managed database user.'
+            acl_channels: '- (Required) The list of publish/subscribe channel patterns for this managed database user.'
+            acl_commands: '- (Required) The list of individual command rules for this managed database user.'
+            acl_keys: '- (Required) The list of access rules for this managed database user.'
             database_id: '- (Required) The managed database ID you want to attach this user to.'
             encryption: '- (Optional) The encryption type of the new managed database user''s password (MySQL engine types only - caching_sha2_password, mysql_native_password).'
             password: '- (Required) The password of the new managed database user.'
+            permission: '- (Optional) The permission level for the database user (Kafka engine types only - admin, read, write, readwrite).'
             username: '- (Required) The username of the new managed database user.'
         importStatements: []
     vultr_dns_domain:
@@ -369,6 +502,23 @@ resources:
             subnet: '- (Required) IP address that you want to define for this firewall rule.'
             subnet_size: '- (Required) The number of bits for the subnet in CIDR notation. Example: 32.'
         importStatements: []
+    vultr_inference:
+        subCategory: ""
+        description: Provides a Vultr Serverless Inference resource. This can be used to create, read, modify, and delete inference subscriptions on your Vultr account.
+        name: vultr_inference
+        title: vultr_inference
+        examples:
+            - name: my_inference_subscription
+              manifest: |-
+                {
+                  "label": "my_inference_label"
+                }
+        argumentDocs:
+            api_key: '- The inference subscription''s API key for accessing the Vultr Inference API.'
+            date_created: '- The date the inference subscription was added to your Vultr account.'
+            id: '- The ID of the inference subscription.'
+            label: '- (Required) A label for the inference subscription.'
+        importStatements: []
     vultr_instance:
         subCategory: ""
         description: Provides a Vultr instance resource. This can be used to create, read, modify, and delete instances on your Vultr account.
@@ -379,7 +529,7 @@ resources:
               manifest: |-
                 {
                   "os_id": 1743,
-                  "plan": "vc2-1c-1gb",
+                  "plan": "vc2-1c-2gb",
                   "region": "sea"
                 }
             - name: my_instance
@@ -393,11 +543,12 @@ resources:
                     }
                   ],
                   "ddos_protection": true,
+                  "disable_public_ipv4": true,
                   "enable_ipv6": true,
                   "hostname": "my-instance-hostname",
                   "label": "my-instance-label",
                   "os_id": 1743,
-                  "plan": "vc2-1c-1gb",
+                  "plan": "vc2-1c-2gb",
                   "region": "sea",
                   "tags": [
                     "my-instance-tag"
@@ -407,11 +558,13 @@ resources:
             activation_email: '- (Optional) Whether an activation email will be sent when the server is ready.'
             allowed_bandwidth: '- The server''s allowed bandwidth usage in GB.'
             app_id: '- (Optional) The ID of the Vultr application to be installed on the server. See List Applications'
+            app_variables: '- (Optional) A map of user-supplied variable keys and values for Vultr Marketplace apps. See List Marketplace App Variables'
             backups: '- (Optional) Whether automatic backups will be enabled for this server (these have an extra charge associated with them). Values can be enabled or disabled.'
             backups_schedule: '- (Optional) A block that defines the way backups should be scheduled. While this is an optional field if backups are enabled this field is mandatory. The configuration of a backups_schedule is listed below.'
             date_created: '- The date the server was added to your Vultr account.'
             ddos_protection: '- (Optional) Whether DDOS protection will be enabled on the server (there is an additional charge for this).'
             default_password: '- The server''s default password.'
+            disable_public_ipv4: '- (Optional) Whether the server has a public IPv4 address assigned (only possible with enable_ipv6 set to true)'
             disk: '- The description of the disk(s) on the server.'
             dom: '- (Optional) Day of month to run. Use values between 1 and 28.'
             dow: '- (Optional) Day of week to run. 1 = Sunday, 2 = Monday, 3 = Tuesday, 4 = Wednesday, 5 = Thursday, 6 = Friday, 7 = Saturday'
@@ -424,6 +577,7 @@ resources:
             id: '- ID of the server.'
             image_id: '- (Optional) The ID of the Vultr marketplace application to be installed on the server. See List Applications Note marketplace applications are denoted by type: marketplace and you must use the image_id not the id.'
             internal_ip: '- The server''s internal IP address.'
+            ipxe_chain_url: '- (Optional) The URL location of the iPXE chainloader.'
             iso_id: '- (Optional) The ID of the ISO file to be installed on the server. See List ISO'
             kvm: '- The server''s current KVM URL. This URL will change periodically. It is not advised to cache this value.'
             label: '- (Optional) A label for the server.'
@@ -446,12 +600,13 @@ resources:
             tags: '- (Optional) A list of tags to apply to the instance.'
             type: '- Type of backup schedule Possible values are daily, weekly, monthly, daily_alt_even, or daily_alt_odd.'
             user_data: '- (Optional) Generic data store, which some provisioning tools and cloud operating systems use as a configuration file. It is generally consumed only once after an instance has been launched, but individual needs may vary.'
+            user_scheme: '- (Optional) The scheme used for the default user. Possible values are root or limited (linux servers only).'
             v6_main_ip: '- The main IPv6 network address.'
             v6_network: '- The IPv6 subnet.'
             v6_network_size: '- The IPv6 network size in bits.'
             vcpu_count: '- The number of virtual CPUs available on the server.'
             vpc_ids: '- (Optional) A list of VPC IDs to be attached to the server.'
-            vpc2_ids: '- (Optional) A list of VPC 2.0 IDs to be attached to the server.'
+            vpc2_ids: '- (Deprecated) A list of VPC 2.0 IDs to be attached to the server.'
         importStatements: []
     vultr_instance_ipv4:
         subCategory: ""
@@ -517,10 +672,21 @@ resources:
                     {
                       "auto_scaler": true,
                       "label": "vke-nodepool",
+                      "labels": {
+                        "my-label": "a-label-on-all-nodes",
+                        "my-second-label": "another-label-on-all-nodes"
+                      },
                       "max_nodes": 2,
                       "min_nodes": 1,
                       "node_quantity": 1,
-                      "plan": "vc2-1c-2gb"
+                      "plan": "vc2-1c-2gb",
+                      "taints": [
+                        {
+                          "effect": "NoExecute",
+                          "key": "a-taint",
+                          "value": "is-tainted"
+                        }
+                      ]
                     }
                   ],
                   "region": "ewr",
@@ -552,11 +718,15 @@ resources:
             cluster_subnet: '- IP range that your pods will run on in this cluster.'
             date_created: '- Date of VKE cluster creation.'
             date_updated: '- Date of node pool updates.'
+            enable_firewall: '- (Optional, Default to False) Boolean indicating if the cluster should be created with a managed firewall.'
             endpoint: '- Domain for your Kubernetes clusters control plane.'
+            firewall_group_id: '- The ID of the firewall group managed by this cluster.'
+            ha_controlplanes: '- (Optional, Default to False) Boolean indicating if the cluster should be created with multiple, highly available controlplanes.'
             id: '- The VKE cluster ID.'
             ip: '- IP address of VKE cluster control plane.'
             kube_config: '- Base64 encoded Kubeconfig for this VKE cluster.'
             label: '- (Optional) The VKE clusters label.'
+            labels: '- (Optional) A map of key/value pairs for Kubernetes node labels.'
             max_nodes: '- (Optional) The maximum number of nodes to use with the auto scaler.'
             min_nodes: '- (Optional) The minimum number of nodes to use with the auto scaler.'
             node_pools: '- Contains the default node pool that was deployed.'
@@ -567,7 +737,9 @@ resources:
             service_subnet: '- IP range that services will run on this cluster.'
             status: '- The overall status of the cluster.'
             tag: '- Tag for node pool.'
+            taints: '- (Optional) Taints to apply to the nodes in the node pool. Should contain key, value and effect.  The effect should be one of NoSchedule, PreferNoSchedule or NoExecute.'
             version: '- (Required) The version your VKE cluster you want deployed. See Available Version'
+            vpc_id: '- (Optional) The ID of the VPC to use when creating the cluster. If not provided a new VPC will be created instead.'
         importStatements: []
     vultr_kubernetes_node_pools:
         subCategory: ""
@@ -581,11 +753,28 @@ resources:
                   "auto_scaler": true,
                   "cluster_id": "${vultr_kubernetes.k8.id}",
                   "label": "my-label",
+                  "labels": {
+                    "my-label": "a-label-on-all-nodes",
+                    "my-second-label": "another-label-on-all-nodes"
+                  },
                   "max_nodes": 2,
                   "min_nodes": 1,
                   "node_quantity": 1,
-                  "plan": "vc2-2c-4gb",
-                  "tag": "my-tag"
+                  "plan": "vc2-4c-8gb",
+                  "tag": "my-tag",
+                  "taints": [
+                    {
+                      "effect": "NoExecute",
+                      "key": "a-taint",
+                      "value": "is-tainted"
+                    },
+                    {
+                      "effect": "NoSchedule",
+                      "key": "another-taint",
+                      "value": "is-tainted"
+                    }
+                  ],
+                  "user_data": "${base64encode(\"This will be added to node user data\")}"
                 }
               references:
                 cluster_id: vultr_kubernetes.k8.id
@@ -596,6 +785,7 @@ resources:
             date_updated: '- Date of node pool updates.'
             id: '- The Nodepool ID.'
             label: '- (Required) The label to be used as a prefix for nodes in this node pool.'
+            labels: '- (Optional) A map of key/value pairs for Kubernetes node labels.'
             max_nodes: '- (Optional) The maximum number of nodes to use with the auto scaler.'
             min_nodes: '- (Optional) The minimum number of nodes to use with the auto scaler.'
             node_quantity: '- (Required) The number of nodes in this node pool.'
@@ -603,6 +793,8 @@ resources:
             plan: '- (Required) The plan to be used in this node pool. See Plans List Note the minimum plan requirements must have at least 1 core and 2 gbs of memory.'
             status: '- Status of node pool.'
             tag: '- (Optional) A tag that is assigned to this node pool.'
+            taints: '- (Optional) Taints to apply to the nodes in the node pool. Should contain key, value and effect.  The effect should be one of NoSchedule, PreferNoSchedule or NoExecute.'
+            user_data: '- (Optional) A base64 encoded string containing the user data to apply to nodes in the node pool.'
         importStatements: []
     vultr_load_balancer:
         subCategory: ""
@@ -627,7 +819,7 @@ resources:
                       "check_interval": 3,
                       "healthy_threshold": 4,
                       "path": "/test",
-                      "port": "8080",
+                      "port": 8080,
                       "protocol": "http",
                       "response_timeout": 1,
                       "unhealthy_threshold": 2
@@ -681,48 +873,22 @@ resources:
             - name: tf
               manifest: |-
                 {
-                  "cluster_id": 2,
-                  "label": "vultr-object-storage"
+                  "cluster_id": 9,
+                  "label": "vultr-object-storage",
+                  "tier_id": 4
                 }
         argumentDocs:
-            cluster_id: '- (Required) The region ID that you want the network to be created in.'
+            cluster_id: '- (Required) The ID of the region that you want the object storage to be deployed in.'
             date_created: '- Date of creation for the object storage subscription.'
             id: '- The id of the object storage subscription.'
-            label: '- (Optional) The description you want to give your network.'
+            label: '- (Optional) The description you want to give your object storage.'
             location: '- The location which this subscription resides in.'
             region: '- The region ID of the object storage subscription.'
             s3_access_key: '- Your access key.'
             s3_hostname: '- The hostname for this subscription.'
             s3_secret_key: '- Your secret key.'
             status: '- Current status of this object storage subscription.'
-        importStatements: []
-    vultr_private_network:
-        subCategory: ""
-        description: Provides a Vultr private network resource. This can be used to create, read, and delete private networks on your Vultr account.
-        name: vultr_private_network
-        title: vultr_private_network
-        examples:
-            - name: my_network
-              manifest: |-
-                {
-                  "description": "my private network",
-                  "region": "ewr"
-                }
-            - name: my_network
-              manifest: |-
-                {
-                  "description": "my private network",
-                  "region": "ewr",
-                  "v4_subnet": "10.0.0.0",
-                  "v4_subnet_mask": 24
-                }
-        argumentDocs:
-            date_created: '- The date that the network was added to your Vultr account.'
-            description: '- (Optional) The description you want to give your network.'
-            id: '- ID of the network.'
-            region: '- (Required) The region ID that you want the network to be created in.'
-            v4_subnet: '- (Optional) The IPv4 subnet to be used when attaching instances to this network.'
-            v4_subnet_mask: '- The number of bits for the netmask in CIDR notation. Example: 32'
+            tier_id: '- (Required) The ID of the tier to deploy the storage under.'
         importStatements: []
     vultr_reserved_ip:
         subCategory: ""
@@ -771,8 +937,8 @@ resources:
                 vultr_instance.my_instance: |-
                     {
                       "enable_ipv6": true,
-                      "os_id": 167,
-                      "plan": "vc2-1c-1gb",
+                      "os_id": 477,
+                      "plan": "vc2-1c-2gb",
                       "region": "ewr"
                     }
         argumentDocs:
@@ -834,6 +1000,19 @@ resources:
                       "plan": 201,
                       "region": "ewr"
                     }
+            - name: sn
+              manifest: |-
+                {
+                  "description": "terraform timeout test",
+                  "instance_id": "${resource.vultr_instance.test-inst.id}",
+                  "timeouts": [
+                    {
+                      "create": "60m"
+                    }
+                  ]
+                }
+              references:
+                instance_id: resource.vultr_instance.test-inst.id
         argumentDocs:
             app_id: '- The app id which the snapshot is associated with.'
             date_created: '- The date the snapshot was created.'
@@ -843,6 +1022,7 @@ resources:
             os_id: '- The os id which the snapshot is associated with.'
             size: '- The size of the snapshot in Bytes.'
             status: '- The status for the given snapshot.'
+            timeouts.timeouts: '- (Optional) The create timeout value can be manually set'
         importStatements: []
     vultr_snapshot_from_url:
         subCategory: ""
@@ -853,7 +1033,8 @@ resources:
             - name: my_snapshot
               manifest: |-
                 {
-                  "url": "http://dl-cdn.alpinelinux.org/alpine/v3.9/releases/x86_64/alpine-virt-3.9.1-x86_64.iso"
+                  "url": "http://dl-cdn.alpinelinux.org/alpine/v3.9/releases/x86_64/alpine-virt-3.9.1-x86_64.iso",
+                  "use_uefi": true
                 }
         argumentDocs:
             app_id: '- The app id which the snapshot is associated with.'
@@ -864,6 +1045,7 @@ resources:
             size: '- The size of the snapshot in Bytes.'
             status: '- The status for the given snapshot.'
             url: '- (Required) URL of the given resource you want to create a snapshot from.'
+            use_uefi: '- (Optional) Whether or not to use UEFI when creating the snapshot.'
         importStatements: []
     vultr_ssh_key:
         subCategory: ""
@@ -942,6 +1124,36 @@ resources:
             id: '- ID associated with the user.'
             name: '- (Required) Name for this user.'
             password: '- (Required) Password for this user.'
+        importStatements: []
+    vultr_virtual_file_system_storage:
+        subCategory: ""
+        description: Provides a Vultr virtual file system storage resource. This can be used to create, read, modify and delete a virtual file system storage.
+        name: vultr_virtual_file_system_storage
+        title: vultr_virtual_file_system_storage
+        examples:
+            - name: my_vfs_storage
+              manifest: |-
+                {
+                  "label": "vultr-vfs-storage",
+                  "region": "ewr",
+                  "size_gb": 10,
+                  "tags": [
+                    "terraform",
+                    "important"
+                  ]
+                }
+        argumentDocs:
+            attached_instances: '- (Optional) A list of UUIDs to attach to the virtual file system storage subscription.'
+            attachments: '- A list of attchment states for instances currently attached to the virtual file system storage.'
+            charges: '- The current pending charges for the virtual file system storage subscription in USD.'
+            cost: '- The cost per month of the virtual file system storage subscription in USD.'
+            date_created: '- The date the virtual file system storage subscription was added to your Vultr account.'
+            disk_type: '- (Optional) The underlying disk type to use for the virtual file system storage.  Default is nvme.'
+            label: '- (Required) The label to give to the virtual file system storage subscription.'
+            region: '- (Required) The region in which this virtual file system storage will reside.'
+            size_gb: '- (Required) The size of the given virtual file system storage subscription.'
+            status: '- The status of the virtual file system storage subscription.'
+            tags: '- (Optional) A list of tags to be used on the virtual file system storage subscription.'
         importStatements: []
     vultr_vpc:
         subCategory: ""

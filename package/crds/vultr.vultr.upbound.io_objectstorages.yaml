@@ -70,12 +70,15 @@ spec:
               forProvider:
                 properties:
                   clusterId:
-                    description: The region ID that you want the network to be created
-                      in.
+                    description: The ID of the region that you want the object storage
+                      to be deployed in.
                     type: number
                   label:
-                    description: The description you want to give your network.
+                    description: The description you want to give your object storage.
                     type: string
+                  tierId:
+                    description: The ID of the tier to deploy the storage under.
+                    type: number
                 type: object
               managementPolicy:
                 default: FullControl
@@ -266,14 +269,16 @@ spec:
             x-kubernetes-validations:
             - message: clusterId is a required parameter
               rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.clusterId)
+            - message: tierId is a required parameter
+              rule: self.managementPolicy == 'ObserveOnly' || has(self.forProvider.tierId)
           status:
             description: ObjectStorageStatus defines the observed state of ObjectStorage.
             properties:
               atProvider:
                 properties:
                   clusterId:
-                    description: The region ID that you want the network to be created
-                      in.
+                    description: The ID of the region that you want the object storage
+                      to be deployed in.
                     type: number
                   dateCreated:
                     description: Date of creation for the object storage subscription.
@@ -282,7 +287,7 @@ spec:
                     description: The id of the object storage subscription.
                     type: string
                   label:
-                    description: The description you want to give your network.
+                    description: The description you want to give your object storage.
                     type: string
                   location:
                     description: The location which this subscription resides in.
@@ -296,6 +301,9 @@ spec:
                   status:
                     description: Current status of this object storage subscription.
                     type: string
+                  tierId:
+                    description: The ID of the tier to deploy the storage under.
+                    type: number
                 type: object
               conditions:
                 description: Conditions of the resource.

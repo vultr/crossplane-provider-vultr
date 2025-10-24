@@ -13,7 +13,46 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+type AccessControlObservation struct {
+
+	// The list of command category rules for this managed database user.
+	ACLCategories []*string `json:"aclCategories,omitempty" tf:"acl_categories,omitempty"`
+
+	// The list of publish/subscribe channel patterns for this managed database user.
+	ACLChannels []*string `json:"aclChannels,omitempty" tf:"acl_channels,omitempty"`
+
+	// The list of individual command rules for this managed database user.
+	ACLCommands []*string `json:"aclCommands,omitempty" tf:"acl_commands,omitempty"`
+
+	// The list of access rules for this managed database user.
+	ACLKeys []*string `json:"aclKeys,omitempty" tf:"acl_keys,omitempty"`
+}
+
+type AccessControlParameters struct {
+
+	// The list of command category rules for this managed database user.
+	// +kubebuilder:validation:Required
+	ACLCategories []*string `json:"aclCategories" tf:"acl_categories,omitempty"`
+
+	// The list of publish/subscribe channel patterns for this managed database user.
+	// +kubebuilder:validation:Required
+	ACLChannels []*string `json:"aclChannels" tf:"acl_channels,omitempty"`
+
+	// The list of individual command rules for this managed database user.
+	// +kubebuilder:validation:Required
+	ACLCommands []*string `json:"aclCommands" tf:"acl_commands,omitempty"`
+
+	// The list of access rules for this managed database user.
+	// +kubebuilder:validation:Required
+	ACLKeys []*string `json:"aclKeys" tf:"acl_keys,omitempty"`
+}
+
 type UserObservation struct {
+	AccessCert *string `json:"accessCert,omitempty" tf:"access_cert,omitempty"`
+
+	AccessControl []AccessControlObservation `json:"accessControl,omitempty" tf:"access_control,omitempty"`
+
+	AccessKey *string `json:"accessKey,omitempty" tf:"access_key,omitempty"`
 
 	// The managed database ID you want to attach this user to.
 	DatabaseID *string `json:"databaseId,omitempty" tf:"database_id,omitempty"`
@@ -26,11 +65,17 @@ type UserObservation struct {
 	// The password of the new managed database user.
 	Password *string `json:"password,omitempty" tf:"password,omitempty"`
 
+	// The permission level for the database user (Kafka engine types only - admin, read, write, readwrite).
+	Permission *string `json:"permission,omitempty" tf:"permission,omitempty"`
+
 	// The username of the new managed database user.
 	Username *string `json:"username,omitempty" tf:"username,omitempty"`
 }
 
 type UserParameters struct {
+
+	// +kubebuilder:validation:Optional
+	AccessControl []AccessControlParameters `json:"accessControl,omitempty" tf:"access_control,omitempty"`
 
 	// The managed database ID you want to attach this user to.
 	// +kubebuilder:validation:Optional
@@ -43,6 +88,10 @@ type UserParameters struct {
 	// The password of the new managed database user.
 	// +kubebuilder:validation:Optional
 	Password *string `json:"password,omitempty" tf:"password,omitempty"`
+
+	// The permission level for the database user (Kafka engine types only - admin, read, write, readwrite).
+	// +kubebuilder:validation:Optional
+	Permission *string `json:"permission,omitempty" tf:"permission,omitempty"`
 
 	// The username of the new managed database user.
 	// +kubebuilder:validation:Optional

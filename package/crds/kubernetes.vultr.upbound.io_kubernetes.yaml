@@ -69,6 +69,14 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  enableFirewall:
+                    description: Boolean indicating if the cluster should be created
+                      with a managed firewall.
+                    type: boolean
+                  haControlplanes:
+                    description: Boolean indicating if the cluster should be created
+                      with multiple, highly available controlplanes.
+                    type: boolean
                   label:
                     description: The VKE clusters label.
                     type: string
@@ -83,6 +91,12 @@ spec:
                         label:
                           description: The VKE clusters label.
                           type: string
+                        labels:
+                          additionalProperties:
+                            type: string
+                          description: A map of key/value pairs for Kubernetes node
+                            labels.
+                          type: object
                         maxNodes:
                           description: The maximum number of nodes to use with the
                             auto scaler.
@@ -99,6 +113,26 @@ spec:
                             Plans List Note the minimum plan requirements must have
                             at least 1 core and 2 gbs of memory.
                           type: string
+                        taints:
+                          description: Taints to apply to the nodes in the node pool.
+                            Should contain key, value and effect.  The effect should
+                            be one of NoSchedule, PreferNoSchedule or NoExecute.
+                          items:
+                            properties:
+                              effect:
+                                type: string
+                              key:
+                                type: string
+                              value:
+                                type: string
+                            required:
+                            - effect
+                            - key
+                            - value
+                            type: object
+                          type: array
+                        userData:
+                          type: string
                       required:
                       - label
                       - nodeQuantity
@@ -111,6 +145,10 @@ spec:
                   version:
                     description: The version your VKE cluster you want deployed. See
                       Available Version
+                    type: string
+                  vpcId:
+                    description: The ID of the VPC to use when creating the cluster.
+                      If not provided a new VPC will be created instead.
                     type: string
                 type: object
               managementPolicy:
@@ -317,9 +355,20 @@ spec:
                   dateCreated:
                     description: Date of VKE cluster creation.
                     type: string
+                  enableFirewall:
+                    description: Boolean indicating if the cluster should be created
+                      with a managed firewall.
+                    type: boolean
                   endpoint:
                     description: Domain for your Kubernetes clusters control plane.
                     type: string
+                  firewallGroupId:
+                    description: The ID of the firewall group managed by this cluster.
+                    type: string
+                  haControlplanes:
+                    description: Boolean indicating if the cluster should be created
+                      with multiple, highly available controlplanes.
+                    type: boolean
                   id:
                     description: The VKE cluster ID.
                     type: string
@@ -349,6 +398,12 @@ spec:
                         label:
                           description: The VKE clusters label.
                           type: string
+                        labels:
+                          additionalProperties:
+                            type: string
+                          description: A map of key/value pairs for Kubernetes node
+                            labels.
+                          type: object
                         maxNodes:
                           description: The maximum number of nodes to use with the
                             auto scaler.
@@ -390,6 +445,22 @@ spec:
                         tag:
                           description: Tag for node pool.
                           type: string
+                        taints:
+                          description: Taints to apply to the nodes in the node pool.
+                            Should contain key, value and effect.  The effect should
+                            be one of NoSchedule, PreferNoSchedule or NoExecute.
+                          items:
+                            properties:
+                              effect:
+                                type: string
+                              key:
+                                type: string
+                              value:
+                                type: string
+                            type: object
+                          type: array
+                        userData:
+                          type: string
                       type: object
                     type: array
                   region:
@@ -404,6 +475,10 @@ spec:
                   version:
                     description: The version your VKE cluster you want deployed. See
                       Available Version
+                    type: string
+                  vpcId:
+                    description: The ID of the VPC to use when creating the cluster.
+                      If not provided a new VPC will be created instead.
                     type: string
                 type: object
               conditions:

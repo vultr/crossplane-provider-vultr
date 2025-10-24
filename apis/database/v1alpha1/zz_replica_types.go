@@ -15,6 +15,12 @@ import (
 
 type ReplicaObservation struct {
 
+	// The preferred hour of the day (UTC) for daily backups to take place (unavailable for Kafka engine types).
+	BackupHour *string `json:"backupHour,omitempty" tf:"backup_hour,omitempty"`
+
+	// The preferred minute of the backup hour for daily backups to take place (unavailable for Kafka engine types).
+	BackupMinute *string `json:"backupMinute,omitempty" tf:"backup_minute,omitempty"`
+
 	// The configured time zone for the managed database read replica in TZ database format.
 	ClusterTimeZone *string `json:"clusterTimeZone,omitempty" tf:"cluster_time_zone,omitempty"`
 
@@ -32,6 +38,11 @@ type ReplicaObservation struct {
 
 	// The managed database read replica's default logical database.
 	Dbname *string `json:"dbname,omitempty" tf:"dbname,omitempty"`
+
+	// The configuration value for the data eviction policy on the managed database read replica (Valkey engine types only).
+	EvictionPolicy *string `json:"evictionPolicy,omitempty" tf:"eviction_policy,omitempty"`
+
+	FerretdbCredentials map[string]*string `json:"ferretdbCredentials,omitempty" tf:"ferretdb_credentials,omitempty"`
 
 	// The hostname assigned to the managed database read replica.
 	Host *string `json:"host,omitempty" tf:"host,omitempty"`
@@ -84,13 +95,13 @@ type ReplicaObservation struct {
 	// The connection port for the managed database read replica.
 	Port *string `json:"port,omitempty" tf:"port,omitempty"`
 
-	// The configuration value for the data eviction policy on the managed database read replica (Redis engine types only).
-	RedisEvictionPolicy *string `json:"redisEvictionPolicy,omitempty" tf:"redis_eviction_policy,omitempty"`
+	// The public hostname assigned to the managed database read replica (VPC-attached only).
+	PublicHost *string `json:"publicHost,omitempty" tf:"public_host,omitempty"`
 
 	// The ID of the region that the managed database read replica is to be created in. See List Regions
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
-	// The current status of the managed database read replica (poweroff, rebuilding, rebalancing, running).
+	// The current status of the managed database read replica (poweroff, rebuilding, rebalancing, configuring, running).
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`
 
 	// The tag to assign to the managed database read replica.
@@ -102,15 +113,30 @@ type ReplicaObservation struct {
 	// The primary admin user for the managed database read replica.
 	User *string `json:"user,omitempty" tf:"user,omitempty"`
 
-	// The ID of the managed database read replica.
+	// The ID of the VPC Network attached to the managed database read replica.
 	VPCID *string `json:"vpcId,omitempty" tf:"vpc_id,omitempty"`
 }
 
 type ReplicaParameters struct {
 
+	// The preferred hour of the day (UTC) for daily backups to take place (unavailable for Kafka engine types).
+	// +kubebuilder:validation:Optional
+	BackupHour *string `json:"backupHour,omitempty" tf:"backup_hour,omitempty"`
+
+	// The preferred minute of the backup hour for daily backups to take place (unavailable for Kafka engine types).
+	// +kubebuilder:validation:Optional
+	BackupMinute *string `json:"backupMinute,omitempty" tf:"backup_minute,omitempty"`
+
 	// The managed database ID you want to attach this replica to.
 	// +kubebuilder:validation:Optional
 	DatabaseID *string `json:"databaseId,omitempty" tf:"database_id,omitempty"`
+
+	// The configuration value for the data eviction policy on the managed database read replica (Valkey engine types only).
+	// +kubebuilder:validation:Optional
+	EvictionPolicy *string `json:"evictionPolicy,omitempty" tf:"eviction_policy,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	FerretdbCredentials map[string]*string `json:"ferretdbCredentials,omitempty" tf:"ferretdb_credentials,omitempty"`
 
 	// A label for the managed database read replica.
 	// +kubebuilder:validation:Optional
@@ -136,9 +162,9 @@ type ReplicaParameters struct {
 	// +kubebuilder:validation:Optional
 	PlanDisk *float64 `json:"planDisk,omitempty" tf:"plan_disk,omitempty"`
 
-	// The configuration value for the data eviction policy on the managed database read replica (Redis engine types only).
+	// The public hostname assigned to the managed database read replica (VPC-attached only).
 	// +kubebuilder:validation:Optional
-	RedisEvictionPolicy *string `json:"redisEvictionPolicy,omitempty" tf:"redis_eviction_policy,omitempty"`
+	PublicHost *string `json:"publicHost,omitempty" tf:"public_host,omitempty"`
 
 	// The ID of the region that the managed database read replica is to be created in. See List Regions
 	// +kubebuilder:validation:Optional

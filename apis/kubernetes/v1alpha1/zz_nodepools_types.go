@@ -51,6 +51,9 @@ type NodePoolsObservation_2 struct {
 	// The label to be used as a prefix for nodes in this node pool.
 	Label *string `json:"label,omitempty" tf:"label,omitempty"`
 
+	// A map of key/value pairs for Kubernetes node labels.
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
 	// The maximum number of nodes to use with the auto scaler.
 	MaxNodes *float64 `json:"maxNodes,omitempty" tf:"max_nodes,omitempty"`
 
@@ -71,6 +74,12 @@ type NodePoolsObservation_2 struct {
 
 	// A tag that is assigned to this node pool.
 	Tag *string `json:"tag,omitempty" tf:"tag,omitempty"`
+
+	// Taints to apply to the nodes in the node pool. Should contain key, value and effect.  The effect should be one of NoSchedule, PreferNoSchedule or NoExecute.
+	Taints []NodePoolsTaintsObservation `json:"taints,omitempty" tf:"taints,omitempty"`
+
+	// A base64 encoded string containing the user data to apply to nodes in the node pool.
+	UserData *string `json:"userData,omitempty" tf:"user_data,omitempty"`
 }
 
 type NodePoolsParameters_2 struct {
@@ -86,6 +95,10 @@ type NodePoolsParameters_2 struct {
 	// The label to be used as a prefix for nodes in this node pool.
 	// +kubebuilder:validation:Optional
 	Label *string `json:"label,omitempty" tf:"label,omitempty"`
+
+	// A map of key/value pairs for Kubernetes node labels.
+	// +kubebuilder:validation:Optional
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The maximum number of nodes to use with the auto scaler.
 	// +kubebuilder:validation:Optional
@@ -106,6 +119,34 @@ type NodePoolsParameters_2 struct {
 	// A tag that is assigned to this node pool.
 	// +kubebuilder:validation:Optional
 	Tag *string `json:"tag,omitempty" tf:"tag,omitempty"`
+
+	// Taints to apply to the nodes in the node pool. Should contain key, value and effect.  The effect should be one of NoSchedule, PreferNoSchedule or NoExecute.
+	// +kubebuilder:validation:Optional
+	Taints []NodePoolsTaintsParameters `json:"taints,omitempty" tf:"taints,omitempty"`
+
+	// A base64 encoded string containing the user data to apply to nodes in the node pool.
+	// +kubebuilder:validation:Optional
+	UserData *string `json:"userData,omitempty" tf:"user_data,omitempty"`
+}
+
+type NodePoolsTaintsObservation struct {
+	Effect *string `json:"effect,omitempty" tf:"effect,omitempty"`
+
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type NodePoolsTaintsParameters struct {
+
+	// +kubebuilder:validation:Required
+	Effect *string `json:"effect" tf:"effect,omitempty"`
+
+	// +kubebuilder:validation:Required
+	Key *string `json:"key" tf:"key,omitempty"`
+
+	// +kubebuilder:validation:Required
+	Value *string `json:"value" tf:"value,omitempty"`
 }
 
 // NodePoolsSpec defines the desired state of NodePools

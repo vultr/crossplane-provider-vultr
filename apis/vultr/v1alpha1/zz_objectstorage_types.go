@@ -15,7 +15,7 @@ import (
 
 type ObjectStorageObservation struct {
 
-	// The region ID that you want the network to be created in.
+	// The ID of the region that you want the object storage to be deployed in.
 	ClusterID *float64 `json:"clusterId,omitempty" tf:"cluster_id,omitempty"`
 
 	// Date of creation for the object storage subscription.
@@ -24,7 +24,7 @@ type ObjectStorageObservation struct {
 	// The id of the object storage subscription.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// The description you want to give your network.
+	// The description you want to give your object storage.
 	Label *string `json:"label,omitempty" tf:"label,omitempty"`
 
 	// The location which this subscription resides in.
@@ -38,17 +38,24 @@ type ObjectStorageObservation struct {
 
 	// Current status of this object storage subscription.
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`
+
+	// The ID of the tier to deploy the storage under.
+	TierID *float64 `json:"tierId,omitempty" tf:"tier_id,omitempty"`
 }
 
 type ObjectStorageParameters struct {
 
-	// The region ID that you want the network to be created in.
+	// The ID of the region that you want the object storage to be deployed in.
 	// +kubebuilder:validation:Optional
 	ClusterID *float64 `json:"clusterId,omitempty" tf:"cluster_id,omitempty"`
 
-	// The description you want to give your network.
+	// The description you want to give your object storage.
 	// +kubebuilder:validation:Optional
 	Label *string `json:"label,omitempty" tf:"label,omitempty"`
+
+	// The ID of the tier to deploy the storage under.
+	// +kubebuilder:validation:Optional
+	TierID *float64 `json:"tierId,omitempty" tf:"tier_id,omitempty"`
 }
 
 // ObjectStorageSpec defines the desired state of ObjectStorage
@@ -76,6 +83,7 @@ type ObjectStorage struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.clusterId)",message="clusterId is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="self.managementPolicy == 'ObserveOnly' || has(self.forProvider.tierId)",message="tierId is a required parameter"
 	Spec   ObjectStorageSpec   `json:"spec"`
 	Status ObjectStorageStatus `json:"status,omitempty"`
 }

@@ -15,6 +15,18 @@ import (
 
 type DatabaseObservation struct {
 
+	// The certificate to authenticate the default user (Kafka engine types only).
+	AccessCert *string `json:"accessCert,omitempty" tf:"access_cert,omitempty"`
+
+	// The private key to authenticate the default user (Kafka engine types only).
+	AccessKey *string `json:"accessKey,omitempty" tf:"access_key,omitempty"`
+
+	// The preferred hour of the day (UTC) for daily backups to take place (unavailable for Kafka engine types).
+	BackupHour *string `json:"backupHour,omitempty" tf:"backup_hour,omitempty"`
+
+	// The preferred minute of the backup hour for daily backups to take place (unavailable for Kafka engine types).
+	BackupMinute *string `json:"backupMinute,omitempty" tf:"backup_minute,omitempty"`
+
 	// The configured time zone for the Managed Database in TZ database format (e.g. UTC, America/New_York, Europe/London).
 	ClusterTimeZone *string `json:"clusterTimeZone,omitempty" tf:"cluster_time_zone,omitempty"`
 
@@ -30,11 +42,28 @@ type DatabaseObservation struct {
 	// The managed database's default logical database.
 	Dbname *string `json:"dbname,omitempty" tf:"dbname,omitempty"`
 
+	// The configuration value for Kafka Connect support (Kafka engine types only).
+	EnableKafkaConnect *bool `json:"enableKafkaConnect,omitempty" tf:"enable_kafka_connect,omitempty"`
+
+	// The configuration value for Kafka REST support (Kafka engine types only).
+	EnableKafkaRest *bool `json:"enableKafkaRest,omitempty" tf:"enable_kafka_rest,omitempty"`
+
+	// The configuration value for Schema Registry support (Kafka engine types only).
+	EnableSchemaRegistry *bool `json:"enableSchemaRegistry,omitempty" tf:"enable_schema_registry,omitempty"`
+
+	// The configuration value for the data eviction policy on the managed database (Valkey engine types only - noeviction, allkeys-lru, volatile-lru, allkeys-random, volatile-random, volatile-ttl, volatile-lfu, allkeys-lfu).
+	EvictionPolicy *string `json:"evictionPolicy,omitempty" tf:"eviction_policy,omitempty"`
+
+	FerretdbCredentials map[string]*string `json:"ferretdbCredentials,omitempty" tf:"ferretdb_credentials,omitempty"`
+
 	// The hostname assigned to the managed database.
 	Host *string `json:"host,omitempty" tf:"host,omitempty"`
 
 	// The ID of the managed database.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The URI to access the RESTful interface of your Kafka cluster if Kafka REST is enabled (Kafka engine types only).
+	KafkaRestURI *string `json:"kafkaRestUri,omitempty" tf:"kafka_rest_uri,omitempty"`
 
 	// A label for the managed database.
 	Label *string `json:"label,omitempty" tf:"label,omitempty"`
@@ -66,13 +95,16 @@ type DatabaseObservation struct {
 	// The ID of the plan that you want the managed database to subscribe to. See List Managed Database Plans
 	Plan *string `json:"plan,omitempty" tf:"plan,omitempty"`
 
+	// The number of brokers available on the managed database (Kafka engine types only).
+	PlanBrokers *float64 `json:"planBrokers,omitempty" tf:"plan_brokers,omitempty"`
+
 	// The description of the disk(s) on the managed database.
 	PlanDisk *float64 `json:"planDisk,omitempty" tf:"plan_disk,omitempty"`
 
 	// The amount of memory available on the managed database in MB.
 	PlanRAM *float64 `json:"planRam,omitempty" tf:"plan_ram,omitempty"`
 
-	// The number of standby nodes available on the managed database.
+	// The number of standby nodes available on the managed database (excluded for Kafka engine types).
 	PlanReplicas *float64 `json:"planReplicas,omitempty" tf:"plan_replicas,omitempty"`
 
 	// The number of virtual CPUs available on the managed database.
@@ -81,16 +113,22 @@ type DatabaseObservation struct {
 	// The connection port for the managed database.
 	Port *string `json:"port,omitempty" tf:"port,omitempty"`
 
+	// The public hostname assigned to the managed database (VPC-attached only).
+	PublicHost *string `json:"publicHost,omitempty" tf:"public_host,omitempty"`
+
 	// A list of read replicas attached to the managed database.
 	ReadReplicas []ReadReplicasObservation `json:"readReplicas,omitempty" tf:"read_replicas,omitempty"`
-
-	// The configuration value for the data eviction policy on the managed database (Redis engine types only - noeviction, allkeys-lru, volatile-lru, allkeys-random, volatile-random, volatile-ttl, volatile-lfu, allkeys-lfu).
-	RedisEvictionPolicy *string `json:"redisEvictionPolicy,omitempty" tf:"redis_eviction_policy,omitempty"`
 
 	// The ID of the region that the managed database is to be created in. See List Regions
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
-	// The current status of the managed database (poweroff, rebuilding, rebalancing, running).
+	// The SASL connection port for the managed database (Kafka engine types only).
+	SaslPort *string `json:"saslPort,omitempty" tf:"sasl_port,omitempty"`
+
+	// The URI to access the Schema Registry service of your Kafka cluster if Schema Registry is enabled (Kafka engine types only).
+	SchemaRegistryURI *string `json:"schemaRegistryUri,omitempty" tf:"schema_registry_uri,omitempty"`
+
+	// The current status of the managed database (poweroff, rebuilding, rebalancing, configuring, running).
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`
 
 	// The tag to assign to the managed database.
@@ -102,11 +140,27 @@ type DatabaseObservation struct {
 	// The primary admin user for the managed database.
 	User *string `json:"user,omitempty" tf:"user,omitempty"`
 
-	// The ID of the managed database.
+	// The ID of the VPC Network to attach to the Managed Database.
 	VPCID *string `json:"vpcId,omitempty" tf:"vpc_id,omitempty"`
 }
 
 type DatabaseParameters struct {
+
+	// The certificate to authenticate the default user (Kafka engine types only).
+	// +kubebuilder:validation:Optional
+	AccessCert *string `json:"accessCert,omitempty" tf:"access_cert,omitempty"`
+
+	// The private key to authenticate the default user (Kafka engine types only).
+	// +kubebuilder:validation:Optional
+	AccessKey *string `json:"accessKey,omitempty" tf:"access_key,omitempty"`
+
+	// The preferred hour of the day (UTC) for daily backups to take place (unavailable for Kafka engine types).
+	// +kubebuilder:validation:Optional
+	BackupHour *string `json:"backupHour,omitempty" tf:"backup_hour,omitempty"`
+
+	// The preferred minute of the backup hour for daily backups to take place (unavailable for Kafka engine types).
+	// +kubebuilder:validation:Optional
+	BackupMinute *string `json:"backupMinute,omitempty" tf:"backup_minute,omitempty"`
 
 	// The configured time zone for the Managed Database in TZ database format (e.g. UTC, America/New_York, Europe/London).
 	// +kubebuilder:validation:Optional
@@ -119,6 +173,29 @@ type DatabaseParameters struct {
 	// The database engine version of the new managed database.
 	// +kubebuilder:validation:Optional
 	DatabaseEngineVersion *string `json:"databaseEngineVersion,omitempty" tf:"database_engine_version,omitempty"`
+
+	// The configuration value for Kafka Connect support (Kafka engine types only).
+	// +kubebuilder:validation:Optional
+	EnableKafkaConnect *bool `json:"enableKafkaConnect,omitempty" tf:"enable_kafka_connect,omitempty"`
+
+	// The configuration value for Kafka REST support (Kafka engine types only).
+	// +kubebuilder:validation:Optional
+	EnableKafkaRest *bool `json:"enableKafkaRest,omitempty" tf:"enable_kafka_rest,omitempty"`
+
+	// The configuration value for Schema Registry support (Kafka engine types only).
+	// +kubebuilder:validation:Optional
+	EnableSchemaRegistry *bool `json:"enableSchemaRegistry,omitempty" tf:"enable_schema_registry,omitempty"`
+
+	// The configuration value for the data eviction policy on the managed database (Valkey engine types only - noeviction, allkeys-lru, volatile-lru, allkeys-random, volatile-random, volatile-ttl, volatile-lfu, allkeys-lfu).
+	// +kubebuilder:validation:Optional
+	EvictionPolicy *string `json:"evictionPolicy,omitempty" tf:"eviction_policy,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	FerretdbCredentials map[string]*string `json:"ferretdbCredentials,omitempty" tf:"ferretdb_credentials,omitempty"`
+
+	// The URI to access the RESTful interface of your Kafka cluster if Kafka REST is enabled (Kafka engine types only).
+	// +kubebuilder:validation:Optional
+	KafkaRestURI *string `json:"kafkaRestUri,omitempty" tf:"kafka_rest_uri,omitempty"`
 
 	// A label for the managed database.
 	// +kubebuilder:validation:Optional
@@ -156,21 +233,37 @@ type DatabaseParameters struct {
 	// +kubebuilder:validation:Optional
 	Plan *string `json:"plan,omitempty" tf:"plan,omitempty"`
 
+	// The number of brokers available on the managed database (Kafka engine types only).
+	// +kubebuilder:validation:Optional
+	PlanBrokers *float64 `json:"planBrokers,omitempty" tf:"plan_brokers,omitempty"`
+
 	// The description of the disk(s) on the managed database.
 	// +kubebuilder:validation:Optional
 	PlanDisk *float64 `json:"planDisk,omitempty" tf:"plan_disk,omitempty"`
+
+	// The number of standby nodes available on the managed database (excluded for Kafka engine types).
+	// +kubebuilder:validation:Optional
+	PlanReplicas *float64 `json:"planReplicas,omitempty" tf:"plan_replicas,omitempty"`
+
+	// The public hostname assigned to the managed database (VPC-attached only).
+	// +kubebuilder:validation:Optional
+	PublicHost *string `json:"publicHost,omitempty" tf:"public_host,omitempty"`
 
 	// A list of read replicas attached to the managed database.
 	// +kubebuilder:validation:Optional
 	ReadReplicas []ReadReplicasParameters `json:"readReplicas,omitempty" tf:"read_replicas,omitempty"`
 
-	// The configuration value for the data eviction policy on the managed database (Redis engine types only - noeviction, allkeys-lru, volatile-lru, allkeys-random, volatile-random, volatile-ttl, volatile-lfu, allkeys-lfu).
-	// +kubebuilder:validation:Optional
-	RedisEvictionPolicy *string `json:"redisEvictionPolicy,omitempty" tf:"redis_eviction_policy,omitempty"`
-
 	// The ID of the region that the managed database is to be created in. See List Regions
 	// +kubebuilder:validation:Optional
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+
+	// The SASL connection port for the managed database (Kafka engine types only).
+	// +kubebuilder:validation:Optional
+	SaslPort *string `json:"saslPort,omitempty" tf:"sasl_port,omitempty"`
+
+	// The URI to access the Schema Registry service of your Kafka cluster if Schema Registry is enabled (Kafka engine types only).
+	// +kubebuilder:validation:Optional
+	SchemaRegistryURI *string `json:"schemaRegistryUri,omitempty" tf:"schema_registry_uri,omitempty"`
 
 	// The tag to assign to the managed database.
 	// +kubebuilder:validation:Optional
@@ -180,13 +273,19 @@ type DatabaseParameters struct {
 	// +kubebuilder:validation:Optional
 	TrustedIps []*string `json:"trustedIps,omitempty" tf:"trusted_ips,omitempty"`
 
-	// The ID of the managed database.
+	// The ID of the VPC Network to attach to the Managed Database.
 	// +kubebuilder:validation:Optional
 	VPCID *string `json:"vpcId,omitempty" tf:"vpc_id,omitempty"`
 }
 
 type ReadReplicasObservation struct {
 
+	// The preferred hour of the day (UTC) for daily backups to take place (unavailable for Kafka engine types).
+	BackupHour *string `json:"backupHour,omitempty" tf:"backup_hour,omitempty"`
+
+	// The preferred minute of the backup hour for daily backups to take place (unavailable for Kafka engine types).
+	BackupMinute *string `json:"backupMinute,omitempty" tf:"backup_minute,omitempty"`
+
 	// The configured time zone for the Managed Database in TZ database format (e.g. UTC, America/New_York, Europe/London).
 	ClusterTimeZone *string `json:"clusterTimeZone,omitempty" tf:"cluster_time_zone,omitempty"`
 
@@ -201,6 +300,11 @@ type ReadReplicasObservation struct {
 
 	// The managed database's default logical database.
 	Dbname *string `json:"dbname,omitempty" tf:"dbname,omitempty"`
+
+	// The configuration value for the data eviction policy on the managed database (Valkey engine types only - noeviction, allkeys-lru, volatile-lru, allkeys-random, volatile-random, volatile-ttl, volatile-lfu, allkeys-lfu).
+	EvictionPolicy *string `json:"evictionPolicy,omitempty" tf:"eviction_policy,omitempty"`
+
+	FerretdbCredentials map[string]*string `json:"ferretdbCredentials,omitempty" tf:"ferretdb_credentials,omitempty"`
 
 	// The hostname assigned to the managed database.
 	Host *string `json:"host,omitempty" tf:"host,omitempty"`
@@ -244,7 +348,7 @@ type ReadReplicasObservation struct {
 	// The amount of memory available on the managed database in MB.
 	PlanRAM *float64 `json:"planRam,omitempty" tf:"plan_ram,omitempty"`
 
-	// The number of standby nodes available on the managed database.
+	// The number of standby nodes available on the managed database (excluded for Kafka engine types).
 	PlanReplicas *float64 `json:"planReplicas,omitempty" tf:"plan_replicas,omitempty"`
 
 	// The number of virtual CPUs available on the managed database.
@@ -253,13 +357,13 @@ type ReadReplicasObservation struct {
 	// The connection port for the managed database.
 	Port *string `json:"port,omitempty" tf:"port,omitempty"`
 
-	// The configuration value for the data eviction policy on the managed database (Redis engine types only - noeviction, allkeys-lru, volatile-lru, allkeys-random, volatile-random, volatile-ttl, volatile-lfu, allkeys-lfu).
-	RedisEvictionPolicy *string `json:"redisEvictionPolicy,omitempty" tf:"redis_eviction_policy,omitempty"`
+	// The public hostname assigned to the managed database (VPC-attached only).
+	PublicHost *string `json:"publicHost,omitempty" tf:"public_host,omitempty"`
 
 	// The ID of the region that the managed database is to be created in. See List Regions
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
-	// The current status of the managed database (poweroff, rebuilding, rebalancing, running).
+	// The current status of the managed database (poweroff, rebuilding, rebalancing, configuring, running).
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`
 
 	// The tag to assign to the managed database.
@@ -271,11 +375,26 @@ type ReadReplicasObservation struct {
 	// The primary admin user for the managed database.
 	User *string `json:"user,omitempty" tf:"user,omitempty"`
 
-	// The ID of the managed database.
+	// The ID of the VPC Network to attach to the Managed Database.
 	VPCID *string `json:"vpcId,omitempty" tf:"vpc_id,omitempty"`
 }
 
 type ReadReplicasParameters struct {
+
+	// The preferred hour of the day (UTC) for daily backups to take place (unavailable for Kafka engine types).
+	// +kubebuilder:validation:Optional
+	BackupHour *string `json:"backupHour,omitempty" tf:"backup_hour,omitempty"`
+
+	// The preferred minute of the backup hour for daily backups to take place (unavailable for Kafka engine types).
+	// +kubebuilder:validation:Optional
+	BackupMinute *string `json:"backupMinute,omitempty" tf:"backup_minute,omitempty"`
+
+	// The configuration value for the data eviction policy on the managed database (Valkey engine types only - noeviction, allkeys-lru, volatile-lru, allkeys-random, volatile-random, volatile-ttl, volatile-lfu, allkeys-lfu).
+	// +kubebuilder:validation:Optional
+	EvictionPolicy *string `json:"evictionPolicy,omitempty" tf:"eviction_policy,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	FerretdbCredentials map[string]*string `json:"ferretdbCredentials,omitempty" tf:"ferretdb_credentials,omitempty"`
 
 	// A label for the managed database.
 	// +kubebuilder:validation:Required
@@ -301,9 +420,9 @@ type ReadReplicasParameters struct {
 	// +kubebuilder:validation:Optional
 	PlanDisk *float64 `json:"planDisk,omitempty" tf:"plan_disk,omitempty"`
 
-	// The configuration value for the data eviction policy on the managed database (Redis engine types only - noeviction, allkeys-lru, volatile-lru, allkeys-random, volatile-random, volatile-ttl, volatile-lfu, allkeys-lfu).
+	// The public hostname assigned to the managed database (VPC-attached only).
 	// +kubebuilder:validation:Optional
-	RedisEvictionPolicy *string `json:"redisEvictionPolicy,omitempty" tf:"redis_eviction_policy,omitempty"`
+	PublicHost *string `json:"publicHost,omitempty" tf:"public_host,omitempty"`
 
 	// The ID of the region that the managed database is to be created in. See List Regions
 	// +kubebuilder:validation:Required
