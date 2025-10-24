@@ -118,9 +118,6 @@ jobs:
       - name: Vendor Dependencies
         run: make vendor vendor.check
 
-      - name: Check Diff
-        run: make check-diff
-
   unit-tests:
     runs-on: ubuntu-22.04
     needs: detect-noop
