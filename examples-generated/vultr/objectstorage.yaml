@@ -8,8 +8,9 @@ metadata:
   name: tf
 spec:
   forProvider:
-    clusterId: 2
+    clusterId: 9
     label: vultr-object-storage
+    tierId: 4
 
 ---
 
