@@ -1,0 +1,28 @@
+apiVersion: kubernetes.vultr.m.upbound.io/v1alpha1
+kind: Kubernetes
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kubernetes/v1alpha1/kubernetes
+  labels:
+    testing.upbound.io/example-name: k8
+  name: k8
+  namespace: crossplane-system
+spec:
+  forProvider:
+    label: vke-test
+    nodePools:
+    - autoScaler: true
+      label: vke-nodepool
+      labels:
+        my-label: a-label-on-all-nodes
+        my-second-label: another-label-on-all-nodes
+      maxNodes: 2
+      minNodes: 1
+      nodeQuantity: 1
+      plan: vc2-1c-2gb
+      taints:
+      - effect: NoExecute
+        key: a-taint
+        value: is-tainted
+    region: ewr
+    version: v1.28.2+1

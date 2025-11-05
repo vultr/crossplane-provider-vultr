@@ -1,0 +1,14 @@
+apiVersion: baremetal.vultr.m.upbound.io/v1alpha1
+kind: BareMetalServer
+metadata:
+  annotations:
+    meta.upbound.io/example-id: baremetal/v1alpha1/baremetalserver
+  labels:
+    testing.upbound.io/example-name: my_server
+  name: my-server
+  namespace: crossplane-system
+spec:
+  forProvider:
+    osId: 1743
+    plan: vbm-4c-32gb
+    region: ewr

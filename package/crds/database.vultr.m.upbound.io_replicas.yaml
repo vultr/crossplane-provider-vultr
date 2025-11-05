@@ -1,0 +1,490 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.18.0
+  name: replicas.database.vultr.m.upbound.io
+spec:
+  group: database.vultr.m.upbound.io
+  names:
+    categories:
+    - crossplane
+    - managed
+    - vultr
+    kind: Replica
+    listKind: ReplicaList
+    plural: replicas
+    singular: replica
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: Replica is the Schema for the Replicas API. Provides a Vultr
+          database replica resource. This can be used to create, read, modify, and
+          delete managed database read replicas on your Vultr account.
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: ReplicaSpec defines the desired state of Replica
+            properties:
+              forProvider:
+                properties:
+                  backupHour:
+                    description: The preferred hour of the day (UTC) for daily backups
+                      to take place (unavailable for Kafka engine types).
+                    type: string
+                  backupMinute:
+                    description: The preferred minute of the backup hour for daily
+                      backups to take place (unavailable for Kafka engine types).
+                    type: string
+                  databaseId:
+                    description: The managed database ID you want to attach this replica
+                      to.
+                    type: string
+                  evictionPolicy:
+                    description: The configuration value for the data eviction policy
+                      on the managed database read replica (Valkey engine types only).
+                    type: string
+                  ferretdbCredentials:
+                    additionalProperties:
+                      type: string
+                    type: object
+                    x-kubernetes-map-type: granular
+                  label:
+                    description: A label for the managed database read replica.
+                    type: string
+                  mysqlLongQueryTime:
+                    description: The configuration value for the long query time (in
+                      seconds) on the managed database read replica (MySQL engine
+                      types only).
+                    type: number
+                  mysqlRequirePrimaryKey:
+                    description: The configuration value for whether primary keys
+                      are required on the managed database read replica (MySQL engine
+                      types only).
+                    type: boolean
+                  mysqlSlowQueryLog:
+                    description: The configuration value for slow query logging on
+                      the managed database read replica (MySQL engine types only).
+                    type: boolean
+                  mysqlSqlModes:
+                    description: A list of SQL modes currently configured for the
+                      managed database read replica (MySQL engine types only).
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
+                  planDisk:
+                    description: The description of the disk(s) on the managed database
+                      read replica.
+                    type: number
+                  publicHost:
+                    description: The public hostname assigned to the managed database
+                      read replica (VPC-attached only).
+                    type: string
+                  region:
+                    description: The ID of the region that the managed database read
+                      replica is to be created in. See List Regions
+                    type: string
+                  tag:
+                    description: The tag to assign to the managed database read replica.
+                    type: string
+                  trustedIps:
+                    description: A list of allowed IP addresses for the managed database
+                      read replica.
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
+                type: object
+              initProvider:
+                description: |-
+                  THIS IS A BETA FIELD. It will be honored
+                  unless the Management Policies feature flag is disabled.
+                  InitProvider holds the same fields as ForProvider, with the exception
+                  of Identifier and other resource reference fields. The fields that are
+                  in InitProvider are merged into ForProvider when the resource is created.
+                  The same fields are also added to the terraform ignore_changes hook, to
+                  avoid updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after creation,
+                  for example because of an external controller is managing them, like an
+                  autoscaler.
+                properties:
+                  backupHour:
+                    description: The preferred hour of the day (UTC) for daily backups
+                      to take place (unavailable for Kafka engine types).
+                    type: string
+                  backupMinute:
+                    description: The preferred minute of the backup hour for daily
+                      backups to take place (unavailable for Kafka engine types).
+                    type: string
+                  databaseId:
+                    description: The managed database ID you want to attach this replica
+                      to.
+                    type: string
+                  evictionPolicy:
+                    description: The configuration value for the data eviction policy
+                      on the managed database read replica (Valkey engine types only).
+                    type: string
+                  ferretdbCredentials:
+                    additionalProperties:
+                      type: string
+                    type: object
+                    x-kubernetes-map-type: granular
+                  label:
+                    description: A label for the managed database read replica.
+                    type: string
+                  mysqlLongQueryTime:
+                    description: The configuration value for the long query time (in
+                      seconds) on the managed database read replica (MySQL engine
+                      types only).
+                    type: number
+                  mysqlRequirePrimaryKey:
+                    description: The configuration value for whether primary keys
+                      are required on the managed database read replica (MySQL engine
+                      types only).
+                    type: boolean
+                  mysqlSlowQueryLog:
+                    description: The configuration value for slow query logging on
+                      the managed database read replica (MySQL engine types only).
+                    type: boolean
+                  mysqlSqlModes:
+                    description: A list of SQL modes currently configured for the
+                      managed database read replica (MySQL engine types only).
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
+                  planDisk:
+                    description: The description of the disk(s) on the managed database
+                      read replica.
+                    type: number
+                  publicHost:
+                    description: The public hostname assigned to the managed database
+                      read replica (VPC-attached only).
+                    type: string
+                  region:
+                    description: The ID of the region that the managed database read
+                      replica is to be created in. See List Regions
+                    type: string
+                  tag:
+                    description: The tag to assign to the managed database read replica.
+                    type: string
+                  trustedIps:
+                    description: A list of allowed IP addresses for the managed database
+                      read replica.
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
+                type: object
+              managementPolicies:
+                default:
+                - '*'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
+                items:
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
+              providerConfigRef:
+                default:
+                  kind: ClusterProviderConfig
+                  name: default
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
+                properties:
+                  kind:
+                    description: Kind of the referenced object.
+                    type: string
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                required:
+                - kind
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                required:
+                - name
+                type: object
+            required:
+            - forProvider
+            type: object
+            x-kubernetes-validations:
+            - message: spec.forProvider.databaseId is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.databaseId)
+                || (has(self.initProvider) && has(self.initProvider.databaseId))'
+            - message: spec.forProvider.label is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.label)
+                || (has(self.initProvider) && has(self.initProvider.label))'
+            - message: spec.forProvider.region is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.region)
+                || (has(self.initProvider) && has(self.initProvider.region))'
+          status:
+            description: ReplicaStatus defines the observed state of Replica.
+            properties:
+              atProvider:
+                properties:
+                  backupHour:
+                    description: The preferred hour of the day (UTC) for daily backups
+                      to take place (unavailable for Kafka engine types).
+                    type: string
+                  backupMinute:
+                    description: The preferred minute of the backup hour for daily
+                      backups to take place (unavailable for Kafka engine types).
+                    type: string
+                  clusterTimeZone:
+                    description: The configured time zone for the managed database
+                      read replica in TZ database format.
+                    type: string
+                  databaseEngine:
+                    description: The database engine of the managed database read
+                      replica.
+                    type: string
+                  databaseEngineVersion:
+                    description: The database engine version of the managed database
+                      read replica.
+                    type: string
+                  databaseId:
+                    description: The managed database ID you want to attach this replica
+                      to.
+                    type: string
+                  dateCreated:
+                    description: The date the managed database read replica was added
+                      to your Vultr account.
+                    type: string
+                  dbname:
+                    description: The managed database read replica's default logical
+                      database.
+                    type: string
+                  evictionPolicy:
+                    description: The configuration value for the data eviction policy
+                      on the managed database read replica (Valkey engine types only).
+                    type: string
+                  ferretdbCredentials:
+                    additionalProperties:
+                      type: string
+                    type: object
+                    x-kubernetes-map-type: granular
+                  host:
+                    description: The hostname assigned to the managed database read
+                      replica.
+                    type: string
+                  id:
+                    description: The ID of the managed database read replica.
+                    type: string
+                  label:
+                    description: A label for the managed database read replica.
+                    type: string
+                  latestBackup:
+                    description: The date of the latest backup available on the managed
+                      database read replica.
+                    type: string
+                  maintenanceDow:
+                    description: The preferred maintenance day of week for the managed
+                      database read replica.
+                    type: string
+                  maintenanceTime:
+                    description: The preferred maintenance time for the managed database
+                      read replica.
+                    type: string
+                  mysqlLongQueryTime:
+                    description: The configuration value for the long query time (in
+                      seconds) on the managed database read replica (MySQL engine
+                      types only).
+                    type: number
+                  mysqlRequirePrimaryKey:
+                    description: The configuration value for whether primary keys
+                      are required on the managed database read replica (MySQL engine
+                      types only).
+                    type: boolean
+                  mysqlSlowQueryLog:
+                    description: The configuration value for slow query logging on
+                      the managed database read replica (MySQL engine types only).
+                    type: boolean
+                  mysqlSqlModes:
+                    description: A list of SQL modes currently configured for the
+                      managed database read replica (MySQL engine types only).
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
+                  password:
+                    description: The password for the managed database read replica's
+                      primary admin user.
+                    type: string
+                  plan:
+                    description: The managed database read replica's plan ID.
+                    type: string
+                  planDisk:
+                    description: The description of the disk(s) on the managed database
+                      read replica.
+                    type: number
+                  planRam:
+                    description: The amount of memory available on the managed database
+                      read replica in MB.
+                    type: number
+                  planReplicas:
+                    description: The number of standby nodes available on the managed
+                      database read replica.
+                    type: number
+                  planVcpus:
+                    description: The number of virtual CPUs available on the managed
+                      database read replica.
+                    type: number
+                  port:
+                    description: The connection port for the managed database read
+                      replica.
+                    type: string
+                  publicHost:
+                    description: The public hostname assigned to the managed database
+                      read replica (VPC-attached only).
+                    type: string
+                  region:
+                    description: The ID of the region that the managed database read
+                      replica is to be created in. See List Regions
+                    type: string
+                  status:
+                    description: The current status of the managed database read replica
+                      (poweroff, rebuilding, rebalancing, configuring, running).
+                    type: string
+                  tag:
+                    description: The tag to assign to the managed database read replica.
+                    type: string
+                  trustedIps:
+                    description: A list of allowed IP addresses for the managed database
+                      read replica.
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
+                  user:
+                    description: The primary admin user for the managed database read
+                      replica.
+                    type: string
+                  vpcId:
+                    description: The ID of the VPC Network attached to the managed
+                      database read replica.
+                    type: string
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration represents the .metadata.generation that the condition was set based upon.
+                        For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+              observedGeneration:
+                description: |-
+                  ObservedGeneration is the latest metadata.generation
+                  which resulted in either a ready state, or stalled due to error
+                  it can not recover from without human intervention.
+                format: int64
+                type: integer
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
