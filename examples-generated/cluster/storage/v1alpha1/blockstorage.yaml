@@ -1,0 +1,13 @@
+apiVersion: storage.vultr.upbound.io/v1alpha1
+kind: BlockStorage
+metadata:
+  annotations:
+    meta.upbound.io/example-id: storage/v1alpha1/blockstorage
+  labels:
+    testing.upbound.io/example-name: my_blockstorage
+  name: my-blockstorage
+spec:
+  forProvider:
+    label: vultr-block-storage
+    region: ewr
+    sizeGb: 10

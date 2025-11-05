@@ -3,4 +3,4 @@ kind: Provider
 metadata:
   name: provider-vultr
 spec:
-  package: crossplane-contrib/provider-vultr:v0.1.0
+  package: xpkg.crossplane.io/crossplane-contrib/provider-vultr:v0.1.0

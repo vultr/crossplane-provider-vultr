@@ -1,0 +1,14 @@
+apiVersion: storage.vultr.m.upbound.io/v1alpha1
+kind: ObjectStorage
+metadata:
+  annotations:
+    meta.upbound.io/example-id: storage/v1alpha1/objectstorage
+  labels:
+    testing.upbound.io/example-name: tf
+  name: tf
+  namespace: crossplane-system
+spec:
+  forProvider:
+    clusterId: 9
+    label: vultr-object-storage
+    tierId: 4

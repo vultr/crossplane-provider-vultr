@@ -7,8 +7,8 @@ package config
 import (
 	"strings"
 
-	"github.com/upbound/upjet/pkg/config"
-	"github.com/upbound/upjet/pkg/types/name"
+	"github.com/crossplane/upjet/v2/pkg/config"
+	"github.com/crossplane/upjet/v2/pkg/types/name"
 )
 
 // GroupKindOverrides overrides the group and kind of the resource if it matches
@@ -36,14 +36,19 @@ func ReplaceGroupWords(group string, count int) GroupKindCalculator {
 }
 
 var GroupMap = map[string]GroupKindCalculator{
-	"vultr_load_balancer":     ReplaceGroupWords("vultr", 0),
-	"vultr_bare_metal_server": ReplaceGroupWords("vultr", 0),
-	"vultr_object_storage":    ReplaceGroupWords("vultr", 0),
+	"vultr_load_balancer":     ReplaceGroupWords("loadbalancer", 0),
+	"vultr_bare_metal_server": ReplaceGroupWords("compute", 0),
+	"vultr_instance":          ReplaceGroupWords("compute", 0),
+	"vultr_kubernetes":        ReplaceGroupWords("kubernetes", 0),
+	"vultr_database":          ReplaceGroupWords("database", 0),
+	"vultr_object_storage":    ReplaceGroupWords("storage", 0),
+	"vultr_block_storage":     ReplaceGroupWords("storage", 0),
 }
 
 // KindMap contains kind string overrides.
 var KindMap = map[string]string{
-	"vultr_load_balancer":     "loadbalancer",
-	"vultr_bare_metal_server": "baremetal",
-	"vultr_object_storage":    "object",
+	"vultr_load_balancer":     "LoadBalancer",
+	"vultr_bare_metal_server": "BareMetalServer",
+	"vultr_object_storage":    "ObjectStorage",
+	"vultr_block_storage":     "BlockStorage",
 }
