@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.18.0
+    controller-gen.kubebuilder.io/version: v0.20.1
   name: loadbalancers.loadbalancer.vultr.upbound.io
 spec:
   group: loadbalancer.vultr.upbound.io
@@ -79,6 +79,11 @@ spec:
                     items:
                       type: string
                     type: array
+                  autoSslDomain:
+                    description: The auto SSL domain configuration for a load balancer.
+                      This can be a root domain (example.com) or include a subdomain
+                      (sub.example.com).
+                    type: string
                   balancingAlgorithm:
                     description: The balancing algorithm for your load balancer. Options
                       are roundrobin or leastconn. Default value is roundrobin
@@ -127,6 +132,13 @@ spec:
                           type: string
                       type: object
                     type: array
+                  globalRegions:
+                    description: A set of region IDs to deploy child load balancers
+                      to.
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
                   healthCheck:
                     description: A block that defines the way load balancers should
                       check for health. The configuration of a health_check is listed
@@ -165,9 +177,17 @@ spec:
                           type: number
                       type: object
                     type: array
+                  httpVersion:
+                    description: Integer value that indicates if HTTP/2 or HTTP/3
+                      is enabled. Allowed values 2 or 3.
+                    type: number
                   label:
                     description: The load balancer's label.
                     type: string
+                  nodes:
+                    description: The number of nodes to add to the load balancer (1-99).
+                      Must be an odd number. Default value is 1.
+                    type: number
                   proxyProtocol:
                     description: Boolean value that indicates if Proxy Protocol is
                       enabled.
@@ -233,6 +253,11 @@ spec:
                     items:
                       type: string
                     type: array
+                  autoSslDomain:
+                    description: The auto SSL domain configuration for a load balancer.
+                      This can be a root domain (example.com) or include a subdomain
+                      (sub.example.com).
+                    type: string
                   balancingAlgorithm:
                     description: The balancing algorithm for your load balancer. Options
                       are roundrobin or leastconn. Default value is roundrobin
@@ -281,6 +306,13 @@ spec:
                           type: string
                       type: object
                     type: array
+                  globalRegions:
+                    description: A set of region IDs to deploy child load balancers
+                      to.
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
                   healthCheck:
                     description: A block that defines the way load balancers should
                       check for health. The configuration of a health_check is listed
@@ -319,9 +351,17 @@ spec:
                           type: number
                       type: object
                     type: array
+                  httpVersion:
+                    description: Integer value that indicates if HTTP/2 or HTTP/3
+                      is enabled. Allowed values 2 or 3.
+                    type: number
                   label:
                     description: The load balancer's label.
                     type: string
+                  nodes:
+                    description: The number of nodes to add to the load balancer (1-99).
+                      Must be an odd number. Default value is 1.
+                    type: number
                   proxyProtocol:
                     description: Boolean value that indicates if Proxy Protocol is
                       enabled.
@@ -476,6 +516,11 @@ spec:
                     items:
                       type: string
                     type: array
+                  autoSslDomain:
+                    description: The auto SSL domain configuration for a load balancer.
+                      This can be a root domain (example.com) or include a subdomain
+                      (sub.example.com).
+                    type: string
                   balancingAlgorithm:
                     description: The balancing algorithm for your load balancer. Options
                       are roundrobin or leastconn. Default value is roundrobin
@@ -530,6 +575,13 @@ spec:
                           type: string
                       type: object
                     type: array
+                  globalRegions:
+                    description: A set of region IDs to deploy child load balancers
+                      to.
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
                   hasSsl:
                     description: Boolean value that indicates if SSL is enabled.
                     type: boolean
@@ -571,6 +623,10 @@ spec:
                           type: number
                       type: object
                     type: array
+                  httpVersion:
+                    description: Integer value that indicates if HTTP/2 or HTTP/3
+                      is enabled. Allowed values 2 or 3.
+                    type: number
                   id:
                     description: The load balancer ID.
                     type: string
@@ -583,6 +639,10 @@ spec:
                   label:
                     description: The load balancer's label.
                     type: string
+                  nodes:
+                    description: The number of nodes to add to the load balancer (1-99).
+                      Must be an odd number. Default value is 1.
+                    type: number
                   proxyProtocol:
                     description: Boolean value that indicates if Proxy Protocol is
                       enabled.
@@ -661,6 +721,13 @@ spec:
                 x-kubernetes-list-map-keys:
                 - type
                 x-kubernetes-list-type: map
+              lastHandledReconcileAt:
+                description: |-
+                  LastHandledReconcileAt holds the value of the most recent
+                  reconcile-requested-at annotation token that the controller has
+                  processed. Users can compare this to the annotation to determine
+                  whether a reconcile request has been handled.
+                type: string
               observedGeneration:
                 description: |-
                   ObservedGeneration is the latest metadata.generation

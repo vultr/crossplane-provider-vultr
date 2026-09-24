@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type NodePoolsInitParameters_2 struct {
@@ -24,9 +24,7 @@ type NodePoolsInitParameters_2 struct {
 	// The label to be used as a prefix for nodes in this node pool.
 	Label *string `json:"label,omitempty" tf:"label,omitempty"`
 
-	// A map of key/value pairs for Kubernetes node labels.
-	// +mapType=granular
-	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+	Labels []NodePoolsLabelsInitParameters `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The maximum number of nodes to use with the auto scaler.
 	MaxNodes *float64 `json:"maxNodes,omitempty" tf:"max_nodes,omitempty"`
@@ -37,17 +35,48 @@ type NodePoolsInitParameters_2 struct {
 	// The number of nodes in this node pool.
 	NodeQuantity *float64 `json:"nodeQuantity,omitempty" tf:"node_quantity,omitempty"`
 
-	// The plan to be used in this node pool. See Plans List Note the minimum plan requirements must have at least 1 core and 2 gbs of memory.
+	// The plan to be used in this node pool. See plans list Note the minimum plan requirements must have at least 1 core and 2 gbs of memory.
 	Plan *string `json:"plan,omitempty" tf:"plan,omitempty"`
 
 	// A tag that is assigned to this node pool.
 	Tag *string `json:"tag,omitempty" tf:"tag,omitempty"`
 
-	// Taints to apply to the nodes in the node pool. Should contain key, value and effect.  The effect should be one of NoSchedule, PreferNoSchedule or NoExecute.
 	Taints []NodePoolsTaintsInitParameters `json:"taints,omitempty" tf:"taints,omitempty"`
 
 	// A base64 encoded string containing the user data to apply to nodes in the node pool.
 	UserData *string `json:"userData,omitempty" tf:"user_data,omitempty"`
+}
+
+type NodePoolsLabelsInitParameters struct {
+
+	// The key definining the label for kubernetes.
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	// The value of the label for kubernetes.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type NodePoolsLabelsObservation struct {
+
+	// The Nodepool ID.
+	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The key definining the label for kubernetes.
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	// The value of the label for kubernetes.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type NodePoolsLabelsParameters struct {
+
+	// The key definining the label for kubernetes.
+	// +kubebuilder:validation:Optional
+	Key *string `json:"key" tf:"key,omitempty"`
+
+	// The value of the label for kubernetes.
+	// +kubebuilder:validation:Optional
+	Value *string `json:"value" tf:"value,omitempty"`
 }
 
 type NodePoolsNodesInitParameters struct {
@@ -91,9 +120,7 @@ type NodePoolsObservation_2 struct {
 	// The label to be used as a prefix for nodes in this node pool.
 	Label *string `json:"label,omitempty" tf:"label,omitempty"`
 
-	// A map of key/value pairs for Kubernetes node labels.
-	// +mapType=granular
-	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+	Labels []NodePoolsLabelsObservation `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The maximum number of nodes to use with the auto scaler.
 	MaxNodes *float64 `json:"maxNodes,omitempty" tf:"max_nodes,omitempty"`
@@ -104,10 +131,9 @@ type NodePoolsObservation_2 struct {
 	// The number of nodes in this node pool.
 	NodeQuantity *float64 `json:"nodeQuantity,omitempty" tf:"node_quantity,omitempty"`
 
-	// Array that contains information about nodes within this node pool.
 	Nodes []NodePoolsNodesObservation `json:"nodes,omitempty" tf:"nodes,omitempty"`
 
-	// The plan to be used in this node pool. See Plans List Note the minimum plan requirements must have at least 1 core and 2 gbs of memory.
+	// The plan to be used in this node pool. See plans list Note the minimum plan requirements must have at least 1 core and 2 gbs of memory.
 	Plan *string `json:"plan,omitempty" tf:"plan,omitempty"`
 
 	// Status of node pool.
@@ -116,7 +142,6 @@ type NodePoolsObservation_2 struct {
 	// A tag that is assigned to this node pool.
 	Tag *string `json:"tag,omitempty" tf:"tag,omitempty"`
 
-	// Taints to apply to the nodes in the node pool. Should contain key, value and effect.  The effect should be one of NoSchedule, PreferNoSchedule or NoExecute.
 	Taints []NodePoolsTaintsObservation `json:"taints,omitempty" tf:"taints,omitempty"`
 
 	// A base64 encoded string containing the user data to apply to nodes in the node pool.
@@ -137,10 +162,8 @@ type NodePoolsParameters_2 struct {
 	// +kubebuilder:validation:Optional
 	Label *string `json:"label,omitempty" tf:"label,omitempty"`
 
-	// A map of key/value pairs for Kubernetes node labels.
 	// +kubebuilder:validation:Optional
-	// +mapType=granular
-	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+	Labels []NodePoolsLabelsParameters `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The maximum number of nodes to use with the auto scaler.
 	// +kubebuilder:validation:Optional
@@ -154,7 +177,7 @@ type NodePoolsParameters_2 struct {
 	// +kubebuilder:validation:Optional
 	NodeQuantity *float64 `json:"nodeQuantity,omitempty" tf:"node_quantity,omitempty"`
 
-	// The plan to be used in this node pool. See Plans List Note the minimum plan requirements must have at least 1 core and 2 gbs of memory.
+	// The plan to be used in this node pool. See plans list Note the minimum plan requirements must have at least 1 core and 2 gbs of memory.
 	// +kubebuilder:validation:Optional
 	Plan *string `json:"plan,omitempty" tf:"plan,omitempty"`
 
@@ -162,7 +185,6 @@ type NodePoolsParameters_2 struct {
 	// +kubebuilder:validation:Optional
 	Tag *string `json:"tag,omitempty" tf:"tag,omitempty"`
 
-	// Taints to apply to the nodes in the node pool. Should contain key, value and effect.  The effect should be one of NoSchedule, PreferNoSchedule or NoExecute.
 	// +kubebuilder:validation:Optional
 	Taints []NodePoolsTaintsParameters `json:"taints,omitempty" tf:"taints,omitempty"`
 
@@ -172,37 +194,51 @@ type NodePoolsParameters_2 struct {
 }
 
 type NodePoolsTaintsInitParameters struct {
+
+	// The effect of the taint for kubernetes.  Must be one of NoSchedule, PreferNoSchedule or NoExecute.
 	Effect *string `json:"effect,omitempty" tf:"effect,omitempty"`
 
+	// The key definining the label for kubernetes.
 	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 
+	// The value of the label for kubernetes.
 	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
 type NodePoolsTaintsObservation struct {
+
+	// The effect of the taint for kubernetes.  Must be one of NoSchedule, PreferNoSchedule or NoExecute.
 	Effect *string `json:"effect,omitempty" tf:"effect,omitempty"`
 
+	// The Nodepool ID.
+	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The key definining the label for kubernetes.
 	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 
+	// The value of the label for kubernetes.
 	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
 type NodePoolsTaintsParameters struct {
 
+	// The effect of the taint for kubernetes.  Must be one of NoSchedule, PreferNoSchedule or NoExecute.
 	// +kubebuilder:validation:Optional
 	Effect *string `json:"effect" tf:"effect,omitempty"`
 
+	// The key definining the label for kubernetes.
 	// +kubebuilder:validation:Optional
 	Key *string `json:"key" tf:"key,omitempty"`
 
+	// The value of the label for kubernetes.
 	// +kubebuilder:validation:Optional
 	Value *string `json:"value" tf:"value,omitempty"`
 }
 
 // NodePoolsSpec defines the desired state of NodePools
 type NodePoolsSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     NodePoolsParameters_2 `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   NodePoolsParameters_2 `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -218,8 +254,8 @@ type NodePoolsSpec struct {
 
 // NodePoolsStatus defines the observed state of NodePools.
 type NodePoolsStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        NodePoolsObservation_2 `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               NodePoolsObservation_2 `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

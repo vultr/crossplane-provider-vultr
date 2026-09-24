@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.18.0
+    controller-gen.kubebuilder.io/version: v0.20.1
   name: replicas.database.vultr.m.upbound.io
 spec:
   group: database.vultr.m.upbound.io
@@ -293,6 +293,10 @@ spec:
                     description: The preferred minute of the backup hour for daily
                       backups to take place (unavailable for Kafka engine types).
                     type: string
+                  caCertificate:
+                    description: The CA certificate for Managed Databases on this
+                      account.
+                    type: string
                   clusterTimeZone:
                     description: The configured time zone for the managed database
                       read replica in TZ database format.
@@ -473,6 +477,13 @@ spec:
                 x-kubernetes-list-map-keys:
                 - type
                 x-kubernetes-list-type: map
+              lastHandledReconcileAt:
+                description: |-
+                  LastHandledReconcileAt holds the value of the most recent
+                  reconcile-requested-at annotation token that the controller has
+                  processed. Users can compare this to the annotation to determine
+                  whether a reconcile request has been handled.
+                type: string
               observedGeneration:
                 description: |-
                   ObservedGeneration is the latest metadata.generation

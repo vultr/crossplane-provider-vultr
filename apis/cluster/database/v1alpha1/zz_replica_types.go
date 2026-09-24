@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ReplicaInitParameters struct {
@@ -70,6 +70,9 @@ type ReplicaObservation struct {
 
 	// The preferred minute of the backup hour for daily backups to take place (unavailable for Kafka engine types).
 	BackupMinute *string `json:"backupMinute,omitempty" tf:"backup_minute,omitempty"`
+
+	// The CA certificate for Managed Databases on this account.
+	CACertificate *string `json:"caCertificate,omitempty" tf:"ca_certificate,omitempty"`
 
 	// The configured time zone for the managed database read replica in TZ database format.
 	ClusterTimeZone *string `json:"clusterTimeZone,omitempty" tf:"cluster_time_zone,omitempty"`
@@ -237,8 +240,8 @@ type ReplicaParameters struct {
 
 // ReplicaSpec defines the desired state of Replica
 type ReplicaSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     ReplicaParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   ReplicaParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -254,8 +257,8 @@ type ReplicaSpec struct {
 
 // ReplicaStatus defines the observed state of Replica.
 type ReplicaStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ReplicaObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ReplicaObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

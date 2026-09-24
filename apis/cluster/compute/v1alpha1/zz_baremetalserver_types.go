@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type BareMetalServerInitParameters struct {
@@ -37,6 +37,7 @@ type BareMetalServerInitParameters struct {
 	// A label for the server.
 	Label *string `json:"label,omitempty" tf:"label,omitempty"`
 
+	// The raid configuration to use when provisioning the server.  Possible values: raid1, jbod, none. Defaults to none.
 	MdiskMode *string `json:"mdiskMode,omitempty" tf:"mdisk_mode,omitempty"`
 
 	// The ID of the operating system to be installed on the server. See List OS
@@ -125,6 +126,7 @@ type BareMetalServerObservation struct {
 	// The server's main IP address.
 	MainIP *string `json:"mainIp,omitempty" tf:"main_ip,omitempty"`
 
+	// The raid configuration to use when provisioning the server.  Possible values: raid1, jbod, none. Defaults to none.
 	MdiskMode *string `json:"mdiskMode,omitempty" tf:"mdisk_mode,omitempty"`
 
 	// The server's IPv4 netmask.
@@ -220,6 +222,7 @@ type BareMetalServerParameters struct {
 	// +kubebuilder:validation:Optional
 	Label *string `json:"label,omitempty" tf:"label,omitempty"`
 
+	// The raid configuration to use when provisioning the server.  Possible values: raid1, jbod, none. Defaults to none.
 	// +kubebuilder:validation:Optional
 	MdiskMode *string `json:"mdiskMode,omitempty" tf:"mdisk_mode,omitempty"`
 
@@ -279,8 +282,8 @@ type BareMetalServerParameters struct {
 
 // BareMetalServerSpec defines the desired state of BareMetalServer
 type BareMetalServerSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     BareMetalServerParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   BareMetalServerParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -296,8 +299,8 @@ type BareMetalServerSpec struct {
 
 // BareMetalServerStatus defines the observed state of BareMetalServer.
 type BareMetalServerStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        BareMetalServerObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               BareMetalServerObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

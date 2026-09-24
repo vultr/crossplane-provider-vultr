@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.18.0
+    controller-gen.kubebuilder.io/version: v0.20.1
   name: blockstorages.storage.vultr.m.upbound.io
 spec:
   group: storage.vultr.m.upbound.io
@@ -67,6 +67,10 @@ spec:
                     description: The type of block storage volume. Values are high_perf
                       or storage_opt.
                     type: string
+                  bootable:
+                    description: Whether or not this block device can be used as a
+                      bootable volume.
+                    type: boolean
                   label:
                     description: Label that is given to your block storage.
                     type: string
@@ -74,13 +78,20 @@ spec:
                     description: Flag which will determine if a volume should be attached
                       with a restart or not.
                     type: boolean
+                  osId:
+                    description: The operating system ID for this bootable block device,
+                      if applicable.
+                    type: number
                   region:
                     description: Region in which this block storage will reside in.
-                      (Currently only NJ/NY supported region "ewr")
                     type: string
                   sizeGb:
                     description: The size of the given block storage.
                     type: number
+                  snapshotId:
+                    description: The snapshot_id from which this block device was
+                      cloned.
+                    type: string
                 type: object
               initProvider:
                 description: |-
@@ -102,6 +113,10 @@ spec:
                     description: The type of block storage volume. Values are high_perf
                       or storage_opt.
                     type: string
+                  bootable:
+                    description: Whether or not this block device can be used as a
+                      bootable volume.
+                    type: boolean
                   label:
                     description: Label that is given to your block storage.
                     type: string
@@ -109,13 +124,20 @@ spec:
                     description: Flag which will determine if a volume should be attached
                       with a restart or not.
                     type: boolean
+                  osId:
+                    description: The operating system ID for this bootable block device,
+                      if applicable.
+                    type: number
                   region:
                     description: Region in which this block storage will reside in.
-                      (Currently only NJ/NY supported region "ewr")
                     type: string
                   sizeGb:
                     description: The size of the given block storage.
                     type: number
+                  snapshotId:
+                    description: The snapshot_id from which this block device was
+                      cloned.
+                    type: string
                 type: object
               managementPolicies:
                 default:
@@ -192,10 +214,22 @@ spec:
                   attachedToInstance:
                     description: VPS ID that is attached to this block storage.
                     type: string
+                  attachedToInstanceIp:
+                    description: IP address of the VPS the block storage subscription
+                      is attached to.
+                    type: string
+                  attachedToInstanceLabel:
+                    description: Label of the VPS the block storage subscription is
+                      attached to.
+                    type: string
                   blockType:
                     description: The type of block storage volume. Values are high_perf
                       or storage_opt.
                     type: string
+                  bootable:
+                    description: Whether or not this block device can be used as a
+                      bootable volume.
+                    type: boolean
                   cost:
                     description: The monthly cost of this block storage.
                     type: number
@@ -216,13 +250,24 @@ spec:
                     description: An ID associated with the instance, when mounted
                       the ID can be found in /dev/disk/by-id prefixed with virtio.
                     type: string
+                  osId:
+                    description: The operating system ID for this bootable block device,
+                      if applicable.
+                    type: number
+                  pendingCharges:
+                    description: Charges due for this block storage subscription at
+                      the end of the billing period.
+                    type: number
                   region:
                     description: Region in which this block storage will reside in.
-                      (Currently only NJ/NY supported region "ewr")
                     type: string
                   sizeGb:
                     description: The size of the given block storage.
                     type: number
+                  snapshotId:
+                    description: The snapshot_id from which this block device was
+                      cloned.
+                    type: string
                   status:
                     description: Current status of your block storage.
                     type: string
@@ -273,6 +318,13 @@ spec:
                 x-kubernetes-list-map-keys:
                 - type
                 x-kubernetes-list-type: map
+              lastHandledReconcileAt:
+                description: |-
+                  LastHandledReconcileAt holds the value of the most recent
+                  reconcile-requested-at annotation token that the controller has
+                  processed. Users can compare this to the annotation to determine
+                  whether a reconcile request has been handled.
+                type: string
               observedGeneration:
                 description: |-
                   ObservedGeneration is the latest metadata.generation

@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type FirewallRulesInitParameters struct {
@@ -192,6 +191,9 @@ type LoadBalancerInitParameters struct {
 	// Array of instances that are currently attached to the load balancer.
 	AttachedInstances []*string `json:"attachedInstances,omitempty" tf:"attached_instances,omitempty"`
 
+	// The auto SSL domain configuration for a load balancer. This can be a root domain (example.com) or include a subdomain (sub.example.com).
+	AutoSSLDomain *string `json:"autoSslDomain,omitempty" tf:"auto_ssl_domain,omitempty"`
+
 	// The balancing algorithm for your load balancer. Options are roundrobin or leastconn. Default value is roundrobin
 	BalancingAlgorithm *string `json:"balancingAlgorithm,omitempty" tf:"balancing_algorithm,omitempty"`
 
@@ -204,11 +206,21 @@ type LoadBalancerInitParameters struct {
 	// List of forwarding rules for a load balancer. The configuration of a forwarding_rules is listened below.
 	ForwardingRules []ForwardingRulesInitParameters `json:"forwardingRules,omitempty" tf:"forwarding_rules,omitempty"`
 
+	// A set of region IDs to deploy child load balancers to.
+	// +listType=set
+	GlobalRegions []*string `json:"globalRegions,omitempty" tf:"global_regions,omitempty"`
+
+	// Integer value that indicates if HTTP/2 or HTTP/3 is enabled. Allowed values 2 or 3.
+	HTTPVersion *float64 `json:"httpVersion,omitempty" tf:"http_version,omitempty"`
+
 	// A block that defines the way load balancers should check for health. The configuration of a health_check is listed below.
 	HealthCheck []HealthCheckInitParameters `json:"healthCheck,omitempty" tf:"health_check,omitempty"`
 
 	// The load balancer's label.
 	Label *string `json:"label,omitempty" tf:"label,omitempty"`
+
+	// The number of nodes to add to the load balancer (1-99). Must be an odd number. Default value is 1.
+	Nodes *float64 `json:"nodes,omitempty" tf:"nodes,omitempty"`
 
 	// Boolean value that indicates if Proxy Protocol is enabled.
 	ProxyProtocol *bool `json:"proxyProtocol,omitempty" tf:"proxy_protocol,omitempty"`
@@ -231,6 +243,9 @@ type LoadBalancerObservation struct {
 	// Array of instances that are currently attached to the load balancer.
 	AttachedInstances []*string `json:"attachedInstances,omitempty" tf:"attached_instances,omitempty"`
 
+	// The auto SSL domain configuration for a load balancer. This can be a root domain (example.com) or include a subdomain (sub.example.com).
+	AutoSSLDomain *string `json:"autoSslDomain,omitempty" tf:"auto_ssl_domain,omitempty"`
+
 	// The balancing algorithm for your load balancer. Options are roundrobin or leastconn. Default value is roundrobin
 	BalancingAlgorithm *string `json:"balancingAlgorithm,omitempty" tf:"balancing_algorithm,omitempty"`
 
@@ -242,6 +257,13 @@ type LoadBalancerObservation struct {
 
 	// List of forwarding rules for a load balancer. The configuration of a forwarding_rules is listened below.
 	ForwardingRules []ForwardingRulesObservation `json:"forwardingRules,omitempty" tf:"forwarding_rules,omitempty"`
+
+	// A set of region IDs to deploy child load balancers to.
+	// +listType=set
+	GlobalRegions []*string `json:"globalRegions,omitempty" tf:"global_regions,omitempty"`
+
+	// Integer value that indicates if HTTP/2 or HTTP/3 is enabled. Allowed values 2 or 3.
+	HTTPVersion *float64 `json:"httpVersion,omitempty" tf:"http_version,omitempty"`
 
 	// Boolean value that indicates if SSL is enabled.
 	HasSSL *bool `json:"hasSsl,omitempty" tf:"has_ssl,omitempty"`
@@ -260,6 +282,9 @@ type LoadBalancerObservation struct {
 
 	// The load balancer's label.
 	Label *string `json:"label,omitempty" tf:"label,omitempty"`
+
+	// The number of nodes to add to the load balancer (1-99). Must be an odd number. Default value is 1.
+	Nodes *float64 `json:"nodes,omitempty" tf:"nodes,omitempty"`
 
 	// Boolean value that indicates if Proxy Protocol is enabled.
 	ProxyProtocol *bool `json:"proxyProtocol,omitempty" tf:"proxy_protocol,omitempty"`
@@ -286,6 +311,10 @@ type LoadBalancerParameters struct {
 	// +kubebuilder:validation:Optional
 	AttachedInstances []*string `json:"attachedInstances,omitempty" tf:"attached_instances,omitempty"`
 
+	// The auto SSL domain configuration for a load balancer. This can be a root domain (example.com) or include a subdomain (sub.example.com).
+	// +kubebuilder:validation:Optional
+	AutoSSLDomain *string `json:"autoSslDomain,omitempty" tf:"auto_ssl_domain,omitempty"`
+
 	// The balancing algorithm for your load balancer. Options are roundrobin or leastconn. Default value is roundrobin
 	// +kubebuilder:validation:Optional
 	BalancingAlgorithm *string `json:"balancingAlgorithm,omitempty" tf:"balancing_algorithm,omitempty"`
@@ -302,6 +331,15 @@ type LoadBalancerParameters struct {
 	// +kubebuilder:validation:Optional
 	ForwardingRules []ForwardingRulesParameters `json:"forwardingRules,omitempty" tf:"forwarding_rules,omitempty"`
 
+	// A set of region IDs to deploy child load balancers to.
+	// +kubebuilder:validation:Optional
+	// +listType=set
+	GlobalRegions []*string `json:"globalRegions,omitempty" tf:"global_regions,omitempty"`
+
+	// Integer value that indicates if HTTP/2 or HTTP/3 is enabled. Allowed values 2 or 3.
+	// +kubebuilder:validation:Optional
+	HTTPVersion *float64 `json:"httpVersion,omitempty" tf:"http_version,omitempty"`
+
 	// A block that defines the way load balancers should check for health. The configuration of a health_check is listed below.
 	// +kubebuilder:validation:Optional
 	HealthCheck []HealthCheckParameters `json:"healthCheck,omitempty" tf:"health_check,omitempty"`
@@ -309,6 +347,10 @@ type LoadBalancerParameters struct {
 	// The load balancer's label.
 	// +kubebuilder:validation:Optional
 	Label *string `json:"label,omitempty" tf:"label,omitempty"`
+
+	// The number of nodes to add to the load balancer (1-99). Must be an odd number. Default value is 1.
+	// +kubebuilder:validation:Optional
+	Nodes *float64 `json:"nodes,omitempty" tf:"nodes,omitempty"`
 
 	// Boolean value that indicates if Proxy Protocol is enabled.
 	// +kubebuilder:validation:Optional
@@ -340,7 +382,7 @@ type SSLInitParameters struct {
 	Chain *string `json:"chain,omitempty" tf:"chain,omitempty"`
 
 	// The SSL certificates private key.
-	PrivateKeySecretRef v1.LocalSecretKeySelector `json:"privateKeySecretRef" tf:"-"`
+	PrivateKeySecretRef v2.LocalSecretKeySelector `json:"privateKeySecretRef" tf:"-"`
 }
 
 type SSLObservation struct {
@@ -364,7 +406,7 @@ type SSLParameters struct {
 
 	// The SSL certificates private key.
 	// +kubebuilder:validation:Optional
-	PrivateKeySecretRef v1.LocalSecretKeySelector `json:"privateKeySecretRef" tf:"-"`
+	PrivateKeySecretRef v2.LocalSecretKeySelector `json:"privateKeySecretRef" tf:"-"`
 }
 
 // LoadBalancerSpec defines the desired state of LoadBalancer
@@ -386,8 +428,8 @@ type LoadBalancerSpec struct {
 
 // LoadBalancerStatus defines the observed state of LoadBalancer.
 type LoadBalancerStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        LoadBalancerObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               LoadBalancerObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

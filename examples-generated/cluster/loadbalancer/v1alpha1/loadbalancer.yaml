@@ -23,4 +23,5 @@ spec:
       responseTimeout: 1
       unhealthyThreshold: 2
     label: vultr-load-balancer
+    nodes: 3
     region: ewr

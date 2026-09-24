@@ -9,6 +9,10 @@ metadata:
   namespace: crossplane-system
 spec:
   forProvider:
+    bucket:
+    - enable_lock: true
+      enable_versioning: true
+      name: my-bucket
     clusterId: 9
     label: vultr-object-storage
     tierId: 4

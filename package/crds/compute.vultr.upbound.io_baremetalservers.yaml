@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.18.0
+    controller-gen.kubebuilder.io/version: v0.20.1
   name: baremetalservers.compute.vultr.upbound.io
 spec:
   group: compute.vultr.upbound.io
@@ -105,6 +105,9 @@ spec:
                     description: A label for the server.
                     type: string
                   mdiskMode:
+                    description: 'The raid configuration to use when provisioning
+                      the server.  Possible values: raid1, jbod, none. Defaults to
+                      none.'
                     type: string
                   osId:
                     description: The ID of the operating system to be installed on
@@ -209,6 +212,9 @@ spec:
                     description: A label for the server.
                     type: string
                   mdiskMode:
+                    description: 'The raid configuration to use when provisioning
+                      the server.  Possible values: raid1, jbod, none. Defaults to
+                      none.'
                     type: string
                   osId:
                     description: The ID of the operating system to be installed on
@@ -421,6 +427,9 @@ spec:
                     description: The server's main IP address.
                     type: string
                   mdiskMode:
+                    description: 'The raid configuration to use when provisioning
+                      the server.  Possible values: raid1, jbod, none. Defaults to
+                      none.'
                     type: string
                   netmaskV4:
                     description: The server's IPv4 netmask.
@@ -549,6 +558,13 @@ spec:
                 x-kubernetes-list-map-keys:
                 - type
                 x-kubernetes-list-type: map
+              lastHandledReconcileAt:
+                description: |-
+                  LastHandledReconcileAt holds the value of the most recent
+                  reconcile-requested-at annotation token that the controller has
+                  processed. Users can compare this to the annotation to determine
+                  whether a reconcile request has been handled.
+                type: string
               observedGeneration:
                 description: |-
                   ObservedGeneration is the latest metadata.generation

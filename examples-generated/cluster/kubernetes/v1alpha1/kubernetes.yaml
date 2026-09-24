@@ -13,8 +13,10 @@ spec:
     - autoScaler: true
       label: vke-nodepool
       labels:
-        my-label: a-label-on-all-nodes
-        my-second-label: another-label-on-all-nodes
+      - key: my-label
+        value: a-label-on-all-nodes
+      - key: my-second-label
+        value: another-label-on-all-nodes
       maxNodes: 2
       minNodes: 1
       nodeQuantity: 1
@@ -22,6 +24,9 @@ spec:
       taints:
       - effect: NoExecute
         key: a-taint
+        value: is-tainted
+      - effect: NoSchedule
+        key: another-taint
         value: is-tainted
     region: ewr
     version: v1.28.2+1

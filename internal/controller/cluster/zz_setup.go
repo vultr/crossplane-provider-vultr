@@ -73,3 +73,27 @@ func SetupGated(mgr ctrl.Manager, o controller.Options) error {
 	}
 	return nil
 }
+
+// SetupWebhookWithManager registers conversion webhooks for all resource kinds in the group.
+func SetupWebhookWithManager(mgr ctrl.Manager) error {
+	for _, setup := range []func(ctrl.Manager) error{
+		baremetalserver.SetupWebhookWithManager,
+		instance.SetupWebhookWithManager,
+		connectionpool.SetupWebhookWithManager,
+		database.SetupWebhookWithManager,
+		db.SetupWebhookWithManager,
+		replica.SetupWebhookWithManager,
+		user.SetupWebhookWithManager,
+		kubernetes.SetupWebhookWithManager,
+		nodepools.SetupWebhookWithManager,
+		loadbalancer.SetupWebhookWithManager,
+		providerconfig.SetupWebhookWithManager,
+		blockstorage.SetupWebhookWithManager,
+		objectstorage.SetupWebhookWithManager,
+	} {
+		if err := setup(mgr); err != nil {
+			return err
+		}
+	}
+	return nil
+}

@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type BackupsScheduleInitParameters struct {
@@ -62,6 +62,55 @@ type BackupsScheduleParameters struct {
 	Type *string `json:"type" tf:"type,omitempty"`
 }
 
+type BlockDevicesInitParameters struct {
+
+	// The ID of an existing block device or local if the VX1 plan has local storage and you wish to utilize it for this instance.
+	BlockID *string `json:"blockId,omitempty" tf:"block_id,omitempty"`
+
+	// Whether the associated block device is bootable.
+	Bootable *bool `json:"bootable,omitempty" tf:"bootable,omitempty"`
+
+	// The disk size for the block device if it is being created.
+	DiskSize *float64 `json:"diskSize,omitempty" tf:"disk_size,omitempty"`
+
+	// The label for the block device if it is being created.
+	Label *string `json:"label,omitempty" tf:"label,omitempty"`
+}
+
+type BlockDevicesObservation struct {
+
+	// The ID of an existing block device or local if the VX1 plan has local storage and you wish to utilize it for this instance.
+	BlockID *string `json:"blockId,omitempty" tf:"block_id,omitempty"`
+
+	// Whether the associated block device is bootable.
+	Bootable *bool `json:"bootable,omitempty" tf:"bootable,omitempty"`
+
+	// The disk size for the block device if it is being created.
+	DiskSize *float64 `json:"diskSize,omitempty" tf:"disk_size,omitempty"`
+
+	// The label for the block device if it is being created.
+	Label *string `json:"label,omitempty" tf:"label,omitempty"`
+}
+
+type BlockDevicesParameters struct {
+
+	// The ID of an existing block device or local if the VX1 plan has local storage and you wish to utilize it for this instance.
+	// +kubebuilder:validation:Optional
+	BlockID *string `json:"blockId,omitempty" tf:"block_id,omitempty"`
+
+	// Whether the associated block device is bootable.
+	// +kubebuilder:validation:Optional
+	Bootable *bool `json:"bootable,omitempty" tf:"bootable,omitempty"`
+
+	// The disk size for the block device if it is being created.
+	// +kubebuilder:validation:Optional
+	DiskSize *float64 `json:"diskSize,omitempty" tf:"disk_size,omitempty"`
+
+	// The label for the block device if it is being created.
+	// +kubebuilder:validation:Optional
+	Label *string `json:"label,omitempty" tf:"label,omitempty"`
+}
+
 type InstanceInitParameters struct {
 
 	// Whether an activation email will be sent when the server is ready.
@@ -79,6 +128,8 @@ type InstanceInitParameters struct {
 
 	// A block that defines the way backups should be scheduled. While this is an optional field if backups are enabled this field is mandatory. The configuration of a backups_schedule is listed below.
 	BackupsSchedule []BackupsScheduleInitParameters `json:"backupsSchedule,omitempty" tf:"backups_schedule,omitempty"`
+
+	BlockDevices []BlockDevicesInitParameters `json:"blockDevices,omitempty" tf:"block_devices,omitempty"`
 
 	// Whether DDOS protection will be enabled on the server (there is an additional charge for this).
 	DdosProtection *bool `json:"ddosProtection,omitempty" tf:"ddos_protection,omitempty"`
@@ -147,6 +198,10 @@ type InstanceInitParameters struct {
 	// +listType=set
 	VPCIds []*string `json:"vpcIds,omitempty" tf:"vpc_ids,omitempty"`
 
+	// If enabled, no public IP or NIC will be attached. Requires a vpc_ids with a NAT gateway set up.
+	// Requires a 'vpc_ids' with a NAT gateway attached
+	VPCOnly *bool `json:"vpcOnly,omitempty" tf:"vpc_only,omitempty"`
+
 	// (Deprecated) A list of VPC 2.0 IDs to be attached to the server.
 	// +listType=set
 	Vpc2Ids []*string `json:"vpc2Ids,omitempty" tf:"vpc2_ids,omitempty"`
@@ -172,6 +227,8 @@ type InstanceObservation struct {
 
 	// A block that defines the way backups should be scheduled. While this is an optional field if backups are enabled this field is mandatory. The configuration of a backups_schedule is listed below.
 	BackupsSchedule []BackupsScheduleObservation `json:"backupsSchedule,omitempty" tf:"backups_schedule,omitempty"`
+
+	BlockDevices []BlockDevicesObservation `json:"blockDevices,omitempty" tf:"block_devices,omitempty"`
 
 	// The date the server was added to your Vultr account.
 	DateCreated *string `json:"dateCreated,omitempty" tf:"date_created,omitempty"`
@@ -219,9 +276,6 @@ type InstanceObservation struct {
 
 	// The ID of the ISO file to be installed on the server. See List ISO
 	IsoID *string `json:"isoId,omitempty" tf:"iso_id,omitempty"`
-
-	// The server's current KVM URL. This URL will change periodically. It is not advised to cache this value.
-	Kvm *string `json:"kvm,omitempty" tf:"kvm,omitempty"`
 
 	// A label for the server.
 	Label *string `json:"label,omitempty" tf:"label,omitempty"`
@@ -291,6 +345,10 @@ type InstanceObservation struct {
 	// +listType=set
 	VPCIds []*string `json:"vpcIds,omitempty" tf:"vpc_ids,omitempty"`
 
+	// If enabled, no public IP or NIC will be attached. Requires a vpc_ids with a NAT gateway set up.
+	// Requires a 'vpc_ids' with a NAT gateway attached
+	VPCOnly *bool `json:"vpcOnly,omitempty" tf:"vpc_only,omitempty"`
+
 	// The number of virtual CPUs available on the server.
 	VcpuCount *float64 `json:"vcpuCount,omitempty" tf:"vcpu_count,omitempty"`
 
@@ -321,6 +379,9 @@ type InstanceParameters struct {
 	// A block that defines the way backups should be scheduled. While this is an optional field if backups are enabled this field is mandatory. The configuration of a backups_schedule is listed below.
 	// +kubebuilder:validation:Optional
 	BackupsSchedule []BackupsScheduleParameters `json:"backupsSchedule,omitempty" tf:"backups_schedule,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	BlockDevices []BlockDevicesParameters `json:"blockDevices,omitempty" tf:"block_devices,omitempty"`
 
 	// Whether DDOS protection will be enabled on the server (there is an additional charge for this).
 	// +kubebuilder:validation:Optional
@@ -409,6 +470,11 @@ type InstanceParameters struct {
 	// +listType=set
 	VPCIds []*string `json:"vpcIds,omitempty" tf:"vpc_ids,omitempty"`
 
+	// If enabled, no public IP or NIC will be attached. Requires a vpc_ids with a NAT gateway set up.
+	// Requires a 'vpc_ids' with a NAT gateway attached
+	// +kubebuilder:validation:Optional
+	VPCOnly *bool `json:"vpcOnly,omitempty" tf:"vpc_only,omitempty"`
+
 	// (Deprecated) A list of VPC 2.0 IDs to be attached to the server.
 	// +kubebuilder:validation:Optional
 	// +listType=set
@@ -417,8 +483,8 @@ type InstanceParameters struct {
 
 // InstanceSpec defines the desired state of Instance
 type InstanceSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     InstanceParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   InstanceParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -434,8 +500,8 @@ type InstanceSpec struct {
 
 // InstanceStatus defines the observed state of Instance.
 type InstanceStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        InstanceObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               InstanceObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true
