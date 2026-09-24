@@ -1,96 +1,59 @@
-# Building and Installing the Crossplane Vultr Provider
+# Developing provider-vultr
 
-`provider-vultr` is composed of a golang project and can be built directly with standard `golang` tools. We currently support two different platforms for building:
+## Requirements
 
-* Linux: most modern distros should work although most testing has been done on Ubuntu
-* Mac: macOS 10.6+ is supported
+* Linux or macOS
+* Go (the version in [go.mod](./go.mod); `GOTOOLCHAIN=auto` fetches it)
+* Docker
+* `make`, `git`, `curl`, `unzip`
 
-## Build Requirements
+Other tools (Terraform, kind, kubectl, helm, the Crossplane CLI, uptest,
+golangci-lint) are downloaded into `.cache/tools` by the Makefile. The first
+`make` also initialises the `build` submodule.
 
-An Intel-based machine (recommend 2+ cores, 2+ GB of memory and 128GB of SSD). Inside your build environment (Docker for Mac or a VM), 6+ GB memory is also recommended.
+## Code generation
 
-The following tools are need on the host:
+The Terraform provider version is set by `TERRAFORM_PROVIDER_VERSION` in the
+[Makefile](./Makefile). Resource configuration lives in [config/](./config):
 
-* curl
-* docker (1.12+) or Docker for Mac (17+)
-* git
-* make
-* golang
-* rsync (if you're using the build container on mac)
-* helm (v2.8.2+)
-* kubebuilder (v1.0.4+)
+* `external_name.go` - resources to generate and their external-name config
+* `groups.go` - API group and kind of each resource
+* `cluster/`, `namespaced/` - per-resource overrides for each scope
 
-## Build
-You can build the Crossplane Vultr Provider for the host platform by simply running the command below.
-Building in parallel with the `-j` option is recommended.
+Regenerate APIs, controllers, CRDs and examples after any change:
 
 ```console
-make -j4
+make generate
 ```
 
-The first time `make` is run, the build submodule will be synced and
-updated. After initial setup, it can be updated by running `make submodules`.
+Run `make reviewable` (generate, lint, test) before opening a pull request.
 
-Run `make help` for more options.
+## Run locally
 
-## Building inside the cross container
-
-Official Crossplane builds are done inside a build container. This ensures that we get a consistent build, test and release environment. To run the build inside the cross container run:
+Against the cluster in your current kubeconfig, with CRDs applied from
+`package/crds`:
 
 ```console
-build/run make -j4
-```
-
-The first run of `build/run` will build the container itself and could take a few minutes to complete, but subsequent builds should go much faster.
-
-## Install Crossplane in Your Cluster
-Once your Cluster is up and running, you'll need to install Crossplane. 
-
-We recommend using Helm to install Crossplane. You can find the [official documentation here](https://crossplane.io/docs/v1.5/getting-started/install-configure.html#install-crossplane). These are the commands: 
-
-```console
-kubectl create namespace crossplane-system
-
-helm repo add crossplane-stable https://charts.crossplane.io/stable
-helm repo update
-
-helm install crossplane --namespace crossplane-system crossplane-stable/crossplane
-```
-
-## Getting started
-
-Next install this Vultr Crossplane provider:
-```bash
-# clone this repo
-git clone git@github.com:vultr/crossplane-provider-vultr.git
-cd provider-vultr
-
-# install the crds
 kubectl apply -f package/crds
-```
-
-Run the provider:
-```bash
 make run
 ```
 
-Configure the provider:
-```bash
-# change the examples/secret.yaml to use your VULTR_API_KEY
-kubectl apply -f examples/providerconfig/secret.yaml
-kubectl apply -f examples/providerconfig/providerconfig.yaml
+Or build the package and deploy it with Crossplane to a local kind cluster:
+
+```console
+make local-deploy
 ```
 
+## End-to-end tests
 
-## Provision Vultr Resources 
+[uptest](https://github.com/crossplane/uptest) creates, updates, imports and
+deletes the given examples against a real Vultr account:
 
-Go to the [examples-generated](./examples-generated) directory in this repo, find the Vultr product you'd like to deploy, make any needed changes to the yaml file, and then create the resource. 
-
-For example, if you'd like to spin up a VKE Cluster, run the command
-
-```console 
-kubectl apply -f examples-generated/vultr/kubernetes.yaml
-# wait a bit
-kubectl get managed
+```console
+export UPTEST_CLOUD_CREDENTIALS='{"api_key":"<your API key>"}'
+export UPTEST_EXAMPLE_LIST=examples-generated/namespaced/storage/v1alpha1/blockstorage.yaml
+make e2e
 ```
-and check your Vultr account to see if the resource has been created.
+
+On pull requests, a maintainer can comment `/test-examples="<path>"` to run the
+same test in CI.

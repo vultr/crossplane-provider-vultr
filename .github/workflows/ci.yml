@@ -37,6 +37,10 @@ jobs:
         with:
           submodules: true
 
+      - name: Fetch base branch for PR
+        if: github.event_name == 'pull_request'
+        run: git fetch origin ${{ github.base_ref }}:${{ github.base_ref }}
+
       - name: Get modified CRDs
         id: modified-crds
         uses: tj-actions/changed-files@9426d40962ed5378910ee2e21d5f8c6fcbf2dd96 # v47.0.6
@@ -50,7 +54,7 @@ jobs:
         run: |
           make crddiff
       - name: Report native schema version changes
-        if: ${{ inputs.upjet-based-provider }}
+        if: github.event_name == 'pull_request'
         run: |
           make schema-version-diff
 

@@ -1,72 +1,103 @@
 # Provider Vultr
 
-`provider-vultr` is a [Crossplane](https://crossplane.io/) provider that
-is built using [Upjet](https://github.com/upbound/upjet) code
-generation tools and exposes XRM-conformant managed resources for the
-Vultr API.
+`provider-vultr` is a [Crossplane](https://crossplane.io/) provider for
+[Vultr](https://www.vultr.com/). It is generated with
+[Upjet](https://github.com/crossplane/upjet) from the
+[Vultr Terraform provider](https://github.com/vultr/terraform-provider-vultr)
+and exposes Vultr infrastructure as Kubernetes managed resources.
 
-## Overview
+Every managed resource is served in two flavours:
 
-This `provider-vultr` repository is the Crossplane infrastructure provider for
-[vultr](https://vultr.com/). The provider that is built from
-the source code in this repository can be installed into a Crossplane control
-plane and adds the following new functionality:
+* namespaced, under `*.vultr.m.upbound.io` (Crossplane v2 style), and
+* cluster-scoped, under `*.vultr.upbound.io` (legacy, for Crossplane v1
+  compositions).
 
-* Custom Resource Definitions (CRDs) that model vultr infrastructure and managed
-  services (e.g. [Vultr Kubernetes Engine](https://www.vultr.com/kubernetes/), [Vultr Loadbalancers](https://www.vultr.com/products/load-balancers/),
-  etc.)
-* Controllers to provision these resources in vultr based on the users desired
-  state captured in CRDs they create
-* Implementations of Crossplane's portable resource abstractions, enabling vultr
-  resources to fulfill a user's general need for cloud services
+> [!NOTE]
+> Upbound publishes a separate provider for Vultr
+> ([upbound/provider-upjet-vultr](https://github.com/upbound/provider-upjet-vultr))
+> that uses the same API groups. The two providers cannot be installed in the
+> same cluster.
 
-## Getting Started and Documentation
+## Install
 
-For getting started guides, installation, deployment, and administration, see
-our [Documentation](https://crossplane.io/docs/latest).
+Crossplane v2 is recommended. Install the provider package:
 
-## Contributing
+```yaml
+apiVersion: pkg.crossplane.io/v1
+kind: Provider
+metadata:
+  name: provider-vultr
+spec:
+  package: ghcr.io/vultr/provider-vultr:<version>
+```
 
-provider-vultr is a community driven project and we welcome contributions. See
-the Crossplane
-[Contributing](https://github.com/crossplane/crossplane/blob/master/CONTRIBUTING.md)
-guidelines to get started.
+See [releases](https://github.com/vultr/crossplane-provider-vultr/releases) for
+available versions.
 
-## Report a Bug
+## Configure credentials
 
-For filing bugs, suggesting improvements, or requesting new features, please
-open an [issue](https://github.com/vultr/crossplane-provider-vultr/issues).
+Create a secret holding your
+[Vultr API key](https://my.vultr.com/settings/#settingsapi) as JSON.
+`rate_limit` (milliseconds between requests) and `retry_limit` are optional.
 
-## Contact
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: vultr-creds
+  namespace: crossplane-system
+type: Opaque
+stringData:
+  credentials: |
+    {
+      "api_key": "<your API key>"
+    }
+```
 
-Please use the following to reach members of the community:
+Then point a provider config at it. Namespaced managed resources use a
+`ClusterProviderConfig` (or a `ProviderConfig` in their namespace) from
+`vultr.m.upbound.io`; cluster-scoped managed resources use a `ProviderConfig`
+from `vultr.upbound.io`. Both default to the one named `default`.
 
-- Slack: Join our [slack channel](https://slack.crossplane.io)
-- Forums:
-  [crossplane-dev](https://groups.google.com/forum/#!forum/crossplane-dev)
-- Twitter: [@crossplane_io](https://twitter.com/crossplane_io)
-- Email: [info@crossplane.io](mailto:info@crossplane.io)
+```yaml
+apiVersion: vultr.m.upbound.io/v1beta1
+kind: ClusterProviderConfig
+metadata:
+  name: default
+spec:
+  credentials:
+    source: Secret
+    secretRef:
+      name: vultr-creds
+      namespace: crossplane-system
+      key: credentials
+```
 
-## Roadmap
+More examples are in [examples/](./examples).
 
-provider-vultr goals and milestones are currently tracked in the Crossplane
-repository. More information can be found in
-[ROADMAP.md](https://github.com/crossplane/crossplane/blob/master/ROADMAP.md).
+## Create resources
 
-## Governance and Owners
+Example manifests for every managed resource are generated into
+[examples-generated/](./examples-generated), e.g. a VKE cluster:
 
-provider-vultr is run according to the same
-[Governance](https://github.com/crossplane/crossplane/blob/master/GOVERNANCE.md)
-and [Ownership](https://github.com/crossplane/crossplane/blob/master/OWNERS.md)
-structure as the core Crossplane project.
+```console
+kubectl apply -f examples-generated/namespaced/kubernetes/v1alpha1/kubernetes.yaml
+kubectl get managed
+```
 
-## Code of Conduct
+Resource schemas are in [package/crds](./package/crds) and follow the
+arguments of the corresponding Terraform resource.
 
-provider-vultr adheres to the same [Code of
-Conduct](https://github.com/crossplane/crossplane/blob/master/CODE_OF_CONDUCT.md)
-as the core Crossplane project.
+## Developing
 
-## Licensing
+See [INSTALL.md](./INSTALL.md) for building, code generation and running the
+provider locally.
+
+## Report a bug
+
+Please open an
+[issue](https://github.com/vultr/crossplane-provider-vultr/issues).
+
+## License
 
 provider-vultr is under the Apache 2.0 license.
-
