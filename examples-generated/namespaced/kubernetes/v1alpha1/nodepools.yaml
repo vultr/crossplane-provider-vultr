@@ -10,7 +10,9 @@ metadata:
 spec:
   forProvider:
     autoScaler: true
-    clusterId: ${vultr_kubernetes.k8.id}
+    clusterIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: k8
     label: my-label
     labels:
     - key: my-label

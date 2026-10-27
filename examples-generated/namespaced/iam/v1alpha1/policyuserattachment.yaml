@@ -1,0 +1,17 @@
+apiVersion: iam.vultr.m.upbound.io/v1alpha1
+kind: PolicyUserAttachment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: iam/v1alpha1/policyuserattachment
+  labels:
+    testing.upbound.io/example-name: policy-user-attachment
+  name: policy-user-attachment
+  namespace: crossplane-system
+spec:
+  forProvider:
+    policyIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    userIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

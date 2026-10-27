@@ -11,3 +11,27 @@ func (tr *BareMetalServer) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *Instance) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *InstanceIPv4) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *ISO) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *ReverseIPv4) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *ReverseIPv6) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *Snapshot) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *SnapshotFromURL) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *SSHKey) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *StartupScript) Hub() {}

@@ -1,0 +1,18 @@
+apiVersion: database.vultr.upbound.io/v1alpha1
+kind: Topic
+metadata:
+  annotations:
+    meta.upbound.io/example-id: database/v1alpha1/topic
+  labels:
+    testing.upbound.io/example-name: my_database_topic
+  name: my-database-topic
+spec:
+  forProvider:
+    databaseIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: my_database
+    name: my_database_topic
+    partitions: "3"
+    replication: "2"
+    retentionBytes: "-1"
+    retentionHours: "120"

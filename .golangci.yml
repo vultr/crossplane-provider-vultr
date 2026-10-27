@@ -105,6 +105,11 @@ linters:
       - linters:
           - gosec
         text: 'G104:'
+      # Terraform resource names are repeated as map keys across the
+      # resource configuration tables.
+      - linters:
+          - goconst
+        path: ^config/
     paths:
       - zz_\..+\.go$
       - third_party$

@@ -78,7 +78,16 @@ type UserInitParameters struct {
 	AccessControl []AccessControlInitParameters `json:"accessControl,omitempty" tf:"access_control,omitempty"`
 
 	// The managed database ID you want to attach this user to.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-vultr/apis/namespaced/database/v1alpha1.Database
 	DatabaseID *string `json:"databaseId,omitempty" tf:"database_id,omitempty"`
+
+	// Reference to a Database in database to populate databaseId.
+	// +kubebuilder:validation:Optional
+	DatabaseIDRef *v2.NamespacedReference `json:"databaseIdRef,omitempty" tf:"-"`
+
+	// Selector for a Database in database to populate databaseId.
+	// +kubebuilder:validation:Optional
+	DatabaseIDSelector *v2.NamespacedSelector `json:"databaseIdSelector,omitempty" tf:"-"`
 
 	// The encryption type of the new managed database user's password (MySQL engine types only - caching_sha2_password, mysql_native_password).
 	Encryption *string `json:"encryption,omitempty" tf:"encryption,omitempty"`
@@ -124,8 +133,17 @@ type UserParameters struct {
 	AccessControl []AccessControlParameters `json:"accessControl,omitempty" tf:"access_control,omitempty"`
 
 	// The managed database ID you want to attach this user to.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-vultr/apis/namespaced/database/v1alpha1.Database
 	// +kubebuilder:validation:Optional
 	DatabaseID *string `json:"databaseId,omitempty" tf:"database_id,omitempty"`
+
+	// Reference to a Database in database to populate databaseId.
+	// +kubebuilder:validation:Optional
+	DatabaseIDRef *v2.NamespacedReference `json:"databaseIdRef,omitempty" tf:"-"`
+
+	// Selector for a Database in database to populate databaseId.
+	// +kubebuilder:validation:Optional
+	DatabaseIDSelector *v2.NamespacedSelector `json:"databaseIdSelector,omitempty" tf:"-"`
 
 	// The encryption type of the new managed database user's password (MySQL engine types only - caching_sha2_password, mysql_native_password).
 	// +kubebuilder:validation:Optional
@@ -180,7 +198,6 @@ type UserStatus struct {
 type User struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.databaseId) || (has(self.initProvider) && has(self.initProvider.databaseId))",message="spec.forProvider.databaseId is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.username) || (has(self.initProvider) && has(self.initProvider.username))",message="spec.forProvider.username is a required parameter"
 	Spec   UserSpec   `json:"spec"`
 	Status UserStatus `json:"status,omitempty"`

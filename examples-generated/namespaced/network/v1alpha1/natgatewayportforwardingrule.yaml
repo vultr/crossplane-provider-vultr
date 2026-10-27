@@ -1,0 +1,24 @@
+apiVersion: network.vultr.m.upbound.io/v1alpha1
+kind: NATGatewayPortForwardingRule
+metadata:
+  annotations:
+    meta.upbound.io/example-id: network/v1alpha1/natgatewayportforwardingrule
+  labels:
+    testing.upbound.io/example-name: my_port_forwarding_rule
+  name: my-port-forwarding-rule
+  namespace: crossplane-system
+spec:
+  forProvider:
+    description: my description
+    enabled: true
+    externalPort: "123"
+    internalIp: 10.1.2.3
+    internalPort: "321"
+    name: my_port_forwarding_rule
+    natGatewayIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: my_nat_gateway
+    protocol: tcp
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: my_nat_gateway

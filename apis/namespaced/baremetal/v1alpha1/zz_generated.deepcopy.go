@@ -9,6 +9,7 @@
 package v1alpha1
 
 import (
+	"github.com/crossplane/crossplane/apis/v2/core/v2"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 )
 
@@ -129,15 +130,47 @@ func (in *BareMetalServerInitParameters) DeepCopyInto(out *BareMetalServerInitPa
 			}
 		}
 	}
+	if in.SSHKeyIdsRefs != nil {
+		in, out := &in.SSHKeyIdsRefs, &out.SSHKeyIdsRefs
+		*out = make([]v2.NamespacedReference, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.SSHKeyIdsSelector != nil {
+		in, out := &in.SSHKeyIdsSelector, &out.SSHKeyIdsSelector
+		*out = new(v2.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.ScriptID != nil {
 		in, out := &in.ScriptID, &out.ScriptID
 		*out = new(string)
 		**out = **in
 	}
+	if in.ScriptIDRef != nil {
+		in, out := &in.ScriptIDRef, &out.ScriptIDRef
+		*out = new(v2.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ScriptIDSelector != nil {
+		in, out := &in.ScriptIDSelector, &out.ScriptIDSelector
+		*out = new(v2.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.SnapshotID != nil {
 		in, out := &in.SnapshotID, &out.SnapshotID
 		*out = new(string)
 		**out = **in
+	}
+	if in.SnapshotIDRef != nil {
+		in, out := &in.SnapshotIDRef, &out.SnapshotIDRef
+		*out = new(v2.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.SnapshotIDSelector != nil {
+		in, out := &in.SnapshotIDSelector, &out.SnapshotIDSelector
+		*out = new(v2.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.Tags != nil {
 		in, out := &in.Tags, &out.Tags
@@ -164,6 +197,16 @@ func (in *BareMetalServerInitParameters) DeepCopyInto(out *BareMetalServerInitPa
 		in, out := &in.VPCID, &out.VPCID
 		*out = new(string)
 		**out = **in
+	}
+	if in.VPCIDRef != nil {
+		in, out := &in.VPCIDRef, &out.VPCIDRef
+		*out = new(v2.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.VPCIDSelector != nil {
+		in, out := &in.VPCIDSelector, &out.VPCIDSelector
+		*out = new(v2.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
 	}
 }
 
@@ -507,15 +550,47 @@ func (in *BareMetalServerParameters) DeepCopyInto(out *BareMetalServerParameters
 			}
 		}
 	}
+	if in.SSHKeyIdsRefs != nil {
+		in, out := &in.SSHKeyIdsRefs, &out.SSHKeyIdsRefs
+		*out = make([]v2.NamespacedReference, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.SSHKeyIdsSelector != nil {
+		in, out := &in.SSHKeyIdsSelector, &out.SSHKeyIdsSelector
+		*out = new(v2.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.ScriptID != nil {
 		in, out := &in.ScriptID, &out.ScriptID
 		*out = new(string)
 		**out = **in
 	}
+	if in.ScriptIDRef != nil {
+		in, out := &in.ScriptIDRef, &out.ScriptIDRef
+		*out = new(v2.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ScriptIDSelector != nil {
+		in, out := &in.ScriptIDSelector, &out.ScriptIDSelector
+		*out = new(v2.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.SnapshotID != nil {
 		in, out := &in.SnapshotID, &out.SnapshotID
 		*out = new(string)
 		**out = **in
+	}
+	if in.SnapshotIDRef != nil {
+		in, out := &in.SnapshotIDRef, &out.SnapshotIDRef
+		*out = new(v2.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.SnapshotIDSelector != nil {
+		in, out := &in.SnapshotIDSelector, &out.SnapshotIDSelector
+		*out = new(v2.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.Tags != nil {
 		in, out := &in.Tags, &out.Tags
@@ -542,6 +617,16 @@ func (in *BareMetalServerParameters) DeepCopyInto(out *BareMetalServerParameters
 		in, out := &in.VPCID, &out.VPCID
 		*out = new(string)
 		**out = **in
+	}
+	if in.VPCIDRef != nil {
+		in, out := &in.VPCIDRef, &out.VPCIDRef
+		*out = new(v2.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.VPCIDSelector != nil {
+		in, out := &in.VPCIDSelector, &out.VPCIDSelector
+		*out = new(v2.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
 	}
 }
 

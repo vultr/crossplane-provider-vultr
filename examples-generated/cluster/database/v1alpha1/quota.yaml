@@ -1,0 +1,18 @@
+apiVersion: database.vultr.upbound.io/v1alpha1
+kind: Quota
+metadata:
+  annotations:
+    meta.upbound.io/example-id: database/v1alpha1/quota
+  labels:
+    testing.upbound.io/example-name: my_database_quota
+  name: my-database-quota
+spec:
+  forProvider:
+    clientId: my_database_quota
+    consumerByteRate: "3"
+    databaseIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: my_database
+    producerByteRate: "2"
+    requestPercentage: "120"
+    user: my_database_user

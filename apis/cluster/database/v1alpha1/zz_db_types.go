@@ -16,7 +16,16 @@ import (
 type DBInitParameters struct {
 
 	// The managed database ID you want to attach this logical DB to.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-vultr/apis/cluster/database/v1alpha1.Database
 	DatabaseID *string `json:"databaseId,omitempty" tf:"database_id,omitempty"`
+
+	// Reference to a Database in database to populate databaseId.
+	// +kubebuilder:validation:Optional
+	DatabaseIDRef *v2.Reference `json:"databaseIdRef,omitempty" tf:"-"`
+
+	// Selector for a Database in database to populate databaseId.
+	// +kubebuilder:validation:Optional
+	DatabaseIDSelector *v2.Selector `json:"databaseIdSelector,omitempty" tf:"-"`
 
 	// The name of the new managed database logical DB.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
@@ -36,8 +45,17 @@ type DBObservation struct {
 type DBParameters struct {
 
 	// The managed database ID you want to attach this logical DB to.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-vultr/apis/cluster/database/v1alpha1.Database
 	// +kubebuilder:validation:Optional
 	DatabaseID *string `json:"databaseId,omitempty" tf:"database_id,omitempty"`
+
+	// Reference to a Database in database to populate databaseId.
+	// +kubebuilder:validation:Optional
+	DatabaseIDRef *v2.Reference `json:"databaseIdRef,omitempty" tf:"-"`
+
+	// Selector for a Database in database to populate databaseId.
+	// +kubebuilder:validation:Optional
+	DatabaseIDSelector *v2.Selector `json:"databaseIdSelector,omitempty" tf:"-"`
 
 	// The name of the new managed database logical DB.
 	// +kubebuilder:validation:Optional
@@ -80,7 +98,6 @@ type DBStatus struct {
 type DB struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.databaseId) || (has(self.initProvider) && has(self.initProvider.databaseId))",message="spec.forProvider.databaseId is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name) || (has(self.initProvider) && has(self.initProvider.name))",message="spec.forProvider.name is a required parameter"
 	Spec   DBSpec   `json:"spec"`
 	Status DBStatus `json:"status,omitempty"`

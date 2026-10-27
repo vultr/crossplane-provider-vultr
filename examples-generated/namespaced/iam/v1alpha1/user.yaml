@@ -1,0 +1,17 @@
+apiVersion: iam.vultr.m.upbound.io/v1alpha1
+kind: User
+metadata:
+  annotations:
+    meta.upbound.io/example-id: iam/v1alpha1/user
+  labels:
+    testing.upbound.io/example-name: my_user
+  name: my-user
+  namespace: crossplane-system
+spec:
+  forProvider:
+    apiEnabled: true
+    email: user@vultr.com
+    name: my user
+    passwordSecretRef:
+      key: example-key
+      name: example-secret

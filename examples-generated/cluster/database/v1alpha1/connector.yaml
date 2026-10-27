@@ -1,0 +1,18 @@
+apiVersion: database.vultr.upbound.io/v1alpha1
+kind: Connector
+metadata:
+  annotations:
+    meta.upbound.io/example-id: database/v1alpha1/connector
+  labels:
+    testing.upbound.io/example-name: my_database_connector
+  name: my-database-connector
+spec:
+  forProvider:
+    class: com.couchbase.connect.kafka.CouchbaseSinkConnector
+    config: "${jsonencode({\n\t\t\"couchbase.seed.nodes\" = \"3\"\n\t\t\"couchbase.username\"
+      = \"some_username\"\n\t\t\"couchbase.password\" = \"some_password\"\n\t})}"
+    databaseIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: my_database
+    name: my_database_connector
+    topics: my_database_topic

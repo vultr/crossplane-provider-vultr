@@ -40,7 +40,16 @@ type BlockStorageInitParameters struct {
 	SizeGb *float64 `json:"sizeGb,omitempty" tf:"size_gb,omitempty"`
 
 	// The snapshot_id from which this block device was cloned.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-vultr/apis/cluster/compute/v1alpha1.Snapshot
 	SnapshotID *string `json:"snapshotId,omitempty" tf:"snapshot_id,omitempty"`
+
+	// Reference to a Snapshot in compute to populate snapshotId.
+	// +kubebuilder:validation:Optional
+	SnapshotIDRef *v2.Reference `json:"snapshotIdRef,omitempty" tf:"-"`
+
+	// Selector for a Snapshot in compute to populate snapshotId.
+	// +kubebuilder:validation:Optional
+	SnapshotIDSelector *v2.Selector `json:"snapshotIdSelector,omitempty" tf:"-"`
 }
 
 type BlockStorageObservation struct {
@@ -132,8 +141,17 @@ type BlockStorageParameters struct {
 	SizeGb *float64 `json:"sizeGb,omitempty" tf:"size_gb,omitempty"`
 
 	// The snapshot_id from which this block device was cloned.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-vultr/apis/cluster/compute/v1alpha1.Snapshot
 	// +kubebuilder:validation:Optional
 	SnapshotID *string `json:"snapshotId,omitempty" tf:"snapshot_id,omitempty"`
+
+	// Reference to a Snapshot in compute to populate snapshotId.
+	// +kubebuilder:validation:Optional
+	SnapshotIDRef *v2.Reference `json:"snapshotIdRef,omitempty" tf:"-"`
+
+	// Selector for a Snapshot in compute to populate snapshotId.
+	// +kubebuilder:validation:Optional
+	SnapshotIDSelector *v2.Selector `json:"snapshotIdSelector,omitempty" tf:"-"`
 }
 
 // BlockStorageSpec defines the desired state of BlockStorage

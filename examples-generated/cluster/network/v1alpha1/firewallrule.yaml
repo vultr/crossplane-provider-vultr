@@ -1,0 +1,33 @@
+apiVersion: network.vultr.upbound.io/v1alpha1
+kind: FirewallRule
+metadata:
+  annotations:
+    meta.upbound.io/example-id: network/v1alpha1/firewallrule
+  labels:
+    testing.upbound.io/example-name: my_firewallrule
+  name: my-firewallrule
+spec:
+  forProvider:
+    firewallGroupIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: my_firewallgroup
+    ipType: v4
+    notes: my firewall rule
+    port: "8090"
+    protocol: tcp
+    subnet: 0.0.0.0
+    subnetSize: 0
+
+---
+
+apiVersion: network.vultr.upbound.io/v1alpha1
+kind: FirewallGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: network/v1alpha1/firewallrule
+  labels:
+    testing.upbound.io/example-name: my_firewallgroup
+  name: my-firewallgroup
+spec:
+  forProvider:
+    description: base firewall

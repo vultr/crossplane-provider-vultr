@@ -1,0 +1,22 @@
+apiVersion: network.vultr.m.upbound.io/v1alpha1
+kind: NATGatewayFirewallRule
+metadata:
+  annotations:
+    meta.upbound.io/example-id: network/v1alpha1/natgatewayfirewallrule
+  labels:
+    testing.upbound.io/example-name: my_firewall_rule
+  name: my-firewall-rule
+  namespace: crossplane-system
+spec:
+  forProvider:
+    natGatewayIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: my_nat_gateway
+    notes: my notes
+    port: "123"
+    protocol: tcp
+    subnet: 1.2.3.4
+    subnetSize: "24"
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: my_nat_gateway

@@ -17,8 +17,26 @@ func (l *BlockStorageList) GetItems() []resource.Managed {
 	return items
 }
 
+// GetItems of this ObjectStorageBucketList.
+func (l *ObjectStorageBucketList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
 // GetItems of this ObjectStorageList.
 func (l *ObjectStorageList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this VirtualFileSystemStorageList.
+func (l *VirtualFileSystemStorageList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
 	for i := range l.Items {
 		items[i] = &l.Items[i]

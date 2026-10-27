@@ -107,3 +107,103 @@ func (mg *ObjectStorage) SetProviderConfigReference(r *xpv2.Reference) {
 func (mg *ObjectStorage) SetWriteConnectionSecretToReference(r *xpv2.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }
+
+// GetCondition of this ObjectStorageBucket.
+func (mg *ObjectStorageBucket) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
+	return mg.Status.GetCondition(ct)
+}
+
+// GetDeletionPolicy of this ObjectStorageBucket.
+func (mg *ObjectStorageBucket) GetDeletionPolicy() xpv2.DeletionPolicy {
+	return mg.Spec.DeletionPolicy
+}
+
+// GetManagementPolicies of this ObjectStorageBucket.
+func (mg *ObjectStorageBucket) GetManagementPolicies() xpv2.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
+// GetProviderConfigReference of this ObjectStorageBucket.
+func (mg *ObjectStorageBucket) GetProviderConfigReference() *xpv2.Reference {
+	return mg.Spec.ProviderConfigReference
+}
+
+// GetWriteConnectionSecretToReference of this ObjectStorageBucket.
+func (mg *ObjectStorageBucket) GetWriteConnectionSecretToReference() *xpv2.SecretReference {
+	return mg.Spec.WriteConnectionSecretToReference
+}
+
+// SetConditions of this ObjectStorageBucket.
+func (mg *ObjectStorageBucket) SetConditions(c ...xpv2.Condition) {
+	mg.Status.SetConditions(c...)
+}
+
+// SetDeletionPolicy of this ObjectStorageBucket.
+func (mg *ObjectStorageBucket) SetDeletionPolicy(r xpv2.DeletionPolicy) {
+	mg.Spec.DeletionPolicy = r
+}
+
+// SetManagementPolicies of this ObjectStorageBucket.
+func (mg *ObjectStorageBucket) SetManagementPolicies(r xpv2.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
+// SetProviderConfigReference of this ObjectStorageBucket.
+func (mg *ObjectStorageBucket) SetProviderConfigReference(r *xpv2.Reference) {
+	mg.Spec.ProviderConfigReference = r
+}
+
+// SetWriteConnectionSecretToReference of this ObjectStorageBucket.
+func (mg *ObjectStorageBucket) SetWriteConnectionSecretToReference(r *xpv2.SecretReference) {
+	mg.Spec.WriteConnectionSecretToReference = r
+}
+
+// GetCondition of this VirtualFileSystemStorage.
+func (mg *VirtualFileSystemStorage) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
+	return mg.Status.GetCondition(ct)
+}
+
+// GetDeletionPolicy of this VirtualFileSystemStorage.
+func (mg *VirtualFileSystemStorage) GetDeletionPolicy() xpv2.DeletionPolicy {
+	return mg.Spec.DeletionPolicy
+}
+
+// GetManagementPolicies of this VirtualFileSystemStorage.
+func (mg *VirtualFileSystemStorage) GetManagementPolicies() xpv2.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
+// GetProviderConfigReference of this VirtualFileSystemStorage.
+func (mg *VirtualFileSystemStorage) GetProviderConfigReference() *xpv2.Reference {
+	return mg.Spec.ProviderConfigReference
+}
+
+// GetWriteConnectionSecretToReference of this VirtualFileSystemStorage.
+func (mg *VirtualFileSystemStorage) GetWriteConnectionSecretToReference() *xpv2.SecretReference {
+	return mg.Spec.WriteConnectionSecretToReference
+}
+
+// SetConditions of this VirtualFileSystemStorage.
+func (mg *VirtualFileSystemStorage) SetConditions(c ...xpv2.Condition) {
+	mg.Status.SetConditions(c...)
+}
+
+// SetDeletionPolicy of this VirtualFileSystemStorage.
+func (mg *VirtualFileSystemStorage) SetDeletionPolicy(r xpv2.DeletionPolicy) {
+	mg.Spec.DeletionPolicy = r
+}
+
+// SetManagementPolicies of this VirtualFileSystemStorage.
+func (mg *VirtualFileSystemStorage) SetManagementPolicies(r xpv2.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
+// SetProviderConfigReference of this VirtualFileSystemStorage.
+func (mg *VirtualFileSystemStorage) SetProviderConfigReference(r *xpv2.Reference) {
+	mg.Spec.ProviderConfigReference = r
+}
+
+// SetWriteConnectionSecretToReference of this VirtualFileSystemStorage.
+func (mg *VirtualFileSystemStorage) SetWriteConnectionSecretToReference(r *xpv2.SecretReference) {
+	mg.Spec.WriteConnectionSecretToReference = r
+}

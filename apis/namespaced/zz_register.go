@@ -13,8 +13,13 @@ import (
 	v1alpha1 "github.com/crossplane-contrib/provider-vultr/apis/namespaced/baremetal/v1alpha1"
 	v1alpha1compute "github.com/crossplane-contrib/provider-vultr/apis/namespaced/compute/v1alpha1"
 	v1alpha1database "github.com/crossplane-contrib/provider-vultr/apis/namespaced/database/v1alpha1"
+	v1alpha1dns "github.com/crossplane-contrib/provider-vultr/apis/namespaced/dns/v1alpha1"
+	v1alpha1iam "github.com/crossplane-contrib/provider-vultr/apis/namespaced/iam/v1alpha1"
+	v1alpha1inference "github.com/crossplane-contrib/provider-vultr/apis/namespaced/inference/v1alpha1"
 	v1alpha1kubernetes "github.com/crossplane-contrib/provider-vultr/apis/namespaced/kubernetes/v1alpha1"
 	v1alpha1loadbalancer "github.com/crossplane-contrib/provider-vultr/apis/namespaced/loadbalancer/v1alpha1"
+	v1alpha1network "github.com/crossplane-contrib/provider-vultr/apis/namespaced/network/v1alpha1"
+	v1alpha1registry "github.com/crossplane-contrib/provider-vultr/apis/namespaced/registry/v1alpha1"
 	v1alpha1storage "github.com/crossplane-contrib/provider-vultr/apis/namespaced/storage/v1alpha1"
 	v1alpha1namespaced "github.com/crossplane-contrib/provider-vultr/apis/namespaced/v1alpha1"
 	v1beta1 "github.com/crossplane-contrib/provider-vultr/apis/namespaced/v1beta1"
@@ -26,8 +31,13 @@ func init() {
 		v1alpha1.SchemeBuilder.AddToScheme,
 		v1alpha1compute.SchemeBuilder.AddToScheme,
 		v1alpha1database.SchemeBuilder.AddToScheme,
+		v1alpha1dns.SchemeBuilder.AddToScheme,
+		v1alpha1iam.SchemeBuilder.AddToScheme,
+		v1alpha1inference.SchemeBuilder.AddToScheme,
 		v1alpha1kubernetes.SchemeBuilder.AddToScheme,
 		v1alpha1loadbalancer.SchemeBuilder.AddToScheme,
+		v1alpha1network.SchemeBuilder.AddToScheme,
+		v1alpha1registry.SchemeBuilder.AddToScheme,
 		v1alpha1storage.SchemeBuilder.AddToScheme,
 		v1alpha1namespaced.SchemeBuilder.AddToScheme,
 		v1beta1.SchemeBuilder.AddToScheme,

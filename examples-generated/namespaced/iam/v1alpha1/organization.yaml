@@ -1,0 +1,13 @@
+apiVersion: iam.vultr.m.upbound.io/v1alpha1
+kind: Organization
+metadata:
+  annotations:
+    meta.upbound.io/example-id: iam/v1alpha1/organization
+  labels:
+    testing.upbound.io/example-name: my_org
+  name: my-org
+  namespace: crossplane-system
+spec:
+  forProvider:
+    name: my-org
+    type: Personal/Team

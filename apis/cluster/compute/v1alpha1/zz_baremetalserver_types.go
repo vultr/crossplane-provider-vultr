@@ -55,13 +55,40 @@ type BareMetalServerInitParameters struct {
 	ReservedIPv4 *string `json:"reservedIpv4,omitempty" tf:"reserved_ipv4,omitempty"`
 
 	// A list of SSH key IDs to apply to the server on install (only valid for Linux/FreeBSD).
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-vultr/apis/cluster/compute/v1alpha1.SSHKey
 	SSHKeyIds []*string `json:"sshKeyIds,omitempty" tf:"ssh_key_ids,omitempty"`
 
+	// References to SSHKey in compute to populate sshKeyIds.
+	// +kubebuilder:validation:Optional
+	SSHKeyIdsRefs []v2.Reference `json:"sshKeyIdsRefs,omitempty" tf:"-"`
+
+	// Selector for a list of SSHKey in compute to populate sshKeyIds.
+	// +kubebuilder:validation:Optional
+	SSHKeyIdsSelector *v2.Selector `json:"sshKeyIdsSelector,omitempty" tf:"-"`
+
 	// The ID of the startup script you want added to the server.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-vultr/apis/cluster/compute/v1alpha1.StartupScript
 	ScriptID *string `json:"scriptId,omitempty" tf:"script_id,omitempty"`
 
+	// Reference to a StartupScript in compute to populate scriptId.
+	// +kubebuilder:validation:Optional
+	ScriptIDRef *v2.Reference `json:"scriptIdRef,omitempty" tf:"-"`
+
+	// Selector for a StartupScript in compute to populate scriptId.
+	// +kubebuilder:validation:Optional
+	ScriptIDSelector *v2.Selector `json:"scriptIdSelector,omitempty" tf:"-"`
+
 	// The ID of the Vultr snapshot that the server will restore for the initial installation. See List Snapshots
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-vultr/apis/cluster/compute/v1alpha1.Snapshot
 	SnapshotID *string `json:"snapshotId,omitempty" tf:"snapshot_id,omitempty"`
+
+	// Reference to a Snapshot in compute to populate snapshotId.
+	// +kubebuilder:validation:Optional
+	SnapshotIDRef *v2.Reference `json:"snapshotIdRef,omitempty" tf:"-"`
+
+	// Selector for a Snapshot in compute to populate snapshotId.
+	// +kubebuilder:validation:Optional
+	SnapshotIDSelector *v2.Selector `json:"snapshotIdSelector,omitempty" tf:"-"`
 
 	// A list of tags to apply to the servier.
 	// +listType=set
@@ -74,7 +101,16 @@ type BareMetalServerInitParameters struct {
 	UserScheme *string `json:"userScheme,omitempty" tf:"user_scheme,omitempty"`
 
 	// The VPC ID to use when creating the server.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-vultr/apis/cluster/network/v1alpha1.VPC
 	VPCID *string `json:"vpcId,omitempty" tf:"vpc_id,omitempty"`
+
+	// Reference to a VPC in network to populate vpcId.
+	// +kubebuilder:validation:Optional
+	VPCIDRef *v2.Reference `json:"vpcIdRef,omitempty" tf:"-"`
+
+	// Selector for a VPC in network to populate vpcId.
+	// +kubebuilder:validation:Optional
+	VPCIDSelector *v2.Selector `json:"vpcIdSelector,omitempty" tf:"-"`
 }
 
 type BareMetalServerObservation struct {
@@ -238,16 +274,43 @@ type BareMetalServerParameters struct {
 	ReservedIPv4 *string `json:"reservedIpv4,omitempty" tf:"reserved_ipv4,omitempty"`
 
 	// A list of SSH key IDs to apply to the server on install (only valid for Linux/FreeBSD).
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-vultr/apis/cluster/compute/v1alpha1.SSHKey
 	// +kubebuilder:validation:Optional
 	SSHKeyIds []*string `json:"sshKeyIds,omitempty" tf:"ssh_key_ids,omitempty"`
 
+	// References to SSHKey in compute to populate sshKeyIds.
+	// +kubebuilder:validation:Optional
+	SSHKeyIdsRefs []v2.Reference `json:"sshKeyIdsRefs,omitempty" tf:"-"`
+
+	// Selector for a list of SSHKey in compute to populate sshKeyIds.
+	// +kubebuilder:validation:Optional
+	SSHKeyIdsSelector *v2.Selector `json:"sshKeyIdsSelector,omitempty" tf:"-"`
+
 	// The ID of the startup script you want added to the server.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-vultr/apis/cluster/compute/v1alpha1.StartupScript
 	// +kubebuilder:validation:Optional
 	ScriptID *string `json:"scriptId,omitempty" tf:"script_id,omitempty"`
 
+	// Reference to a StartupScript in compute to populate scriptId.
+	// +kubebuilder:validation:Optional
+	ScriptIDRef *v2.Reference `json:"scriptIdRef,omitempty" tf:"-"`
+
+	// Selector for a StartupScript in compute to populate scriptId.
+	// +kubebuilder:validation:Optional
+	ScriptIDSelector *v2.Selector `json:"scriptIdSelector,omitempty" tf:"-"`
+
 	// The ID of the Vultr snapshot that the server will restore for the initial installation. See List Snapshots
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-vultr/apis/cluster/compute/v1alpha1.Snapshot
 	// +kubebuilder:validation:Optional
 	SnapshotID *string `json:"snapshotId,omitempty" tf:"snapshot_id,omitempty"`
+
+	// Reference to a Snapshot in compute to populate snapshotId.
+	// +kubebuilder:validation:Optional
+	SnapshotIDRef *v2.Reference `json:"snapshotIdRef,omitempty" tf:"-"`
+
+	// Selector for a Snapshot in compute to populate snapshotId.
+	// +kubebuilder:validation:Optional
+	SnapshotIDSelector *v2.Selector `json:"snapshotIdSelector,omitempty" tf:"-"`
 
 	// A list of tags to apply to the servier.
 	// +kubebuilder:validation:Optional
@@ -263,8 +326,17 @@ type BareMetalServerParameters struct {
 	UserScheme *string `json:"userScheme,omitempty" tf:"user_scheme,omitempty"`
 
 	// The VPC ID to use when creating the server.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-vultr/apis/cluster/network/v1alpha1.VPC
 	// +kubebuilder:validation:Optional
 	VPCID *string `json:"vpcId,omitempty" tf:"vpc_id,omitempty"`
+
+	// Reference to a VPC in network to populate vpcId.
+	// +kubebuilder:validation:Optional
+	VPCIDRef *v2.Reference `json:"vpcIdRef,omitempty" tf:"-"`
+
+	// Selector for a VPC in network to populate vpcId.
+	// +kubebuilder:validation:Optional
+	VPCIDSelector *v2.Selector `json:"vpcIdSelector,omitempty" tf:"-"`
 }
 
 // BareMetalServerSpec defines the desired state of BareMetalServer

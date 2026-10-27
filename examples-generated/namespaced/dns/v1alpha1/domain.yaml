@@ -1,0 +1,13 @@
+apiVersion: dns.vultr.m.upbound.io/v1alpha1
+kind: Domain
+metadata:
+  annotations:
+    meta.upbound.io/example-id: dns/v1alpha1/domain
+  labels:
+    testing.upbound.io/example-name: my_domain
+  name: my-domain
+  namespace: crossplane-system
+spec:
+  forProvider:
+    domain: domain.com
+    ip: 66.42.94.227

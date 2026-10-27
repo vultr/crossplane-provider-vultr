@@ -1,0 +1,25 @@
+apiVersion: iam.vultr.m.upbound.io/v1alpha1
+kind: Policy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: iam/v1alpha1/policy
+  labels:
+    testing.upbound.io/example-name: my_policy
+  name: my-policy
+  namespace: crossplane-system
+spec:
+  forProvider:
+    description: my policy from terraform
+    document:
+    - statement:
+      - actions:
+        - compute.instance.Create
+        effect: Allow
+        resources:
+        - '*'
+      version: "2012-10-20"
+    groups:
+    - 048c1f4d-5201-4a05-8095-f3e30e878983
+    name: my-policy
+    users:
+    - 265189eb-781b-46e2-88bb-9c6b829a8334

@@ -22,7 +22,16 @@ type ReplicaInitParameters struct {
 	BackupMinute *string `json:"backupMinute,omitempty" tf:"backup_minute,omitempty"`
 
 	// The managed database ID you want to attach this replica to.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-vultr/apis/namespaced/database/v1alpha1.Database
 	DatabaseID *string `json:"databaseId,omitempty" tf:"database_id,omitempty"`
+
+	// Reference to a Database in database to populate databaseId.
+	// +kubebuilder:validation:Optional
+	DatabaseIDRef *v2.NamespacedReference `json:"databaseIdRef,omitempty" tf:"-"`
+
+	// Selector for a Database in database to populate databaseId.
+	// +kubebuilder:validation:Optional
+	DatabaseIDSelector *v2.NamespacedSelector `json:"databaseIdSelector,omitempty" tf:"-"`
 
 	// The configuration value for the data eviction policy on the managed database read replica (Valkey engine types only).
 	EvictionPolicy *string `json:"evictionPolicy,omitempty" tf:"eviction_policy,omitempty"`
@@ -187,8 +196,17 @@ type ReplicaParameters struct {
 	BackupMinute *string `json:"backupMinute,omitempty" tf:"backup_minute,omitempty"`
 
 	// The managed database ID you want to attach this replica to.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-vultr/apis/namespaced/database/v1alpha1.Database
 	// +kubebuilder:validation:Optional
 	DatabaseID *string `json:"databaseId,omitempty" tf:"database_id,omitempty"`
+
+	// Reference to a Database in database to populate databaseId.
+	// +kubebuilder:validation:Optional
+	DatabaseIDRef *v2.NamespacedReference `json:"databaseIdRef,omitempty" tf:"-"`
+
+	// Selector for a Database in database to populate databaseId.
+	// +kubebuilder:validation:Optional
+	DatabaseIDSelector *v2.NamespacedSelector `json:"databaseIdSelector,omitempty" tf:"-"`
 
 	// The configuration value for the data eviction policy on the managed database read replica (Valkey engine types only).
 	// +kubebuilder:validation:Optional
@@ -277,7 +295,6 @@ type ReplicaStatus struct {
 type Replica struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.databaseId) || (has(self.initProvider) && has(self.initProvider.databaseId))",message="spec.forProvider.databaseId is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.label) || (has(self.initProvider) && has(self.initProvider.label))",message="spec.forProvider.label is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.region) || (has(self.initProvider) && has(self.initProvider.region))",message="spec.forProvider.region is a required parameter"
 	Spec   ReplicaSpec   `json:"spec"`
