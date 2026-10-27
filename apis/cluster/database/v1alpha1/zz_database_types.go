@@ -10,7 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type DatabaseInitParameters struct {
@@ -131,6 +131,9 @@ type DatabaseObservation struct {
 	// The preferred minute of the backup hour for daily backups to take place (unavailable for Kafka engine types).
 	BackupMinute *string `json:"backupMinute,omitempty" tf:"backup_minute,omitempty"`
 
+	// The CA certificate for Managed Databases on this account.
+	CACertificate *string `json:"caCertificate,omitempty" tf:"ca_certificate,omitempty"`
+
 	// The configured time zone for the Managed Database in TZ database format (e.g. UTC, America/New_York, Europe/London).
 	ClusterTimeZone *string `json:"clusterTimeZone,omitempty" tf:"cluster_time_zone,omitempty"`
 
@@ -197,6 +200,9 @@ type DatabaseObservation struct {
 
 	// The password for the managed database's primary admin user.
 	Password *string `json:"password,omitempty" tf:"password,omitempty"`
+
+	// Charges due at the end of the billing period.
+	PendingCharges *float64 `json:"pendingCharges,omitempty" tf:"pending_charges,omitempty"`
 
 	// The ID of the plan that you want the managed database to subscribe to. See List Managed Database Plans
 	Plan *string `json:"plan,omitempty" tf:"plan,omitempty"`
@@ -443,6 +449,9 @@ type ReadReplicasObservation struct {
 	// The preferred minute of the backup hour for daily backups to take place (unavailable for Kafka engine types).
 	BackupMinute *string `json:"backupMinute,omitempty" tf:"backup_minute,omitempty"`
 
+	// The CA certificate for Managed Databases on this account.
+	CACertificate *string `json:"caCertificate,omitempty" tf:"ca_certificate,omitempty"`
+
 	// The configured time zone for the Managed Database in TZ database format (e.g. UTC, America/New_York, Europe/London).
 	ClusterTimeZone *string `json:"clusterTimeZone,omitempty" tf:"cluster_time_zone,omitempty"`
 
@@ -497,6 +506,9 @@ type ReadReplicasObservation struct {
 
 	// The password for the managed database's primary admin user.
 	Password *string `json:"password,omitempty" tf:"password,omitempty"`
+
+	// Charges due at the end of the billing period.
+	PendingCharges *float64 `json:"pendingCharges,omitempty" tf:"pending_charges,omitempty"`
 
 	// The ID of the plan that you want the managed database to subscribe to. See List Managed Database Plans
 	Plan *string `json:"plan,omitempty" tf:"plan,omitempty"`
@@ -602,8 +614,8 @@ type ReadReplicasParameters struct {
 
 // DatabaseSpec defines the desired state of Database
 type DatabaseSpec struct {
-	v1.ResourceSpec `json:",inline"`
-	ForProvider     DatabaseParameters `json:"forProvider"`
+	v2.ClusterManagedResourceSpec `json:",inline"`
+	ForProvider                   DatabaseParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -619,8 +631,8 @@ type DatabaseSpec struct {
 
 // DatabaseStatus defines the observed state of Database.
 type DatabaseStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        DatabaseObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               DatabaseObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

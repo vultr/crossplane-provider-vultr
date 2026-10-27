@@ -1,0 +1,14 @@
+[
+"vultr_bare_metal_server",
+"vultr_block_storage",
+"vultr_database",
+"vultr_database_connection_pool",
+"vultr_database_db",
+"vultr_database_replica",
+"vultr_database_user",
+"vultr_instance",
+"vultr_kubernetes",
+"vultr_kubernetes_node_pools",
+"vultr_load_balancer",
+"vultr_object_storage"
+]

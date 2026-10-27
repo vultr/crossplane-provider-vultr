@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type ReplicaInitParameters struct {
@@ -72,6 +71,9 @@ type ReplicaObservation struct {
 	// The preferred minute of the backup hour for daily backups to take place (unavailable for Kafka engine types).
 	BackupMinute *string `json:"backupMinute,omitempty" tf:"backup_minute,omitempty"`
 
+	// The CA certificate for Managed Databases on this account.
+	CACertificate *string `json:"caCertificate,omitempty" tf:"ca_certificate,omitempty"`
+
 	// The configured time zone for the managed database read replica in TZ database format.
 	ClusterTimeZone *string `json:"clusterTimeZone,omitempty" tf:"cluster_time_zone,omitempty"`
 
@@ -129,6 +131,9 @@ type ReplicaObservation struct {
 
 	// The password for the managed database read replica's primary admin user.
 	Password *string `json:"password,omitempty" tf:"password,omitempty"`
+
+	// Charges due at the end of the billing period.
+	PendingCharges *float64 `json:"pendingCharges,omitempty" tf:"pending_charges,omitempty"`
 
 	// The managed database read replica's plan ID.
 	Plan *string `json:"plan,omitempty" tf:"plan,omitempty"`
@@ -255,8 +260,8 @@ type ReplicaSpec struct {
 
 // ReplicaStatus defines the observed state of Replica.
 type ReplicaStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        ReplicaObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               ReplicaObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

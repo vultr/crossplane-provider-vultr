@@ -6,104 +6,104 @@
 
 package v1alpha1
 
-import xpv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+import xpv2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 
 // GetCondition of this BlockStorage.
-func (mg *BlockStorage) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+func (mg *BlockStorage) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
 	return mg.Status.GetCondition(ct)
 }
 
 // GetDeletionPolicy of this BlockStorage.
-func (mg *BlockStorage) GetDeletionPolicy() xpv1.DeletionPolicy {
+func (mg *BlockStorage) GetDeletionPolicy() xpv2.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
 // GetManagementPolicies of this BlockStorage.
-func (mg *BlockStorage) GetManagementPolicies() xpv1.ManagementPolicies {
+func (mg *BlockStorage) GetManagementPolicies() xpv2.ManagementPolicies {
 	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this BlockStorage.
-func (mg *BlockStorage) GetProviderConfigReference() *xpv1.Reference {
+func (mg *BlockStorage) GetProviderConfigReference() *xpv2.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
 // GetWriteConnectionSecretToReference of this BlockStorage.
-func (mg *BlockStorage) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+func (mg *BlockStorage) GetWriteConnectionSecretToReference() *xpv2.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
 }
 
 // SetConditions of this BlockStorage.
-func (mg *BlockStorage) SetConditions(c ...xpv1.Condition) {
+func (mg *BlockStorage) SetConditions(c ...xpv2.Condition) {
 	mg.Status.SetConditions(c...)
 }
 
 // SetDeletionPolicy of this BlockStorage.
-func (mg *BlockStorage) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+func (mg *BlockStorage) SetDeletionPolicy(r xpv2.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
 // SetManagementPolicies of this BlockStorage.
-func (mg *BlockStorage) SetManagementPolicies(r xpv1.ManagementPolicies) {
+func (mg *BlockStorage) SetManagementPolicies(r xpv2.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this BlockStorage.
-func (mg *BlockStorage) SetProviderConfigReference(r *xpv1.Reference) {
+func (mg *BlockStorage) SetProviderConfigReference(r *xpv2.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
 // SetWriteConnectionSecretToReference of this BlockStorage.
-func (mg *BlockStorage) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+func (mg *BlockStorage) SetWriteConnectionSecretToReference(r *xpv2.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
 // GetCondition of this ObjectStorage.
-func (mg *ObjectStorage) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+func (mg *ObjectStorage) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
 	return mg.Status.GetCondition(ct)
 }
 
 // GetDeletionPolicy of this ObjectStorage.
-func (mg *ObjectStorage) GetDeletionPolicy() xpv1.DeletionPolicy {
+func (mg *ObjectStorage) GetDeletionPolicy() xpv2.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
 // GetManagementPolicies of this ObjectStorage.
-func (mg *ObjectStorage) GetManagementPolicies() xpv1.ManagementPolicies {
+func (mg *ObjectStorage) GetManagementPolicies() xpv2.ManagementPolicies {
 	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this ObjectStorage.
-func (mg *ObjectStorage) GetProviderConfigReference() *xpv1.Reference {
+func (mg *ObjectStorage) GetProviderConfigReference() *xpv2.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
 // GetWriteConnectionSecretToReference of this ObjectStorage.
-func (mg *ObjectStorage) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+func (mg *ObjectStorage) GetWriteConnectionSecretToReference() *xpv2.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
 }
 
 // SetConditions of this ObjectStorage.
-func (mg *ObjectStorage) SetConditions(c ...xpv1.Condition) {
+func (mg *ObjectStorage) SetConditions(c ...xpv2.Condition) {
 	mg.Status.SetConditions(c...)
 }
 
 // SetDeletionPolicy of this ObjectStorage.
-func (mg *ObjectStorage) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+func (mg *ObjectStorage) SetDeletionPolicy(r xpv2.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
 // SetManagementPolicies of this ObjectStorage.
-func (mg *ObjectStorage) SetManagementPolicies(r xpv1.ManagementPolicies) {
+func (mg *ObjectStorage) SetManagementPolicies(r xpv2.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this ObjectStorage.
-func (mg *ObjectStorage) SetProviderConfigReference(r *xpv1.Reference) {
+func (mg *ObjectStorage) SetProviderConfigReference(r *xpv2.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
 // SetWriteConnectionSecretToReference of this ObjectStorage.
-func (mg *ObjectStorage) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+func (mg *ObjectStorage) SetWriteConnectionSecretToReference(r *xpv2.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }

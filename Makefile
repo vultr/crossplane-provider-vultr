@@ -12,9 +12,9 @@ TERRAFORM_VERSION_VALID := $(shell [ "$(TERRAFORM_VERSION)" = "`printf "$(TERRAF
 
 export TERRAFORM_PROVIDER_SOURCE ?= vultr/vultr
 export TERRAFORM_PROVIDER_REPO ?= https://github.com/vultr/terraform-provider-vultr
-export TERRAFORM_PROVIDER_VERSION ?= 2.27.1
+export TERRAFORM_PROVIDER_VERSION ?= 2.33.2
 export TERRAFORM_PROVIDER_DOWNLOAD_NAME ?= terraform-provider-vultr
-export TERRAFORM_NATIVE_PROVIDER_BINARY ?= terraform-provider-vultr_2.27.1
+export TERRAFORM_NATIVE_PROVIDER_BINARY ?= terraform-provider-vultr_v$(TERRAFORM_PROVIDER_VERSION)
 export TERRAFORM_DOCS_PATH ?= website/docs/r
 export TERRAFORM_PROVIDER_DOWNLOAD_URL_PREFIX ?= https://releases.hashicorp.com/$(TERRAFORM_PROVIDER_DOWNLOAD_NAME)/$(TERRAFORM_PROVIDER_VERSION)
 
@@ -45,8 +45,8 @@ NPROCS ?= 1
 # to half the number of CPU cores.
 GO_TEST_PARALLEL := $(shell echo $$(( $(NPROCS) / 2 )))
 
-GO_REQUIRED_VERSION ?= 1.24
-GOLANGCILINT_VERSION ?= 2.4.0
+GO_REQUIRED_VERSION ?= 1.26
+GOLANGCILINT_VERSION ?= 2.15.0
 GO_STATIC_PACKAGES = $(GO_PROJECT)/cmd/provider $(GO_PROJECT)/cmd/generator
 GO_LDFLAGS += -X $(GO_PROJECT)/internal/version.Version=$(VERSION)
 GO_SUBDIRS += cmd internal apis
@@ -55,11 +55,12 @@ GO_SUBDIRS += cmd internal apis
 # ====================================================================================
 # Setup Kubernetes tools
 
-KIND_VERSION = v0.30.0
-UP_VERSION = v0.41.0
-UP_CHANNEL = stable
-UPTEST_VERSION = v2.1.0
+KIND_VERSION = v0.33.0
+UPTEST_VERSION = v2.2.0
 CRDDIFF_VERSION = v0.12.1
+CROSSPLANE_CLI_VERSION = v2.5.0
+# for e2e testing
+CROSSPLANE_VERSION = 2.4.3
 -include build/makelib/k8s_tools.mk
 
 # ====================================================================================
@@ -126,7 +127,8 @@ $(TERRAFORM_PROVIDER_SCHEMA): $(TERRAFORM)
 	@mkdir -p $(TERRAFORM_WORKDIR)
 	@echo '{"terraform":[{"required_providers":[{"provider":{"source":"'"$(TERRAFORM_PROVIDER_SOURCE)"'","version":"'"$(TERRAFORM_PROVIDER_VERSION)"'"}}],"required_version":"'"$(TERRAFORM_VERSION)"'"}]}' > $(TERRAFORM_WORKDIR)/main.tf.json
 	@$(TERRAFORM) -chdir=$(TERRAFORM_WORKDIR) init > $(TERRAFORM_WORKDIR)/terraform-logs.txt 2>&1
-	@$(TERRAFORM) -chdir=$(TERRAFORM_WORKDIR) providers schema -json=true > $(TERRAFORM_PROVIDER_SCHEMA) 2>> $(TERRAFORM_WORKDIR)/terraform-logs.txt
+	@# VULTR_API_KEY would mark api_key as optional in the schema.
+	@env -u VULTR_API_KEY $(TERRAFORM) -chdir=$(TERRAFORM_WORKDIR) providers schema -json=true > $(TERRAFORM_PROVIDER_SCHEMA) 2>> $(TERRAFORM_WORKDIR)/terraform-logs.txt
 	@$(OK) generating provider schema for $(TERRAFORM_PROVIDER_SOURCE) $(TERRAFORM_PROVIDER_VERSION)
 
 pull-docs:
@@ -176,8 +178,6 @@ run: go.build
 
 # ====================================================================================
 # End to End Testing
-CROSSPLANE_VERSION = 2.0.2
-CROSSPLANE_CLI_VERSION = v2.0.2
 CROSSPLANE_NAMESPACE = crossplane-system
 -include build/makelib/local.xpkg.mk
 -include build/makelib/controlplane.mk
@@ -217,7 +217,7 @@ crddiff: $(UPTEST)
 			continue ; \
 		fi ; \
 		echo "Checking $${crd} for breaking API changes..." ; \
-		changes_detected=$$(go run github.com/crossplane/uptest/cmd/crddiff@$(CRDDIFF_VERSION) revision --enable-upjet-extensions <(git cat-file -p "$${GITHUB_BASE_REF}:$${crd}") "$${crd}" 2>&1) ; \
+		changes_detected=$$(go run github.com/upbound/uptest/cmd/crddiff@$(CRDDIFF_VERSION) revision --enable-upjet-extensions <(git cat-file -p "$${GITHUB_BASE_REF}:$${crd}") "$${crd}" 2>&1) ; \
 		if [[ $$? != 0 ]] ; then \
 			printf "\033[31m"; echo "Breaking change detected!"; printf "\033[0m" ; \
 			echo "$${changes_detected}" ; \
@@ -228,7 +228,7 @@ crddiff: $(UPTEST)
 
 schema-version-diff:
 	@$(INFO) Checking for native state schema version changes
-	@export PREV_PROVIDER_VERSION=$$(git cat-file -p "${GITHUB_BASE_REF}:Makefile" | sed -nr 's/^export[[:space:]]*TERRAFORM_PROVIDER_VERSION[[:space:]]*:=[[:space:]]*(.+)/\1/p'); \
+	@export PREV_PROVIDER_VERSION=$$(git cat-file -p "${GITHUB_BASE_REF}:Makefile" | sed -nr 's/^export[[:space:]]*TERRAFORM_PROVIDER_VERSION[[:space:]]*[\?:]?=[[:space:]]*(.+)/\1/p'); \
 	echo Detected previous Terraform provider version: $${PREV_PROVIDER_VERSION}; \
 	echo Current Terraform provider version: $${TERRAFORM_PROVIDER_VERSION}; \
 	mkdir -p $(WORK_DIR); \

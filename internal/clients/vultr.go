@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 
+	"github.com/crossplane/crossplane-runtime/v2/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/v2/pkg/resource"
 	"github.com/pkg/errors"
 	"k8s.io/apimachinery/pkg/types"
@@ -11,8 +12,11 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/terraform"
 
+	clusterkubernetes "github.com/crossplane-contrib/provider-vultr/apis/cluster/kubernetes/v1alpha1"
 	clusterv1beta1 "github.com/crossplane-contrib/provider-vultr/apis/cluster/v1beta1"
+	namespacedkubernetes "github.com/crossplane-contrib/provider-vultr/apis/namespaced/kubernetes/v1alpha1"
 	namespacedv1beta1 "github.com/crossplane-contrib/provider-vultr/apis/namespaced/v1beta1"
+	"github.com/crossplane-contrib/provider-vultr/internal/kubeconfig"
 )
 
 const (
@@ -66,8 +70,29 @@ func TerraformSetupBuilder(version, providerSource, providerVersion string) terr
 			ps.Configuration[retryLimit] = v
 		}
 
+		trackKubeconfig(mg, creds[apiKey])
+
 		return ps, nil
 	}
+}
+
+// trackKubeconfig lets the kubeconfig of existing VKE clusters be fetched
+// for their connection details.
+func trackKubeconfig(mg resource.Managed, key string) {
+	switch mg.(type) {
+	case *clusterkubernetes.Kubernetes, *namespacedkubernetes.Kubernetes:
+	default:
+		return
+	}
+	id := meta.GetExternalName(mg)
+	if id == "" {
+		return
+	}
+	if meta.WasDeleted(mg) || key == "" {
+		kubeconfig.Forget(id)
+		return
+	}
+	kubeconfig.SetAPIKey(id, key)
 }
 
 func toSharedPCSpec(pc *clusterv1beta1.ProviderConfig) (*namespacedv1beta1.ProviderConfigSpec, error) {
@@ -86,7 +111,7 @@ func toSharedPCSpec(pc *clusterv1beta1.ProviderConfig) (*namespacedv1beta1.Provi
 
 func resolveProviderConfig(ctx context.Context, crClient client.Client, mg resource.Managed) (*namespacedv1beta1.ProviderConfigSpec, error) {
 	switch managed := mg.(type) {
-	case resource.LegacyManaged:
+	case resource.LegacyManaged: //nolint:staticcheck // still handling cluster-scoped behavior
 		return resolveLegacy(ctx, crClient, managed)
 	case resource.ModernManaged:
 		return resolveModern(ctx, crClient, managed)
@@ -95,7 +120,7 @@ func resolveProviderConfig(ctx context.Context, crClient client.Client, mg resou
 	}
 }
 
-func resolveLegacy(ctx context.Context, client client.Client, mg resource.LegacyManaged) (*namespacedv1beta1.ProviderConfigSpec, error) {
+func resolveLegacy(ctx context.Context, client client.Client, mg resource.LegacyManaged) (*namespacedv1beta1.ProviderConfigSpec, error) { //nolint:staticcheck // still handling cluster-scoped behavior
 	configRef := mg.GetProviderConfigReference()
 	if configRef == nil {
 		return nil, errors.New(errNoProviderConfig)
@@ -126,7 +151,7 @@ func resolveModern(ctx context.Context, crClient client.Client, mg resource.Mode
 	pcObj, ok := pcRuntimeObj.(client.Object)
 	if !ok {
 		// This indicates a programming error, types are not properly generated
-		return nil, errors.New(" is not an Object")
+		return nil, errors.Errorf("%s is not an Object", configRef.Kind)
 	}
 
 	// Namespace will be ignored if the PC is a cluster-scoped type

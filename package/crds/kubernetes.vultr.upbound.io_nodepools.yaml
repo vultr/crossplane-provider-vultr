@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.18.0
+    controller-gen.kubebuilder.io/version: v0.20.1
   name: nodepools.kubernetes.vultr.upbound.io
 spec:
   group: kubernetes.vultr.upbound.io
@@ -86,11 +86,16 @@ spec:
                       node pool.
                     type: string
                   labels:
-                    additionalProperties:
-                      type: string
-                    description: A map of key/value pairs for Kubernetes node labels.
-                    type: object
-                    x-kubernetes-map-type: granular
+                    items:
+                      properties:
+                        key:
+                          description: The key definining the label for kubernetes.
+                          type: string
+                        value:
+                          description: The value of the label for kubernetes.
+                          type: string
+                      type: object
+                    type: array
                   maxNodes:
                     description: The maximum number of nodes to use with the auto
                       scaler.
@@ -102,25 +107,34 @@ spec:
                   nodeQuantity:
                     description: The number of nodes in this node pool.
                     type: number
+                  nodeRecycle:
+                    description: A list of node IDs to recycle. This will increase
+                      the node pool size with new nodes and automatically remove the
+                      recycled nodes.
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
                   plan:
-                    description: The plan to be used in this node pool. See Plans
-                      List Note the minimum plan requirements must have at least 1
+                    description: The plan to be used in this node pool. See plans
+                      list Note the minimum plan requirements must have at least 1
                       core and 2 gbs of memory.
                     type: string
                   tag:
                     description: A tag that is assigned to this node pool.
                     type: string
                   taints:
-                    description: Taints to apply to the nodes in the node pool. Should
-                      contain key, value and effect.  The effect should be one of
-                      NoSchedule, PreferNoSchedule or NoExecute.
                     items:
                       properties:
                         effect:
+                          description: The effect of the taint for kubernetes.  Must
+                            be one of NoSchedule, PreferNoSchedule or NoExecute.
                           type: string
                         key:
+                          description: The key definining the label for kubernetes.
                           type: string
                         value:
+                          description: The value of the label for kubernetes.
                           type: string
                       type: object
                     type: array
@@ -128,6 +142,11 @@ spec:
                     description: A base64 encoded string containing the user data
                       to apply to nodes in the node pool.
                     type: string
+                  vpcOnly:
+                    description: Enable private-only VPC connectivity for nodes. If
+                      true, nodes can only access the internet via the NAT Gateway
+                      attached to the VPC.
+                    type: boolean
                 type: object
               initProvider:
                 description: |-
@@ -154,11 +173,16 @@ spec:
                       node pool.
                     type: string
                   labels:
-                    additionalProperties:
-                      type: string
-                    description: A map of key/value pairs for Kubernetes node labels.
-                    type: object
-                    x-kubernetes-map-type: granular
+                    items:
+                      properties:
+                        key:
+                          description: The key definining the label for kubernetes.
+                          type: string
+                        value:
+                          description: The value of the label for kubernetes.
+                          type: string
+                      type: object
+                    type: array
                   maxNodes:
                     description: The maximum number of nodes to use with the auto
                       scaler.
@@ -170,25 +194,34 @@ spec:
                   nodeQuantity:
                     description: The number of nodes in this node pool.
                     type: number
+                  nodeRecycle:
+                    description: A list of node IDs to recycle. This will increase
+                      the node pool size with new nodes and automatically remove the
+                      recycled nodes.
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
                   plan:
-                    description: The plan to be used in this node pool. See Plans
-                      List Note the minimum plan requirements must have at least 1
+                    description: The plan to be used in this node pool. See plans
+                      list Note the minimum plan requirements must have at least 1
                       core and 2 gbs of memory.
                     type: string
                   tag:
                     description: A tag that is assigned to this node pool.
                     type: string
                   taints:
-                    description: Taints to apply to the nodes in the node pool. Should
-                      contain key, value and effect.  The effect should be one of
-                      NoSchedule, PreferNoSchedule or NoExecute.
                     items:
                       properties:
                         effect:
+                          description: The effect of the taint for kubernetes.  Must
+                            be one of NoSchedule, PreferNoSchedule or NoExecute.
                           type: string
                         key:
+                          description: The key definining the label for kubernetes.
                           type: string
                         value:
+                          description: The value of the label for kubernetes.
                           type: string
                       type: object
                     type: array
@@ -196,6 +229,11 @@ spec:
                     description: A base64 encoded string containing the user data
                       to apply to nodes in the node pool.
                     type: string
+                  vpcOnly:
+                    description: Enable private-only VPC connectivity for nodes. If
+                      true, nodes can only access the internet via the NAT Gateway
+                      attached to the VPC.
+                    type: boolean
                 type: object
               managementPolicies:
                 default:
@@ -326,11 +364,19 @@ spec:
                       node pool.
                     type: string
                   labels:
-                    additionalProperties:
-                      type: string
-                    description: A map of key/value pairs for Kubernetes node labels.
-                    type: object
-                    x-kubernetes-map-type: granular
+                    items:
+                      properties:
+                        id:
+                          description: The Nodepool ID.
+                          type: string
+                        key:
+                          description: The key definining the label for kubernetes.
+                          type: string
+                        value:
+                          description: The value of the label for kubernetes.
+                          type: string
+                      type: object
+                    type: array
                   maxNodes:
                     description: The maximum number of nodes to use with the auto
                       scaler.
@@ -342,9 +388,15 @@ spec:
                   nodeQuantity:
                     description: The number of nodes in this node pool.
                     type: number
+                  nodeRecycle:
+                    description: A list of node IDs to recycle. This will increase
+                      the node pool size with new nodes and automatically remove the
+                      recycled nodes.
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
                   nodes:
-                    description: Array that contains information about nodes within
-                      this node pool.
                     items:
                       properties:
                         dateCreated:
@@ -363,8 +415,8 @@ spec:
                       type: object
                     type: array
                   plan:
-                    description: The plan to be used in this node pool. See Plans
-                      List Note the minimum plan requirements must have at least 1
+                    description: The plan to be used in this node pool. See plans
+                      list Note the minimum plan requirements must have at least 1
                       core and 2 gbs of memory.
                     type: string
                   status:
@@ -374,16 +426,20 @@ spec:
                     description: A tag that is assigned to this node pool.
                     type: string
                   taints:
-                    description: Taints to apply to the nodes in the node pool. Should
-                      contain key, value and effect.  The effect should be one of
-                      NoSchedule, PreferNoSchedule or NoExecute.
                     items:
                       properties:
                         effect:
+                          description: The effect of the taint for kubernetes.  Must
+                            be one of NoSchedule, PreferNoSchedule or NoExecute.
+                          type: string
+                        id:
+                          description: The Nodepool ID.
                           type: string
                         key:
+                          description: The key definining the label for kubernetes.
                           type: string
                         value:
+                          description: The value of the label for kubernetes.
                           type: string
                       type: object
                     type: array
@@ -391,6 +447,11 @@ spec:
                     description: A base64 encoded string containing the user data
                       to apply to nodes in the node pool.
                     type: string
+                  vpcOnly:
+                    description: Enable private-only VPC connectivity for nodes. If
+                      true, nodes can only access the internet via the NAT Gateway
+                      attached to the VPC.
+                    type: boolean
                 type: object
               conditions:
                 description: Conditions of the resource.
@@ -438,6 +499,13 @@ spec:
                 x-kubernetes-list-map-keys:
                 - type
                 x-kubernetes-list-type: map
+              lastHandledReconcileAt:
+                description: |-
+                  LastHandledReconcileAt holds the value of the most recent
+                  reconcile-requested-at annotation token that the controller has
+                  processed. Users can compare this to the annotation to determine
+                  whether a reconcile request has been handled.
+                type: string
               observedGeneration:
                 description: |-
                   ObservedGeneration is the latest metadata.generation

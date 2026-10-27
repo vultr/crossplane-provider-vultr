@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type BlockStorageInitParameters struct {
@@ -22,17 +21,26 @@ type BlockStorageInitParameters struct {
 	// The type of block storage volume. Values are high_perf or storage_opt.
 	BlockType *string `json:"blockType,omitempty" tf:"block_type,omitempty"`
 
+	// Whether or not this block device can be used as a bootable volume.
+	Bootable *bool `json:"bootable,omitempty" tf:"bootable,omitempty"`
+
 	// Label that is given to your block storage.
 	Label *string `json:"label,omitempty" tf:"label,omitempty"`
 
 	// Flag which will determine if a volume should be attached with a restart or not.
 	Live *bool `json:"live,omitempty" tf:"live,omitempty"`
 
-	// Region in which this block storage will reside in. (Currently only NJ/NY supported region "ewr")
+	// The operating system ID for this bootable block device, if applicable.
+	OsID *float64 `json:"osId,omitempty" tf:"os_id,omitempty"`
+
+	// Region in which this block storage will reside in.
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
 	// The size of the given block storage.
 	SizeGb *float64 `json:"sizeGb,omitempty" tf:"size_gb,omitempty"`
+
+	// The snapshot_id from which this block device was cloned.
+	SnapshotID *string `json:"snapshotId,omitempty" tf:"snapshot_id,omitempty"`
 }
 
 type BlockStorageObservation struct {
@@ -40,8 +48,17 @@ type BlockStorageObservation struct {
 	// VPS ID that is attached to this block storage.
 	AttachedToInstance *string `json:"attachedToInstance,omitempty" tf:"attached_to_instance,omitempty"`
 
+	// IP address of the VPS the block storage subscription is attached to.
+	AttachedToInstanceIP *string `json:"attachedToInstanceIp,omitempty" tf:"attached_to_instance_ip,omitempty"`
+
+	// Label of the VPS the block storage subscription is attached to.
+	AttachedToInstanceLabel *string `json:"attachedToInstanceLabel,omitempty" tf:"attached_to_instance_label,omitempty"`
+
 	// The type of block storage volume. Values are high_perf or storage_opt.
 	BlockType *string `json:"blockType,omitempty" tf:"block_type,omitempty"`
+
+	// Whether or not this block device can be used as a bootable volume.
+	Bootable *bool `json:"bootable,omitempty" tf:"bootable,omitempty"`
 
 	// The monthly cost of this block storage.
 	Cost *float64 `json:"cost,omitempty" tf:"cost,omitempty"`
@@ -61,11 +78,20 @@ type BlockStorageObservation struct {
 	// An ID associated with the instance, when mounted the ID can be found in /dev/disk/by-id prefixed with virtio.
 	MountID *string `json:"mountId,omitempty" tf:"mount_id,omitempty"`
 
-	// Region in which this block storage will reside in. (Currently only NJ/NY supported region "ewr")
+	// The operating system ID for this bootable block device, if applicable.
+	OsID *float64 `json:"osId,omitempty" tf:"os_id,omitempty"`
+
+	// Charges due for this block storage subscription at the end of the billing period.
+	PendingCharges *float64 `json:"pendingCharges,omitempty" tf:"pending_charges,omitempty"`
+
+	// Region in which this block storage will reside in.
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
 	// The size of the given block storage.
 	SizeGb *float64 `json:"sizeGb,omitempty" tf:"size_gb,omitempty"`
+
+	// The snapshot_id from which this block device was cloned.
+	SnapshotID *string `json:"snapshotId,omitempty" tf:"snapshot_id,omitempty"`
 
 	// Current status of your block storage.
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`
@@ -81,6 +107,10 @@ type BlockStorageParameters struct {
 	// +kubebuilder:validation:Optional
 	BlockType *string `json:"blockType,omitempty" tf:"block_type,omitempty"`
 
+	// Whether or not this block device can be used as a bootable volume.
+	// +kubebuilder:validation:Optional
+	Bootable *bool `json:"bootable,omitempty" tf:"bootable,omitempty"`
+
 	// Label that is given to your block storage.
 	// +kubebuilder:validation:Optional
 	Label *string `json:"label,omitempty" tf:"label,omitempty"`
@@ -89,13 +119,21 @@ type BlockStorageParameters struct {
 	// +kubebuilder:validation:Optional
 	Live *bool `json:"live,omitempty" tf:"live,omitempty"`
 
-	// Region in which this block storage will reside in. (Currently only NJ/NY supported region "ewr")
+	// The operating system ID for this bootable block device, if applicable.
+	// +kubebuilder:validation:Optional
+	OsID *float64 `json:"osId,omitempty" tf:"os_id,omitempty"`
+
+	// Region in which this block storage will reside in.
 	// +kubebuilder:validation:Optional
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
 	// The size of the given block storage.
 	// +kubebuilder:validation:Optional
 	SizeGb *float64 `json:"sizeGb,omitempty" tf:"size_gb,omitempty"`
+
+	// The snapshot_id from which this block device was cloned.
+	// +kubebuilder:validation:Optional
+	SnapshotID *string `json:"snapshotId,omitempty" tf:"snapshot_id,omitempty"`
 }
 
 // BlockStorageSpec defines the desired state of BlockStorage
@@ -117,8 +155,8 @@ type BlockStorageSpec struct {
 
 // BlockStorageStatus defines the observed state of BlockStorage.
 type BlockStorageStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        BlockStorageObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               BlockStorageObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true

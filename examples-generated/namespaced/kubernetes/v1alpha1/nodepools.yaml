@@ -13,8 +13,10 @@ spec:
     clusterId: ${vultr_kubernetes.k8.id}
     label: my-label
     labels:
-      my-label: a-label-on-all-nodes
-      my-second-label: another-label-on-all-nodes
+    - key: my-label
+      value: a-label-on-all-nodes
+    - key: my-second-label
+      value: another-label-on-all-nodes
     maxNodes: 2
     minNodes: 1
     nodeQuantity: 1

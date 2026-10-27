@@ -6,104 +6,104 @@
 
 package v1alpha1
 
-import xpv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
+import xpv2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 
 // GetCondition of this Kubernetes.
-func (mg *Kubernetes) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+func (mg *Kubernetes) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
 	return mg.Status.GetCondition(ct)
 }
 
 // GetDeletionPolicy of this Kubernetes.
-func (mg *Kubernetes) GetDeletionPolicy() xpv1.DeletionPolicy {
+func (mg *Kubernetes) GetDeletionPolicy() xpv2.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
 // GetManagementPolicies of this Kubernetes.
-func (mg *Kubernetes) GetManagementPolicies() xpv1.ManagementPolicies {
+func (mg *Kubernetes) GetManagementPolicies() xpv2.ManagementPolicies {
 	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this Kubernetes.
-func (mg *Kubernetes) GetProviderConfigReference() *xpv1.Reference {
+func (mg *Kubernetes) GetProviderConfigReference() *xpv2.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
 // GetWriteConnectionSecretToReference of this Kubernetes.
-func (mg *Kubernetes) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+func (mg *Kubernetes) GetWriteConnectionSecretToReference() *xpv2.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
 }
 
 // SetConditions of this Kubernetes.
-func (mg *Kubernetes) SetConditions(c ...xpv1.Condition) {
+func (mg *Kubernetes) SetConditions(c ...xpv2.Condition) {
 	mg.Status.SetConditions(c...)
 }
 
 // SetDeletionPolicy of this Kubernetes.
-func (mg *Kubernetes) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+func (mg *Kubernetes) SetDeletionPolicy(r xpv2.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
 // SetManagementPolicies of this Kubernetes.
-func (mg *Kubernetes) SetManagementPolicies(r xpv1.ManagementPolicies) {
+func (mg *Kubernetes) SetManagementPolicies(r xpv2.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this Kubernetes.
-func (mg *Kubernetes) SetProviderConfigReference(r *xpv1.Reference) {
+func (mg *Kubernetes) SetProviderConfigReference(r *xpv2.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
 // SetWriteConnectionSecretToReference of this Kubernetes.
-func (mg *Kubernetes) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+func (mg *Kubernetes) SetWriteConnectionSecretToReference(r *xpv2.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
 // GetCondition of this NodePools.
-func (mg *NodePools) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+func (mg *NodePools) GetCondition(ct xpv2.ConditionType) xpv2.Condition {
 	return mg.Status.GetCondition(ct)
 }
 
 // GetDeletionPolicy of this NodePools.
-func (mg *NodePools) GetDeletionPolicy() xpv1.DeletionPolicy {
+func (mg *NodePools) GetDeletionPolicy() xpv2.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
 // GetManagementPolicies of this NodePools.
-func (mg *NodePools) GetManagementPolicies() xpv1.ManagementPolicies {
+func (mg *NodePools) GetManagementPolicies() xpv2.ManagementPolicies {
 	return mg.Spec.ManagementPolicies
 }
 
 // GetProviderConfigReference of this NodePools.
-func (mg *NodePools) GetProviderConfigReference() *xpv1.Reference {
+func (mg *NodePools) GetProviderConfigReference() *xpv2.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
 // GetWriteConnectionSecretToReference of this NodePools.
-func (mg *NodePools) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+func (mg *NodePools) GetWriteConnectionSecretToReference() *xpv2.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
 }
 
 // SetConditions of this NodePools.
-func (mg *NodePools) SetConditions(c ...xpv1.Condition) {
+func (mg *NodePools) SetConditions(c ...xpv2.Condition) {
 	mg.Status.SetConditions(c...)
 }
 
 // SetDeletionPolicy of this NodePools.
-func (mg *NodePools) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+func (mg *NodePools) SetDeletionPolicy(r xpv2.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
 // SetManagementPolicies of this NodePools.
-func (mg *NodePools) SetManagementPolicies(r xpv1.ManagementPolicies) {
+func (mg *NodePools) SetManagementPolicies(r xpv2.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
 
 // SetProviderConfigReference of this NodePools.
-func (mg *NodePools) SetProviderConfigReference(r *xpv1.Reference) {
+func (mg *NodePools) SetProviderConfigReference(r *xpv2.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
 // SetWriteConnectionSecretToReference of this NodePools.
-func (mg *NodePools) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+func (mg *NodePools) SetWriteConnectionSecretToReference(r *xpv2.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }

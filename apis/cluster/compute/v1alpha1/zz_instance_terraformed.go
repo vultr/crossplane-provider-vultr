@@ -21,7 +21,7 @@ func (mg *Instance) GetTerraformResourceType() string {
 
 // GetConnectionDetailsMapping for this Instance
 func (tr *Instance) GetConnectionDetailsMapping() map[string]string {
-	return map[string]string{"default_password": "status.atProvider.defaultPassword"}
+	return map[string]string{"default_password": "status.atProvider.defaultPassword", "kvm": "status.atProvider.kvm"}
 }
 
 // GetObservation of this Instance

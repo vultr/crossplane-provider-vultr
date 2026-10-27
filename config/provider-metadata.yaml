@@ -44,6 +44,7 @@ resources:
             label: '- (Optional) A label for the server.'
             mac_address: '- The MAC address associated with the server.'
             main_ip: '- The server''s main IP address.'
+            mdisk_mode: '- (Optional) The raid configuration to use when provisioning the server.  Possible values: raid1, jbod, none. Defaults to none.'
             netmask_v4: '- The server''s IPv4 netmask.'
             os: '- The string description of the operating system installed on the server.'
             os_id: '- (Optional) The ID of the operating system to be installed on the server. See List OS'
@@ -63,7 +64,6 @@ resources:
             v6_network: '- The IPv6 subnet.'
             v6_network_size: '- The IPv6 network size in bits.'
             vpc_id: '- (Optional) The VPC ID to use when creating the server.'
-            vpc2_ids: '- (Deprecated) A list of VPC 2.0 IDs to be attached to the server.'
         importStatements: []
     vultr_block_storage:
         subCategory: ""
@@ -80,21 +80,30 @@ resources:
                 }
         argumentDocs:
             attached_to_instance: '- VPS ID that is attached to this block storage.'
+            attached_to_instance_ip: '- IP address of the VPS the block storage subscription is attached to.'
+            attached_to_instance_label: '- Label of the VPS the block storage subscription is attached to.'
             block_type: '- The type of block storage volume. Values are high_perf or storage_opt.'
             block_type.attached_to_instance: '- (Optional) VPS ID that you want to have this block storage attached to.'
             block_type.block_type: '- (Optional)  Determines on the type of block storage volume that will be created. Soon to become a required parameter. Options are high_perf or storage_opt.'
+            block_type.bootable: '- (Optional) Boolean value that will flag a block storage device as bootable.'
             block_type.label: '- (Optional) Label that is given to your block storage.'
             block_type.live: '- (Optional) Boolean value that will allow attachment of the volume to an instance without a restart. Default is false.'
-            block_type.region: '- (Required) Region in which this block storage will reside in. (Currently only NJ/NY supported region "ewr")'
+            block_type.os_id: '- (Optional) The operating system ID to use for this block storage device if it is bootable.'
+            block_type.region: '- (Required) Region in which this block storage will reside in. Refer to the region data source to determine if the desired storage option is available or check the API options.'
             block_type.size_gb: '- (Required) The size of the given block storage.'
+            block_type.snapshot_id: '- (Optional) The ID of an existing block snapshot your new block storage will be a clone of.'
+            bootable: '- Whether or not this block device can be used as a bootable volume.'
             cost: '- The monthly cost of this block storage.'
             date_created: '- The date this block storage was created.'
             id: '- The ID for this block storage.'
             label: '- Label that is given to your block storage.'
             live: '- Flag which will determine if a volume should be attached with a restart or not.'
             mount_id: '- An ID associated with the instance, when mounted the ID can be found in /dev/disk/by-id prefixed with virtio.'
-            region: '- Region in which this block storage will reside in. (Currently only NJ/NY supported region "ewr")'
+            os_id: '- The operating system ID for this bootable block device, if applicable.'
+            pending_charges: '- Charges due for this block storage subscription at the end of the billing period.'
+            region: '- Region in which this block storage will reside in.'
             size_gb: '- The size of the given block storage.'
+            snapshot_id: '- The snapshot_id from which this block device was cloned.'
             status: '- Current status of your block storage.'
         importStatements: []
     vultr_container_registry:
@@ -162,6 +171,7 @@ resources:
             backhour_minute: '- (Optional) The preferred minute of the backup hour for daily backups to take place (unavailable for Kafka engine types).'
             backup_hour: '- The preferred hour of the day (UTC) for daily backups to take place (unavailable for Kafka engine types).'
             backup_minute: '- The preferred minute of the backup hour for daily backups to take place (unavailable for Kafka engine types).'
+            ca_certificate: '- The CA certificate for Managed Databases on this account.'
             cluster_time_zone: '- (Optional) The configured time zone for the Managed Database in TZ database format (e.g. UTC, America/New_York, Europe/London).'
             database_engine: '- (Required) The database engine of the new managed database.'
             database_engine_version: '- (Required) The database engine version of the new managed database.'
@@ -183,6 +193,7 @@ resources:
             mysql_slow_query_log: '- (Optional) The configuration value for slow query logging on the managed database (MySQL engine types only).'
             mysql_sql_modes: '- (Optional) A list of SQL modes to configure for the managed database (MySQL engine types only - ALLOW_INVALID_DATES, ANSI, ANSI_QUOTES, ERROR_FOR_DIVISION_BY_ZERO, HIGH_NOT_PRECEDENCE, IGNORE_SPACE, NO_AUTO_VALUE_ON_ZERO, NO_DIR_IN_CREATE, NO_ENGINE_SUBSTITUTION, NO_UNSIGNED_SUBTRACTION, NO_ZERO_DATE, NO_ZERO_IN_DATE, ONLY_FULL_GROUP_BY, PIPES_AS_CONCAT, REAL_AS_FLOAT, STRICT_ALL_TABLES, STRICT_TRANS_TABLES, TIME_TRUNCATE_FRACTIONAL, TRADITIONAL).'
             password: '- The password for the managed database''s primary admin user.'
+            pending_charges: '- Charges due at the end of the billing period.'
             plan: '- (Required) The ID of the plan that you want the managed database to subscribe to. See List Managed Database Plans'
             plan_brokers: '- The number of brokers available on the managed database (Kafka engine types only).'
             plan_disk: '- The description of the disk(s) on the managed database.'
@@ -314,6 +325,7 @@ resources:
         argumentDocs:
             backup_hour: '- The preferred hour of the day (UTC) for daily backups to take place (unavailable for Kafka engine types).'
             backup_minute: '- The preferred minute of the backup hour for daily backups to take place (unavailable for Kafka engine types).'
+            ca_certificate: '- The CA certificate for Managed Databases on this account.'
             cluster_time_zone: '- The configured time zone for the managed database read replica in TZ database format.'
             database_engine: '- The database engine of the managed database read replica.'
             database_engine_version: '- The database engine version of the managed database read replica.'
@@ -332,6 +344,7 @@ resources:
             mysql_slow_query_log: '- The configuration value for slow query logging on the managed database read replica (MySQL engine types only).'
             mysql_sql_modes: '- A list of SQL modes currently configured for the managed database read replica (MySQL engine types only).'
             password: '- The password for the managed database read replica''s primary admin user.'
+            pending_charges: '- Charges due at the end of the billing period.'
             plan: '- The managed database read replica''s plan ID.'
             plan_disk: '- The description of the disk(s) on the managed database read replica.'
             plan_ram: '- The amount of memory available on the managed database read replica in MB.'
@@ -561,6 +574,10 @@ resources:
             app_variables: '- (Optional) A map of user-supplied variable keys and values for Vultr Marketplace apps. See List Marketplace App Variables'
             backups: '- (Optional) Whether automatic backups will be enabled for this server (these have an extra charge associated with them). Values can be enabled or disabled.'
             backups_schedule: '- (Optional) A block that defines the way backups should be scheduled. While this is an optional field if backups are enabled this field is mandatory. The configuration of a backups_schedule is listed below.'
+            block_devices.block_id: '- (Optional) The ID of an existing block device or local if the VX1 plan has local storage and you wish to utilize it for this instance.'
+            block_devices.bootable: '- (Optional) Whether the associated block device is bootable.'
+            block_devices.disk_size: '- (Optional) The disk size for the block device if it is being created.'
+            block_devices.label: '- (Optional) The label for the block device if it is being created.'
             date_created: '- The date the server was added to your Vultr account.'
             ddos_protection: '- (Optional) Whether DDOS protection will be enabled on the server (there is an additional charge for this).'
             default_password: '- The server''s default password.'
@@ -606,7 +623,7 @@ resources:
             v6_network_size: '- The IPv6 network size in bits.'
             vcpu_count: '- The number of virtual CPUs available on the server.'
             vpc_ids: '- (Optional) A list of VPC IDs to be attached to the server.'
-            vpc2_ids: '- (Deprecated) A list of VPC 2.0 IDs to be attached to the server.'
+            vpc_only: '- (Optional) If enabled, no public IP or NIC will be attached. Requires a vpc_ids with a NAT gateway set up.'
         importStatements: []
     vultr_instance_ipv4:
         subCategory: ""
@@ -672,10 +689,16 @@ resources:
                     {
                       "auto_scaler": true,
                       "label": "vke-nodepool",
-                      "labels": {
-                        "my-label": "a-label-on-all-nodes",
-                        "my-second-label": "another-label-on-all-nodes"
-                      },
+                      "labels": [
+                        {
+                          "key": "my-label",
+                          "value": "a-label-on-all-nodes"
+                        },
+                        {
+                          "key": "my-second-label",
+                          "value": "another-label-on-all-nodes"
+                        }
+                      ],
                       "max_nodes": 2,
                       "min_nodes": 1,
                       "node_quantity": 1,
@@ -685,6 +708,11 @@ resources:
                           "effect": "NoExecute",
                           "key": "a-taint",
                           "value": "is-tainted"
+                        },
+                        {
+                          "effect": "NoSchedule",
+                          "key": "another-taint",
+                          "value": "is-tainted"
                         }
                       ]
                     }
@@ -692,54 +720,39 @@ resources:
                   "region": "ewr",
                   "version": "v1.28.2+1"
                 }
-            - name: k8
-              manifest: |-
-                {
-                  "label": "vke-test",
-                  "region": "ewr",
-                  "version": "v1.28.2+1"
-                }
-              dependencies:
-                vultr_kubernetes_node_pools.np: |-
-                    {
-                      "auto_scaler": true,
-                      "cluster_id": "${vultr_kubernetes.k8.id}",
-                      "label": "vke-nodepool",
-                      "max_nodes": 2,
-                      "min_nodes": 1,
-                      "node_quantity": 1,
-                      "plan": "vc2-1c-2gb"
-                    }
         argumentDocs:
-            auto_scaler: '- (Optional) Enable the auto scaler for the default node pool.'
-            client_certificate: '- The base64 encoded public certificate used by clients to access the cluster.'
-            client_key: '- The base64 encoded private key used by clients to access the cluster.'
-            cluster_ca_certificate: '- The base64 encoded public certificate for the cluster''s certificate authority.'
+            auto_scaler: '- (Optional, Default to false) Enable the auto scaler for the default node pool.'
             cluster_subnet: '- IP range that your pods will run on in this cluster.'
             date_created: '- Date of VKE cluster creation.'
             date_updated: '- Date of node pool updates.'
+            effect: '- (Required) The effect of the taint for kubernetes.  Must be one of NoSchedule, PreferNoSchedule or NoExecute.'
             enable_firewall: '- (Optional, Default to False) Boolean indicating if the cluster should be created with a managed firewall.'
             endpoint: '- Domain for your Kubernetes clusters control plane.'
             firewall_group_id: '- The ID of the firewall group managed by this cluster.'
             ha_controlplanes: '- (Optional, Default to False) Boolean indicating if the cluster should be created with multiple, highly available controlplanes.'
             id: '- The VKE cluster ID.'
             ip: '- IP address of VKE cluster control plane.'
-            kube_config: '- Base64 encoded Kubeconfig for this VKE cluster.'
-            label: '- (Optional) The VKE clusters label.'
-            labels: '- (Optional) A map of key/value pairs for Kubernetes node labels.'
-            max_nodes: '- (Optional) The maximum number of nodes to use with the auto scaler.'
-            min_nodes: '- (Optional) The minimum number of nodes to use with the auto scaler.'
+            key: '- (Required) The key definining the label for kubernetes.'
+            label: '- (Required) The label for the cluster.'
+            max_nodes: '- (Optional, Default to 1) The maximum number of nodes to use with the auto scaler.'
+            min_nodes: '- (Optional, Default to 1) The minimum number of nodes to use with the auto scaler.'
             node_pools: '- Contains the default node pool that was deployed.'
             node_quantity: '- (Required) The number of nodes in this node pool.'
-            nodes: '- Array that contains information about nodes within this node pool.'
-            plan: '- (Required) The plan to be used in this node pool. See Plans List Note the minimum plan requirements must have at least 1 core and 2 gbs of memory.'
+            node_recycle: '- (Optional, update only, write only) A list of node IDs to recycle. This will increase the node pool size with new nodes and automatically remove the recycled nodes.'
+            oidc_client_id: '- (Optional) The unique identifier assigned to your application by the OIDC provider.'
+            oidc_groups_claim: '- (Optional) The claim in the OIDC token that contains the user''s group memberships.'
+            oidc_issuer_url: '- (Optional) The URL of the OIDC provider that issues authentication tokens.'
+            oidc_username_claim: '- (Optional) The claim in the OIDC token that identifies the end user''s username.'
+            plan: '- (Required) The plan to be used in this node pool. See plans list Note the minimum plan requirements must have at least 1 core and 2 gbs of memory.'
             region: '- (Required) The region your VKE cluster will be deployed in.'
             service_subnet: '- IP range that services will run on this cluster.'
             status: '- The overall status of the cluster.'
-            tag: '- Tag for node pool.'
-            taints: '- (Optional) Taints to apply to the nodes in the node pool. Should contain key, value and effect.  The effect should be one of NoSchedule, PreferNoSchedule or NoExecute.'
+            tag: '- The default tag that is assigned to the default node pool.'
+            user_data: '- (Optional) A base64 encoded string containing the user data to apply to nodes in the node pool.'
+            value: '- (Required) The value of the label for kubernetes.'
             version: '- (Required) The version your VKE cluster you want deployed. See Available Version'
             vpc_id: '- (Optional) The ID of the VPC to use when creating the cluster. If not provided a new VPC will be created instead.'
+            vpc_only: '- (Optional, Default to false) Enable private-only VPC connectivity for nodes. If true, nodes can only access the internet via the NAT Gateway attached to the VPC.'
         importStatements: []
     vultr_kubernetes_node_pools:
         subCategory: ""
@@ -753,10 +766,16 @@ resources:
                   "auto_scaler": true,
                   "cluster_id": "${vultr_kubernetes.k8.id}",
                   "label": "my-label",
-                  "labels": {
-                    "my-label": "a-label-on-all-nodes",
-                    "my-second-label": "another-label-on-all-nodes"
-                  },
+                  "labels": [
+                    {
+                      "key": "my-label",
+                      "value": "a-label-on-all-nodes"
+                    },
+                    {
+                      "key": "my-second-label",
+                      "value": "another-label-on-all-nodes"
+                    }
+                  ],
                   "max_nodes": 2,
                   "min_nodes": 1,
                   "node_quantity": 1,
@@ -779,22 +798,24 @@ resources:
               references:
                 cluster_id: vultr_kubernetes.k8.id
         argumentDocs:
-            auto_scaler: '- (Optional) Enable the auto scaler for the default node pool.'
+            auto_scaler: '- (Optional, Default to false) Enable the auto scaler for the default node pool.'
             cluster_id: '- (Required) The VKE cluster ID you want to attach this nodepool to.'
             date_created: '- Date of node pool creation.'
             date_updated: '- Date of node pool updates.'
+            effect: '- (Required) The effect of the taint for kubernetes.  Must be one of NoSchedule, PreferNoSchedule or NoExecute.'
             id: '- The Nodepool ID.'
+            key: '- (Required) The key definining the label for kubernetes.'
             label: '- (Required) The label to be used as a prefix for nodes in this node pool.'
-            labels: '- (Optional) A map of key/value pairs for Kubernetes node labels.'
-            max_nodes: '- (Optional) The maximum number of nodes to use with the auto scaler.'
-            min_nodes: '- (Optional) The minimum number of nodes to use with the auto scaler.'
+            max_nodes: '- (Optional, Default to 1) The maximum number of nodes to use with the auto scaler.'
+            min_nodes: '- (Optional, Default to 1) The minimum number of nodes to use with the auto scaler.'
             node_quantity: '- (Required) The number of nodes in this node pool.'
-            nodes: '- Array that contains information about nodes within this node pool.'
-            plan: '- (Required) The plan to be used in this node pool. See Plans List Note the minimum plan requirements must have at least 1 core and 2 gbs of memory.'
+            node_recycle: '- (Optional, update only, write only) A list of node IDs to recycle. This will increase the node pool size with new nodes and automatically remove the recycled nodes.'
+            plan: '- (Required) The plan to be used in this node pool. See plans list Note the minimum plan requirements must have at least 1 core and 2 gbs of memory.'
             status: '- Status of node pool.'
             tag: '- (Optional) A tag that is assigned to this node pool.'
-            taints: '- (Optional) Taints to apply to the nodes in the node pool. Should contain key, value and effect.  The effect should be one of NoSchedule, PreferNoSchedule or NoExecute.'
             user_data: '- (Optional) A base64 encoded string containing the user data to apply to nodes in the node pool.'
+            value: '- (Required) The value of the label for kubernetes.'
+            vpc_only: '- (Optional, Default to false) Enable private-only VPC connectivity for nodes. If true, nodes can only access the internet via the NAT Gateway attached to the VPC.'
         importStatements: []
     vultr_load_balancer:
         subCategory: ""
@@ -826,43 +847,152 @@ resources:
                     }
                   ],
                   "label": "vultr-load-balancer",
+                  "nodes": 3,
                   "region": "ewr"
                 }
         argumentDocs:
             attached_instances: '- (Optional) Array of instances that are currently attached to the load balancer.'
-            backend_port: '- (Required) Port on instance side.'
-            backend_protocol: '- (Required) Protocol on instance side. Possible values: "http", "https", "tcp".'
+            auto_ssl_domain: '- (Optional) The auto SSL domain configuration for a load balancer. This can be a root domain (example.com) or include a subdomain (sub.example.com).'
+            backend_protocol: '- Protocol on instance side. Possible values: "http", "https", "tcp".'
             balancing_algorithm: '- (Optional) The balancing algorithm for your load balancer. Options are roundrobin or leastconn. Default value is roundrobin'
-            certificate: '- (Required) The SSL Certificate.'
-            chain: '- (Optional) The SSL certificate chain.'
-            check_interval: '- (Optional) Time in seconds to perform health check. Default value is 15.'
+            check_interval: '- Time in seconds to perform health check. Default value is 15.'
             cookie_name: '- (Optional) Name for your given sticky session.'
-            firewall_rules: '- Defines the firewall rules for a load balancer.'
-            forwarding_rules: '- (Required) List of forwarding rules for a load balancer. The configuration of a forwarding_rules is listened below.'
-            frontend_port: '- (Required) Port on load balancer side.'
-            frontend_protocol: '- (Required) Protocol on load balancer side. Possible values: "http", "https", "tcp".'
+            frontend_port: '- Port on load balancer side.'
+            frontend_protocol: '- Protocol on load balancer side. Possible values: "http", "https", "tcp".'
             has_ssl: '- Boolean value that indicates if SSL is enabled.'
-            health_check: '- (Optional) A block that defines the way load balancers should check for health. The configuration of a health_check is listed below.'
-            healthy_threshold: '- (Optional)  Number of failed attempts encountered before failover. Default value is 5.'
+            health_check.backend_port: '- (Required) Port on instance side.'
+            health_check.backend_protocol: '- (Required) Protocol on instance side. Possible values: "http", "https", "tcp".'
+            health_check.check_interval: '- (Optional) Time in seconds to perform health check. Default value is 15.'
+            health_check.frontend_port: '- (Required) Port on load balancer side.'
+            health_check.frontend_protocol: '- (Required) Protocol on load balancer side. Possible values: "http", "https", "tcp".'
+            health_check.healthy_threshold: '- (Optional)  Number of failed attempts encountered before failover. Default value is 5.'
+            health_check.ip_type: '- (Required) The type of ip this rule is - may be either v4 or v6.'
+            health_check.path: '- (Optional) The path on the attached instances that the load balancer should check against. Default value is /'
+            health_check.port: '- (Optional) The assigned port (integer) on the attached instances that the load balancer should check against. Default value is 80.'
+            health_check.protocol: '- (Optional) The protocol used to traffic requests to the load balancer. Possible values are http, or tcp. Default value is http.'
+            health_check.region_id: '- (Required) The three letter region code which should have a child load balancer'
+            health_check.response_timeout: '- (Optional) Time in seconds to wait for a health check response. Default value is 5.'
+            health_check.source: '- (Required) IP address with subnet that is allowed through the firewall. You may also pass in cloudflare which will allow only CloudFlares IP range.'
+            health_check.unhealthy_threshold: '- (Optional) Number of failed attempts encountered before failover. Default value is 5.'
+            health_check.vpc_id: '- (Optional) The VPC ID to attach to the child load balancer'
+            healthy_threshold: '-  Number of failed attempts encountered before failover. Default value is 5.'
+            http_version: '- (Optional) Integer value that indicates if HTTP/2 or HTTP/3 is enabled. Allowed values 2 or 3.'
             id: '- The load balancer ID.'
-            ip_type: '- (Required) The type of ip this rule is - may be either v4 or v6.'
+            ip_type: '- The type of ip this rule is - may be either v4 or v6.'
             ipv4: '- IPv4 address for your load balancer.'
             ipv6: '- IPv6 address for your load balancer.'
             label: '- (Optional) The load balancer''s label.'
-            path: '- (Optional) The path on the attached instances that the load balancer should check against. Default value is /'
-            port: '- (Optional) The assigned port (integer) on the attached instances that the load balancer should check against. Default value is 80.'
-            private_key: '- (Required) The SSL certificates private key.'
+            nodes: '- (Optional) The number of nodes to add to the load balancer (1-99). Must be an odd number. Default value is 1.'
+            path: '- The path on the attached instances that the load balancer should check against.'
+            port: '- The assigned port (integer) on the attached instances that the load balancer should check against.'
             private_network: '(Optional) (Deprecated: use vpc instead) A private network ID that the load balancer should be attached to.'
-            protocol: '- (Optional) The protocol used to traffic requests to the load balancer. Possible values are http, or tcp. Default value is http.'
+            protocol: '- The protocol used to traffic requests to the load balancer. Possible values are "http", "https", or "tcp".'
             proxy_protocol: '- (Optional) Boolean value that indicates if Proxy Protocol is enabled.'
             region: '- (Required) The region your load balancer is deployed in.'
-            response_timeout: '- (Optional) Time in seconds to wait for a health check response. Default value is 5.'
-            source: '- (Required) IP address with subnet that is allowed through the firewall. You may also pass in cloudflare which will allow only CloudFlares IP range.'
-            ssl: '- (Optional) A block that supplies your ssl configuration to be used with HTTPS. The configuration of a ssl is listed below.'
+            region_id: '- The three letter region code of the child load balancer'
+            response_timeout: '- Time in seconds to wait for a health check response. Default value is 5.'
+            source: '- IP address with subnet that is allowed through the firewall. You may also pass in cloudflare which will allow only CloudFlares IP range.'
+            ssl.certificate: '- (Required) The SSL Certificate.'
+            ssl.chain: '- (Optional) The SSL certificate chain.'
+            ssl.private_key: '- (Required) The SSL certificates private key.'
             ssl_redirect: '- (Optional) Boolean value that indicates if HTTP calls will be redirected to HTTPS.'
             status: '- Current status for the load balancer'
-            unhealthy_threshold: '- (Optional) Number of failed attempts encountered before failover. Default value is 5.'
+            target_port: '- Port on instance side.'
+            unhealthy_threshold: '- Number of failed attempts encountered before failover. Default value is 5.'
             vpc: (Optional)- A VPC ID that the load balancer should be attached to.
+            vpc_id: '- The VPC ID attached to the child load balancer'
+        importStatements: []
+    vultr_nat_gateway:
+        subCategory: ""
+        description: Provides a Vultr NAT Gateway resource. This can be used to create, read, modify, and delete NAT Gateways for a VPC network on your Vultr account.
+        name: vultr_nat_gateway
+        title: vultr_nat_gateway
+        examples:
+            - name: my_nat_gateway
+              manifest: |-
+                {
+                  "label": "my_nat_gateway",
+                  "tag": "my tag",
+                  "vpc_id": "${vultr_vpc.my_vpc.id}"
+                }
+              references:
+                vpc_id: vultr_vpc.my_vpc.id
+        argumentDocs:
+            billing_charges: '- The current charges for the NAT Gateway.'
+            billing_monthly: '- The total monthly charges for the NAT Gateway.'
+            date_created: '- The date the NAT Gateway was created.'
+            label: '- (Optional) The label of the new NAT Gateway.'
+            private_ips: '- The private IP addresses of the NAT Gateway.'
+            public_ips: '- The public IPv4 addresses of the NAT Gateway.'
+            public_ips_v6: '- The public IPv6 addresses of the NAT Gateway.'
+            status: '- The status of the NAT Gateway.'
+            tag: '- (Optional) The tag of the new NAT Gateway.'
+            vpc_id: '- (Required) The VPC ID you want to attach this NAT Gateway to.'
+        importStatements: []
+    vultr_nat_gateway_firewall_rule:
+        subCategory: ""
+        description: Provides a Vultr NAT Gateway firewall rule resource. This can be used to create, read, modify, and delete firewall rules for a NAT Gateway on your Vultr account.
+        name: vultr_nat_gateway_firewall_rule
+        title: vultr_nat_gateway_firewall_rule
+        examples:
+            - name: my_firewall_rule
+              manifest: |-
+                {
+                  "nat_gateway_id": "${vultr_nat_gateway.my_nat_gateway.id}",
+                  "notes": "my notes",
+                  "port": "123",
+                  "protocol": "tcp",
+                  "subnet": "1.2.3.4",
+                  "subnet_size": "24",
+                  "vpc_id": "${vultr_nat_gateway.my_nat_gateway.vpc_id}"
+                }
+              references:
+                nat_gateway_id: vultr_nat_gateway.my_nat_gateway.id
+                vpc_id: vultr_nat_gateway.my_nat_gateway.vpc_id
+        argumentDocs:
+            action: '- The action of the firewall rule (always accept).'
+            nat_gateway_id: '- (Required) The NAT Gateway ID you want to attach this firewall rule to.'
+            notes: '- (Optional) The notes for the new firewall rule.'
+            port: '- (Required) The port or port range of the new firewall rule.'
+            protocol: '- (Required) The protocol of the new firewall rule (tcp, udp).'
+            subnet: '- (Required) The subnet of the new firewall rule.'
+            subnet_size: '- (Required) The subnet size of the new firewall rule.'
+            vpc_id: '- (Required) The VPC ID associated with the NAT Gateway you want to attach this to.'
+        importStatements: []
+    vultr_nat_gateway_port_forwarding_rule:
+        subCategory: ""
+        description: Provides a Vultr NAT Gateway port forwarding rule resource. This can be used to create, read, modify, and delete port forwarding rules for a NAT Gateway on your Vultr account.
+        name: vultr_nat_gateway_port_forwarding_rule
+        title: vultr_nat_gateway_port_forwarding_rule
+        examples:
+            - name: my_port_forwarding_rule
+              manifest: |-
+                {
+                  "description": "my description",
+                  "enabled": true,
+                  "external_port": "123",
+                  "internal_ip": "10.1.2.3",
+                  "internal_port": "321",
+                  "name": "my_port_forwarding_rule",
+                  "nat_gateway_id": "${vultr_nat_gateway.my_nat_gateway.id}",
+                  "protocol": "tcp",
+                  "vpc_id": "${vultr_nat_gateway.my_nat_gateway.vpc_id}"
+                }
+              references:
+                nat_gateway_id: vultr_nat_gateway.my_nat_gateway.id
+                vpc_id: vultr_nat_gateway.my_nat_gateway.vpc_id
+        argumentDocs:
+            date_created: '- The date the port forwarding rule was created.'
+            date_updated: '- The date the port forwarding rule was last updated.'
+            description: '- (Optional) The description of the new port forwarding rule.'
+            enabled: '- (Required) Whether the new port forwarding rule is enabled or disabled.'
+            external_port: '- (Required) The external port of the new port forwarding rule.'
+            internal_ip: '- (Required) The internal IP address of the new port forwarding rule.'
+            internal_port: '- (Required) The internal port of the new port forwarding rule.'
+            name: '- (Required) The name of the new port forwarding rule.'
+            nat_gateway_id: '- (Required) The NAT Gateway ID you want to attach this port forwarding rule to.'
+            protocol: '- (Required) The protocol of the new port forwarding rule (tcp, udp, both).'
+            vpc_id: '- (Required) The VPC ID associated with the NAT Gateway you want to attach this to.'
         importStatements: []
     vultr_object_storage:
         subCategory: ""
@@ -873,22 +1003,331 @@ resources:
             - name: tf
               manifest: |-
                 {
+                  "bucket": [
+                    {
+                      "enable_lock": true,
+                      "enable_versioning": true,
+                      "name": "my-bucket"
+                    }
+                  ],
                   "cluster_id": 9,
                   "label": "vultr-object-storage",
                   "tier_id": 4
                 }
         argumentDocs:
+            bucket: (Optional) supports the following
             cluster_id: '- (Required) The ID of the region that you want the object storage to be deployed in.'
             date_created: '- Date of creation for the object storage subscription.'
+            enable_lock: '- (Optional) Whether or not object lock is enabled in the bucket'
+            enable_versioning: '- (Optional) Whether or not the versioning is enabled in the bucket'
             id: '- The id of the object storage subscription.'
             label: '- (Optional) The description you want to give your object storage.'
             location: '- The location which this subscription resides in.'
+            name: '- (Required) A name for the bucket'
             region: '- The region ID of the object storage subscription.'
             s3_access_key: '- Your access key.'
             s3_hostname: '- The hostname for this subscription.'
             s3_secret_key: '- Your secret key.'
             status: '- Current status of this object storage subscription.'
             tier_id: '- (Required) The ID of the tier to deploy the storage under.'
+        importStatements: []
+    vultr_object_storage_bucket:
+        subCategory: ""
+        description: Provides a Vultr private object storage bucket resource. This can be used to create, read and delete object storage bucket resources on your Vultr account.
+        name: vultr_object_storage_bucket
+        title: vultr_object_storage_bucket
+        examples:
+            - name: obj-bucket
+              manifest: |-
+                {
+                  "enable_lock": true,
+                  "enable_versioning": true,
+                  "name": "my-bucket",
+                  "object_storage_id": "0d17ed61-f852-4c26-9e39-aeba6381847d"
+                }
+        argumentDocs:
+            date_created: '- Date of creation for the object storage subscription.'
+            enable_lock: '- (Optional) Whether or not object lock is enabled in the bucket'
+            enable_versioning: '- (Optional) Whether or not the versioning is enabled in the bucket'
+            name: '- (Required) The name of the bucket.'
+            object_storage_id: '- (Required) The ID of the object storage that you want create the bucket in.'
+        importStatements: []
+    vultr_oidc_issuer:
+        subCategory: ""
+        description: Provides a Vultr OIDC issuer resource.
+        name: vultr_oidc_issuer
+        title: vultr_oidc_issuer
+        examples:
+            - name: my_issuer
+              manifest: |-
+                {
+                  "name": "external"
+                }
+        argumentDocs:
+            id: '- The ID of the issuer.'
+            issuer_id: '- The issuer ID.'
+            name: '- (Required) The name of the issuer.'
+        importStatements: []
+    vultr_oidc_token:
+        subCategory: ""
+        description: Provides a Vultr OIDC token resource.
+        name: vultr_oidc_token
+        title: vultr_oidc_token
+        examples:
+            - name: my_token
+              manifest: |-
+                {
+                  "client_id": "id",
+                  "client_secret": "secret",
+                  "grant_type": "external"
+                }
+        argumentDocs:
+            client_id: '- (Required)'
+            client_secret: '- (Required)'
+            grant_type: '- (Required) Must be authorization_code or refresh_token.'
+        importStatements: []
+    vultr_organization:
+        subCategory: ""
+        description: Provides a Vultr organization resource. This can be used to create, read, update and delete an organization resource on your Vultr account.
+        name: vultr_organization
+        title: vultr_organization
+        examples:
+            - name: my_org
+              manifest: |-
+                {
+                  "name": "my-org",
+                  "type": "Personal/Team"
+                }
+        argumentDocs:
+            date_created: '- Date of creation for the organization.'
+            id: '- The ID of the organization.'
+            name: '- (Required) The name of the organization.'
+            type: '- (Required) The type of organization.'
+        importStatements: []
+    vultr_organization_group:
+        subCategory: ""
+        description: Provides a Vultr organization group resource. This can be used to create, read, update and delete an organization group resource on your Vultr account.
+        name: vultr_organization_group
+        title: vultr_organization_group
+        examples:
+            - name: my_group
+              manifest: |-
+                {
+                  "description": "my group from terraform",
+                  "name": "my-group"
+                }
+        argumentDocs:
+            date_created: '- Date of creation for the organization group.'
+            description: '- (Required) A description of the organization group.'
+            id: '- The ID of the organization group.'
+            name: '- (Required) The name of the organization group.'
+            policies: '- NOTE This field is temporarily ignored until the API is fixed. A list of policies attached to the organization group.'
+            roles: '- A list of roles attached to the organization group.'
+            users: '- A list of users attached to the organization group.'
+        importStatements: []
+    vultr_organization_policy:
+        subCategory: ""
+        description: Provides a Vultr organization policy resource. This can be used to create, read, update and delete an organization policy resource on your Vultr account.
+        name: vultr_organization_policy
+        title: vultr_organization_policy
+        examples:
+            - name: my_policy
+              manifest: |-
+                {
+                  "description": "my policy from terraform",
+                  "document": [
+                    {
+                      "statement": [
+                        {
+                          "actions": [
+                            "compute.instance.Create"
+                          ],
+                          "effect": "Allow",
+                          "resources": [
+                            "*"
+                          ]
+                        }
+                      ],
+                      "version": "2012-10-20"
+                    }
+                  ],
+                  "groups": [
+                    "048c1f4d-5201-4a05-8095-f3e30e878983"
+                  ],
+                  "is_system_policy": false,
+                  "name": "my-policy",
+                  "users": [
+                    "265189eb-781b-46e2-88bb-9c6b829a8334"
+                  ]
+                }
+        argumentDocs:
+            actions: '- (Required) A list of actions for the policy document statement.'
+            description: '- (Required) A description of the organization policy.'
+            document: '- (Required) A block outlining the organization policy document details.'
+            effect: '- (Required) The effect of the the policy document statement.'
+            groups: '- (Optional) A list of group UUIDs to attach to the organization policy.'
+            id: '- The ID of the organization policy.'
+            is_system_policy: '- (Required) Whether or not the policy is a system policy.'
+            name: '- (Required) The name of the organization policy.'
+            resources: '- (Required) A list of applicable resources for the policy document statement.'
+            statement: '- (Required) A list of blocks for the organization policy statements.'
+            users: '- (Optional) A list of user UUIDs to attach to the organization policy.'
+            version: '- (Required) A version for organization policy document.'
+        importStatements: []
+    vultr_organization_policy_group_attachment:
+        subCategory: ""
+        description: Provides a Vultr organization policy group attachment resource. This can be used to attach an organization policy resource to a group resource on your Vultr account.
+        name: vultr_organization_policy_group_attachment
+        title: vultr_organization_policy_group_attachment
+        examples:
+            - name: policy-group-attachment
+              manifest: |-
+                {
+                  "group_id": "2b72adbd-3f25-4ec8-b067-307a8fa4d8fa",
+                  "policy_id": "62948e0d-b09d-4d08-9554-3985b635cb17"
+                }
+        argumentDocs:
+            group_id: '- (Required) The ID of the group.'
+            id: '- The ID of the policy group attachment (a composite of the policy_id and group_id).'
+            polciy_id: '- The ID of the policy.'
+            policy_id: '- (Required) The ID of the policy.'
+        importStatements: []
+    vultr_organization_policy_user_attachment:
+        subCategory: ""
+        description: Provides a Vultr organization policy user attachment resource. This can be used to attach an organization policy resource to a user resource on your Vultr account.
+        name: vultr_organization_policy_user_attachment
+        title: vultr_organization_policy_user_attachment
+        examples:
+            - name: policy-user-attachment
+              manifest: |-
+                {
+                  "policy_id": "62948e0d-b09d-4d08-9554-3985b635cb17",
+                  "user_id": "8aff6ef5-26f9-458b-ae87-2ac06cfe1d4b"
+                }
+        argumentDocs:
+            id: '- The ID of the policy user attachment (a composite of the policy_id and user_id).'
+            polciy_id: '- The ID of the policy.'
+            policy_id: '- (Required) The ID of the policy.'
+            user_id: '- (Required) The ID of the user.'
+        importStatements: []
+    vultr_organization_role:
+        subCategory: ""
+        description: Provides a Vultr organization role resource. This can be used to create, read, update and delete an organization role resource on your Vultr account.
+        name: vultr_organization_role
+        title: vultr_organization_role
+        examples:
+            - name: my_role
+              manifest: |-
+                {
+                  "description": "my role from terraform",
+                  "max_session_duration": 3600,
+                  "name": "my-role",
+                  "type": "assumable"
+                }
+        argumentDocs:
+            date_created: '- Date of creation for the organization role.'
+            description: '- (Required) A description of the organization role.'
+            groups: '- A list of group UUIDs attached to the role.'
+            id: '- The ID of the organization role.'
+            max_session_duration: '- (Required) The max session length for the organization role.'
+            name: '- (Required) The name of the organization role.'
+            policies: '- A list of UUIDs attached to the role.'
+            type: '- (Required) A type for the organization role.'
+        importStatements: []
+    vultr_organization_role_group_attachment:
+        subCategory: ""
+        description: Provides a Vultr organization role group attachment resource. This can be used to attach an organization role resource to a group resource on your Vultr account.
+        name: vultr_organization_role_group_attachment
+        title: vultr_organization_role_group_attachment
+        examples:
+            - name: role-group-attachment
+              manifest: |-
+                {
+                  "group_id": "2b72adbd-3f25-4ec8-b067-307a8fa4d8fa",
+                  "role_id": "bf8587f2-72e6-43e5-9ebc-dd6267eb7f4c"
+                }
+        argumentDocs:
+            group_id: '- (Required) The ID of the group.'
+            id: '- The ID of the role group attachment (a composite of the role_id and group_id).'
+            role_id: '- (Required) The ID of the role.'
+        importStatements: []
+    vultr_organization_role_policy_attachment:
+        subCategory: ""
+        description: Provides a Vultr organization role policy attachment resource. This can be used to attach an organization role resource to a policy resource on your Vultr account.
+        name: vultr_organization_role_policy_attachment
+        title: vultr_organization_role_policy_attachment
+        examples:
+            - name: role-policy-attachment
+              manifest: |-
+                {
+                  "policy_id": "1de3d445-c439-40e1-826e-12a445571d20",
+                  "role_id": "02883b84-9237-4abe-9572-db0cea335508"
+                }
+        argumentDocs:
+            id: '- The ID of the role policy attachment (a composite of the role_id and policy_id).'
+            policy_id: '- (Required) The ID of the policy.'
+            role_id: '- (Required) The ID of the role.'
+        importStatements: []
+    vultr_organization_role_session:
+        subCategory: ""
+        description: Provides a Vultr organization role session resource. This can be used to create, read, update and delete an organization role session resource on your Vultr account.
+        name: vultr_organization_role_session
+        title: vultr_organization_role_session
+        examples:
+            - name: sss
+              manifest: |-
+                {
+                  "duration": 2300,
+                  "ip_address": "10.0.0.1",
+                  "role": "2c536798-6472-4907-b901-8b0c50c9789f",
+                  "session_name": "my-terraform-session",
+                  "user": "4f86871e-fa75-4fb8-8960-fe4bac4e498c"
+                }
+        argumentDocs:
+            auth_method: '- The auth method of the session.'
+            conditions_met: '- A list of conditions met for the session.'
+            date_assumed: '- The date that the session was assumed.'
+            date_expires: '- The date that the session expires.'
+            duration: '- (Required) The duration of the session.'
+            id: '- The ID of the session.'
+            ip_address: '- (Required) An IP for the session.'
+            remaining_duration: '- The remaining duration of the session.'
+            role: '- (Required) A UUID of a role.'
+            session_name: '- (Required) A name for the session.'
+            source_ip: '- The source IP of the session.'
+            token: '- The token for the session.'
+            user: '- (Required) A UUID of a user.'
+        importStatements: []
+    vultr_organization_role_trust:
+        subCategory: ""
+        description: Provides a Vultr organization role trust resource. This can be used to create, read, update and delete an organization role trust resource on your Vultr account.
+        name: vultr_organization_role_trust
+        title: vultr_organization_role_trust
+        examples:
+            - name: rot
+              manifest: |-
+                {
+                  "date_expires": "2025-12-31T05:00:00+00:00",
+                  "hour_end": 17,
+                  "hour_start": 9,
+                  "ip_range": [
+                    "10.0.0.0/8",
+                    "192.168.0.1/16"
+                  ],
+                  "role_id": "de2e3d3b-c86f-402e-932f-368fe21c29df",
+                  "type": "TemporaryAssumption",
+                  "user_id": "3b37fef9-3fb7-4803-94f6-ceace63b1b90"
+                }
+        argumentDocs:
+            date_created: '- The date the role trust was created.'
+            date_expires: '- (Required) ISO 8601 date time stamp indicating when to expire the role trust.'
+            hour_end: '- (Required) The hour that the role trust ends.'
+            hour_start: '- (Required) The hour that the role trust begins.'
+            id: '- The ID of the role trust.'
+            ip_range: '- (Required) A list of IP ranges allowed for the role trust.'
+            role_id: '- (Required) A UUID of a role.'
+            type: '- (Required) The type of role trust.'
+            user_id: '- (Optional) A UUID of a user.'
         importStatements: []
     vultr_reserved_ip:
         subCategory: ""
@@ -961,7 +1400,7 @@ resources:
               manifest: |-
                 {
                   "instance_id": "${vultr_instance.my_server.id}",
-                  "ip": "${vultr_instance.my_server.v6_networks[0].v6_main_ip}",
+                  "ip": "${vultr_instance.my_server.v6_main_ip}",
                   "reverse": "host.example.com"
                 }
               dependencies:
@@ -973,11 +1412,11 @@ resources:
                       "region": "ewr"
                     }
         argumentDocs:
-            id: '- The ID is the IPv6 address in canonical format.'
+            id: '- The ID is the IPv6 address in full-expanded format.'
             instance_id: |-
                 - (Required) The ID of the server you want to set an IPv6
                 reverse DNS record for.
-            ip: '- (Required) The IPv6 address used in the reverse DNS record.'
+            ip: '- (Required) The IPv6 address used in the reverse DNS record. Valid IPv6 address, stored as fully-expanded format.'
             reverse: '- (Required) The hostname used in the IPv6 reverse DNS record.'
         importStatements: []
     vultr_snapshot:
@@ -1115,15 +1554,22 @@ resources:
                   "api_enabled": true,
                   "email": "user@vultr.com",
                   "name": "my user",
-                  "password": "myP@ssw0rd"
+                  "password": "myP@ssw0rd",
+                  "service_user": true
                 }
         argumentDocs:
-            acl: '- (Optional) The access control list for the user.'
+            acl: |-
+                - (Optional) The access control list for the user.
+                <<<<<<< HEAD
+                =======
             api_enabled: '- (Optional) Whether API is enabled for the user. Default behavior is set to enabled.'
             email: '- (Required) Email for this user.'
+            groups: '- (Optional) A list of UUIDs of groups which should be attached to this user.'
             id: '- ID associated with the user.'
             name: '- (Required) Name for this user.'
             password: '- (Required) Password for this user.'
+            roles: '- (Optional) A list of UUIDs of roles which should be attached to this user.'
+            service_user: '- (Optional) Whether the user is a service user.'
         importStatements: []
     vultr_virtual_file_system_storage:
         subCategory: ""
@@ -1182,33 +1628,4 @@ resources:
             region: '- (Required) The region ID that you want the VPC to be created in.'
             v4_subnet: '- (Optional) The IPv4 subnet to be used when attaching instances to this VPC.'
             v4_subnet_mask: '- The number of bits for the netmask in CIDR notation. Example: 32'
-        importStatements: []
-    vultr_vpc2:
-        subCategory: ""
-        description: Provides a Vultr VPC 2.0 resource. This can be used to create, read, and delete VPCs 2.0 on your Vultr account.
-        name: vultr_vpc2
-        title: vultr_vpc2
-        examples:
-            - name: my_vpc2
-              manifest: |-
-                {
-                  "description": "my vpc2",
-                  "region": "ewr"
-                }
-            - name: my_vpc2
-              manifest: |-
-                {
-                  "description": "my private vpc2",
-                  "ip_block": "10.0.0.0",
-                  "prefix_length": 24,
-                  "region": "ewr"
-                }
-        argumentDocs:
-            date_created: '- The date that the VPC 2.0 was added to your Vultr account.'
-            description: '- (Optional) The description you want to give your VPC 2.0.'
-            id: '- ID of the VPC 2.0.'
-            ip_block: '- (Optional) The IPv4 subnet to be used when attaching instances to this VPC 2.0.'
-            ip_type: '- (Optional) Accepted values: v4.'
-            prefix_length: '- The number of bits for the netmask in CIDR notation. Example: 32'
-            region: '- (Required) The region ID that you want the VPC 2.0 to be created in.'
         importStatements: []

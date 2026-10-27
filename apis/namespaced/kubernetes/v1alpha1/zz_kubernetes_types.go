@@ -10,8 +10,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
-	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
+	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
 type KubernetesInitParameters struct {
@@ -22,11 +21,23 @@ type KubernetesInitParameters struct {
 	// Boolean indicating if the cluster should be created with multiple, highly available controlplanes.
 	HaControlplanes *bool `json:"haControlplanes,omitempty" tf:"ha_controlplanes,omitempty"`
 
-	// The VKE clusters label.
+	// The label for the cluster.
 	Label *string `json:"label,omitempty" tf:"label,omitempty"`
 
 	// Contains the default node pool that was deployed.
 	NodePools []NodePoolsInitParameters `json:"nodePools,omitempty" tf:"node_pools,omitempty"`
+
+	// The unique identifier assigned to your application by the OIDC provider.
+	OidcClientID *string `json:"oidcClientId,omitempty" tf:"oidc_client_id,omitempty"`
+
+	// The claim in the OIDC token that contains the user's group memberships.
+	OidcGroupsClaim *string `json:"oidcGroupsClaim,omitempty" tf:"oidc_groups_claim,omitempty"`
+
+	// The URL of the OIDC provider that issues authentication tokens.
+	OidcIssuerURL *string `json:"oidcIssuerUrl,omitempty" tf:"oidc_issuer_url,omitempty"`
+
+	// The claim in the OIDC token that identifies the end user's username.
+	OidcUsernameClaim *string `json:"oidcUsernameClaim,omitempty" tf:"oidc_username_claim,omitempty"`
 
 	// The region your VKE cluster will be deployed in.
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
@@ -64,11 +75,23 @@ type KubernetesObservation struct {
 	// IP address of VKE cluster control plane.
 	IP *string `json:"ip,omitempty" tf:"ip,omitempty"`
 
-	// The VKE clusters label.
+	// The label for the cluster.
 	Label *string `json:"label,omitempty" tf:"label,omitempty"`
 
 	// Contains the default node pool that was deployed.
 	NodePools []NodePoolsObservation `json:"nodePools,omitempty" tf:"node_pools,omitempty"`
+
+	// The unique identifier assigned to your application by the OIDC provider.
+	OidcClientID *string `json:"oidcClientId,omitempty" tf:"oidc_client_id,omitempty"`
+
+	// The claim in the OIDC token that contains the user's group memberships.
+	OidcGroupsClaim *string `json:"oidcGroupsClaim,omitempty" tf:"oidc_groups_claim,omitempty"`
+
+	// The URL of the OIDC provider that issues authentication tokens.
+	OidcIssuerURL *string `json:"oidcIssuerUrl,omitempty" tf:"oidc_issuer_url,omitempty"`
+
+	// The claim in the OIDC token that identifies the end user's username.
+	OidcUsernameClaim *string `json:"oidcUsernameClaim,omitempty" tf:"oidc_username_claim,omitempty"`
 
 	// The region your VKE cluster will be deployed in.
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
@@ -96,13 +119,29 @@ type KubernetesParameters struct {
 	// +kubebuilder:validation:Optional
 	HaControlplanes *bool `json:"haControlplanes,omitempty" tf:"ha_controlplanes,omitempty"`
 
-	// The VKE clusters label.
+	// The label for the cluster.
 	// +kubebuilder:validation:Optional
 	Label *string `json:"label,omitempty" tf:"label,omitempty"`
 
 	// Contains the default node pool that was deployed.
 	// +kubebuilder:validation:Optional
 	NodePools []NodePoolsParameters `json:"nodePools,omitempty" tf:"node_pools,omitempty"`
+
+	// The unique identifier assigned to your application by the OIDC provider.
+	// +kubebuilder:validation:Optional
+	OidcClientID *string `json:"oidcClientId,omitempty" tf:"oidc_client_id,omitempty"`
+
+	// The claim in the OIDC token that contains the user's group memberships.
+	// +kubebuilder:validation:Optional
+	OidcGroupsClaim *string `json:"oidcGroupsClaim,omitempty" tf:"oidc_groups_claim,omitempty"`
+
+	// The URL of the OIDC provider that issues authentication tokens.
+	// +kubebuilder:validation:Optional
+	OidcIssuerURL *string `json:"oidcIssuerUrl,omitempty" tf:"oidc_issuer_url,omitempty"`
+
+	// The claim in the OIDC token that identifies the end user's username.
+	// +kubebuilder:validation:Optional
+	OidcUsernameClaim *string `json:"oidcUsernameClaim,omitempty" tf:"oidc_username_claim,omitempty"`
 
 	// The region your VKE cluster will be deployed in.
 	// +kubebuilder:validation:Optional
@@ -117,17 +156,47 @@ type KubernetesParameters struct {
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
 }
 
+type LabelsInitParameters struct {
+
+	// The key definining the label for kubernetes.
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	// The value of the label for kubernetes.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type LabelsObservation struct {
+
+	// The VKE cluster ID.
+	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The key definining the label for kubernetes.
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	// The value of the label for kubernetes.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type LabelsParameters struct {
+
+	// The key definining the label for kubernetes.
+	// +kubebuilder:validation:Optional
+	Key *string `json:"key" tf:"key,omitempty"`
+
+	// The value of the label for kubernetes.
+	// +kubebuilder:validation:Optional
+	Value *string `json:"value" tf:"value,omitempty"`
+}
+
 type NodePoolsInitParameters struct {
 
 	// Enable the auto scaler for the default node pool.
 	AutoScaler *bool `json:"autoScaler,omitempty" tf:"auto_scaler,omitempty"`
 
-	// The VKE clusters label.
+	// The label for the cluster.
 	Label *string `json:"label,omitempty" tf:"label,omitempty"`
 
-	// A map of key/value pairs for Kubernetes node labels.
-	// +mapType=granular
-	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+	Labels []LabelsInitParameters `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The maximum number of nodes to use with the auto scaler.
 	MaxNodes *float64 `json:"maxNodes,omitempty" tf:"max_nodes,omitempty"`
@@ -138,13 +207,20 @@ type NodePoolsInitParameters struct {
 	// The number of nodes in this node pool.
 	NodeQuantity *float64 `json:"nodeQuantity,omitempty" tf:"node_quantity,omitempty"`
 
-	// The plan to be used in this node pool. See Plans List Note the minimum plan requirements must have at least 1 core and 2 gbs of memory.
+	// A list of node IDs to recycle. This will increase the node pool size with new nodes and automatically remove the recycled nodes.
+	// +listType=set
+	NodeRecycle []*string `json:"nodeRecycle,omitempty" tf:"node_recycle,omitempty"`
+
+	// The plan to be used in this node pool. See plans list Note the minimum plan requirements must have at least 1 core and 2 gbs of memory.
 	Plan *string `json:"plan,omitempty" tf:"plan,omitempty"`
 
-	// Taints to apply to the nodes in the node pool. Should contain key, value and effect.  The effect should be one of NoSchedule, PreferNoSchedule or NoExecute.
 	Taints []TaintsInitParameters `json:"taints,omitempty" tf:"taints,omitempty"`
 
+	// A base64 encoded string containing the user data to apply to nodes in the node pool.
 	UserData *string `json:"userData,omitempty" tf:"user_data,omitempty"`
+
+	// Enable private-only VPC connectivity for nodes. If true, nodes can only access the internet via the NAT Gateway attached to the VPC.
+	VPCOnly *bool `json:"vpcOnly,omitempty" tf:"vpc_only,omitempty"`
 }
 
 type NodePoolsObservation struct {
@@ -161,12 +237,10 @@ type NodePoolsObservation struct {
 	// The VKE cluster ID.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// The VKE clusters label.
+	// The label for the cluster.
 	Label *string `json:"label,omitempty" tf:"label,omitempty"`
 
-	// A map of key/value pairs for Kubernetes node labels.
-	// +mapType=granular
-	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+	Labels []LabelsObservation `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The maximum number of nodes to use with the auto scaler.
 	MaxNodes *float64 `json:"maxNodes,omitempty" tf:"max_nodes,omitempty"`
@@ -177,22 +251,28 @@ type NodePoolsObservation struct {
 	// The number of nodes in this node pool.
 	NodeQuantity *float64 `json:"nodeQuantity,omitempty" tf:"node_quantity,omitempty"`
 
-	// Array that contains information about nodes within this node pool.
+	// A list of node IDs to recycle. This will increase the node pool size with new nodes and automatically remove the recycled nodes.
+	// +listType=set
+	NodeRecycle []*string `json:"nodeRecycle,omitempty" tf:"node_recycle,omitempty"`
+
 	Nodes []NodesObservation `json:"nodes,omitempty" tf:"nodes,omitempty"`
 
-	// The plan to be used in this node pool. See Plans List Note the minimum plan requirements must have at least 1 core and 2 gbs of memory.
+	// The plan to be used in this node pool. See plans list Note the minimum plan requirements must have at least 1 core and 2 gbs of memory.
 	Plan *string `json:"plan,omitempty" tf:"plan,omitempty"`
 
 	// The overall status of the cluster.
 	Status *string `json:"status,omitempty" tf:"status,omitempty"`
 
-	// Tag for node pool.
+	// The default tag that is assigned to the default node pool.
 	Tag *string `json:"tag,omitempty" tf:"tag,omitempty"`
 
-	// Taints to apply to the nodes in the node pool. Should contain key, value and effect.  The effect should be one of NoSchedule, PreferNoSchedule or NoExecute.
 	Taints []TaintsObservation `json:"taints,omitempty" tf:"taints,omitempty"`
 
+	// A base64 encoded string containing the user data to apply to nodes in the node pool.
 	UserData *string `json:"userData,omitempty" tf:"user_data,omitempty"`
+
+	// Enable private-only VPC connectivity for nodes. If true, nodes can only access the internet via the NAT Gateway attached to the VPC.
+	VPCOnly *bool `json:"vpcOnly,omitempty" tf:"vpc_only,omitempty"`
 }
 
 type NodePoolsParameters struct {
@@ -201,14 +281,12 @@ type NodePoolsParameters struct {
 	// +kubebuilder:validation:Optional
 	AutoScaler *bool `json:"autoScaler,omitempty" tf:"auto_scaler,omitempty"`
 
-	// The VKE clusters label.
+	// The label for the cluster.
 	// +kubebuilder:validation:Optional
 	Label *string `json:"label" tf:"label,omitempty"`
 
-	// A map of key/value pairs for Kubernetes node labels.
 	// +kubebuilder:validation:Optional
-	// +mapType=granular
-	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+	Labels []LabelsParameters `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The maximum number of nodes to use with the auto scaler.
 	// +kubebuilder:validation:Optional
@@ -222,16 +300,25 @@ type NodePoolsParameters struct {
 	// +kubebuilder:validation:Optional
 	NodeQuantity *float64 `json:"nodeQuantity" tf:"node_quantity,omitempty"`
 
-	// The plan to be used in this node pool. See Plans List Note the minimum plan requirements must have at least 1 core and 2 gbs of memory.
+	// A list of node IDs to recycle. This will increase the node pool size with new nodes and automatically remove the recycled nodes.
+	// +kubebuilder:validation:Optional
+	// +listType=set
+	NodeRecycle []*string `json:"nodeRecycle,omitempty" tf:"node_recycle,omitempty"`
+
+	// The plan to be used in this node pool. See plans list Note the minimum plan requirements must have at least 1 core and 2 gbs of memory.
 	// +kubebuilder:validation:Optional
 	Plan *string `json:"plan" tf:"plan,omitempty"`
 
-	// Taints to apply to the nodes in the node pool. Should contain key, value and effect.  The effect should be one of NoSchedule, PreferNoSchedule or NoExecute.
 	// +kubebuilder:validation:Optional
 	Taints []TaintsParameters `json:"taints,omitempty" tf:"taints,omitempty"`
 
+	// A base64 encoded string containing the user data to apply to nodes in the node pool.
 	// +kubebuilder:validation:Optional
 	UserData *string `json:"userData,omitempty" tf:"user_data,omitempty"`
+
+	// Enable private-only VPC connectivity for nodes. If true, nodes can only access the internet via the NAT Gateway attached to the VPC.
+	// +kubebuilder:validation:Optional
+	VPCOnly *bool `json:"vpcOnly,omitempty" tf:"vpc_only,omitempty"`
 }
 
 type NodesInitParameters struct {
@@ -245,7 +332,7 @@ type NodesObservation struct {
 	// The VKE cluster ID.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// The VKE clusters label.
+	// The label for the cluster.
 	Label *string `json:"label,omitempty" tf:"label,omitempty"`
 
 	// The overall status of the cluster.
@@ -256,29 +343,43 @@ type NodesParameters struct {
 }
 
 type TaintsInitParameters struct {
+
+	// The effect of the taint for kubernetes.  Must be one of NoSchedule, PreferNoSchedule or NoExecute.
 	Effect *string `json:"effect,omitempty" tf:"effect,omitempty"`
 
+	// The key definining the label for kubernetes.
 	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 
+	// The value of the label for kubernetes.
 	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
 type TaintsObservation struct {
+
+	// The effect of the taint for kubernetes.  Must be one of NoSchedule, PreferNoSchedule or NoExecute.
 	Effect *string `json:"effect,omitempty" tf:"effect,omitempty"`
 
+	// The VKE cluster ID.
+	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The key definining the label for kubernetes.
 	Key *string `json:"key,omitempty" tf:"key,omitempty"`
 
+	// The value of the label for kubernetes.
 	Value *string `json:"value,omitempty" tf:"value,omitempty"`
 }
 
 type TaintsParameters struct {
 
+	// The effect of the taint for kubernetes.  Must be one of NoSchedule, PreferNoSchedule or NoExecute.
 	// +kubebuilder:validation:Optional
 	Effect *string `json:"effect" tf:"effect,omitempty"`
 
+	// The key definining the label for kubernetes.
 	// +kubebuilder:validation:Optional
 	Key *string `json:"key" tf:"key,omitempty"`
 
+	// The value of the label for kubernetes.
 	// +kubebuilder:validation:Optional
 	Value *string `json:"value" tf:"value,omitempty"`
 }
@@ -302,8 +403,8 @@ type KubernetesSpec struct {
 
 // KubernetesStatus defines the observed state of Kubernetes.
 type KubernetesStatus struct {
-	v1.ResourceStatus `json:",inline"`
-	AtProvider        KubernetesObservation `json:"atProvider,omitempty"`
+	v2.ManagedResourceStatus `json:",inline"`
+	AtProvider               KubernetesObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true
@@ -320,6 +421,7 @@ type Kubernetes struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.label) || (has(self.initProvider) && has(self.initProvider.label))",message="spec.forProvider.label is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.nodePools) || (has(self.initProvider) && has(self.initProvider.nodePools))",message="spec.forProvider.nodePools is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.region) || (has(self.initProvider) && has(self.initProvider.region))",message="spec.forProvider.region is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.version) || (has(self.initProvider) && has(self.initProvider.version))",message="spec.forProvider.version is a required parameter"
 	Spec   KubernetesSpec   `json:"spec"`

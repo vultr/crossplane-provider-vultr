@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.18.0
+    controller-gen.kubebuilder.io/version: v0.20.1
   name: loadbalancers.loadbalancer.vultr.m.upbound.io
 spec:
   group: loadbalancer.vultr.m.upbound.io
@@ -65,6 +65,11 @@ spec:
                     items:
                       type: string
                     type: array
+                  autoSslDomain:
+                    description: The auto SSL domain configuration for a load balancer.
+                      This can be a root domain (example.com) or include a subdomain
+                      (sub.example.com).
+                    type: string
                   balancingAlgorithm:
                     description: The balancing algorithm for your load balancer. Options
                       are roundrobin or leastconn. Default value is roundrobin
@@ -73,7 +78,6 @@ spec:
                     description: Name for your given sticky session.
                     type: string
                   firewallRules:
-                    description: Defines the firewall rules for a load balancer.
                     items:
                       properties:
                         ipType:
@@ -83,7 +87,6 @@ spec:
                         port:
                           description: The assigned port (integer) on the attached
                             instances that the load balancer should check against.
-                            Default value is 80.
                           type: number
                         source:
                           description: IP address with subnet that is allowed through
@@ -93,8 +96,6 @@ spec:
                       type: object
                     type: array
                   forwardingRules:
-                    description: List of forwarding rules for a load balancer. The
-                      configuration of a forwarding_rules is listened below.
                     items:
                       properties:
                         backendPort:
@@ -113,10 +114,19 @@ spec:
                           type: string
                       type: object
                     type: array
+                  globalRegions:
+                    items:
+                      properties:
+                        regionId:
+                          description: The three letter region code of the child load
+                            balancer
+                          type: string
+                        vpcId:
+                          description: The VPC ID attached to the child load balancer
+                          type: string
+                      type: object
+                    type: array
                   healthCheck:
-                    description: A block that defines the way load balancers should
-                      check for health. The configuration of a health_check is listed
-                      below.
                     items:
                       properties:
                         checkInterval:
@@ -151,9 +161,17 @@ spec:
                           type: number
                       type: object
                     type: array
+                  httpVersion:
+                    description: Integer value that indicates if HTTP/2 or HTTP/3
+                      is enabled. Allowed values 2 or 3.
+                    type: number
                   label:
                     description: The load balancer's label.
                     type: string
+                  nodes:
+                    description: The number of nodes to add to the load balancer (1-99).
+                      Must be an odd number. Default value is 1.
+                    type: number
                   proxyProtocol:
                     description: Boolean value that indicates if Proxy Protocol is
                       enabled.
@@ -162,8 +180,6 @@ spec:
                     description: The region your load balancer is deployed in.
                     type: string
                   ssl:
-                    description: A block that supplies your ssl configuration to be
-                      used with HTTPS. The configuration of a ssl is listed below.
                     items:
                       properties:
                         certificate:
@@ -214,6 +230,11 @@ spec:
                     items:
                       type: string
                     type: array
+                  autoSslDomain:
+                    description: The auto SSL domain configuration for a load balancer.
+                      This can be a root domain (example.com) or include a subdomain
+                      (sub.example.com).
+                    type: string
                   balancingAlgorithm:
                     description: The balancing algorithm for your load balancer. Options
                       are roundrobin or leastconn. Default value is roundrobin
@@ -222,7 +243,6 @@ spec:
                     description: Name for your given sticky session.
                     type: string
                   firewallRules:
-                    description: Defines the firewall rules for a load balancer.
                     items:
                       properties:
                         ipType:
@@ -232,7 +252,6 @@ spec:
                         port:
                           description: The assigned port (integer) on the attached
                             instances that the load balancer should check against.
-                            Default value is 80.
                           type: number
                         source:
                           description: IP address with subnet that is allowed through
@@ -242,8 +261,6 @@ spec:
                       type: object
                     type: array
                   forwardingRules:
-                    description: List of forwarding rules for a load balancer. The
-                      configuration of a forwarding_rules is listened below.
                     items:
                       properties:
                         backendPort:
@@ -262,10 +279,19 @@ spec:
                           type: string
                       type: object
                     type: array
+                  globalRegions:
+                    items:
+                      properties:
+                        regionId:
+                          description: The three letter region code of the child load
+                            balancer
+                          type: string
+                        vpcId:
+                          description: The VPC ID attached to the child load balancer
+                          type: string
+                      type: object
+                    type: array
                   healthCheck:
-                    description: A block that defines the way load balancers should
-                      check for health. The configuration of a health_check is listed
-                      below.
                     items:
                       properties:
                         checkInterval:
@@ -300,9 +326,17 @@ spec:
                           type: number
                       type: object
                     type: array
+                  httpVersion:
+                    description: Integer value that indicates if HTTP/2 or HTTP/3
+                      is enabled. Allowed values 2 or 3.
+                    type: number
                   label:
                     description: The load balancer's label.
                     type: string
+                  nodes:
+                    description: The number of nodes to add to the load balancer (1-99).
+                      Must be an odd number. Default value is 1.
+                    type: number
                   proxyProtocol:
                     description: Boolean value that indicates if Proxy Protocol is
                       enabled.
@@ -311,8 +345,6 @@ spec:
                     description: The region your load balancer is deployed in.
                     type: string
                   ssl:
-                    description: A block that supplies your ssl configuration to be
-                      used with HTTPS. The configuration of a ssl is listed below.
                     items:
                       properties:
                         certificate:
@@ -424,6 +456,11 @@ spec:
                     items:
                       type: string
                     type: array
+                  autoSslDomain:
+                    description: The auto SSL domain configuration for a load balancer.
+                      This can be a root domain (example.com) or include a subdomain
+                      (sub.example.com).
+                    type: string
                   balancingAlgorithm:
                     description: The balancing algorithm for your load balancer. Options
                       are roundrobin or leastconn. Default value is roundrobin
@@ -432,7 +469,6 @@ spec:
                     description: Name for your given sticky session.
                     type: string
                   firewallRules:
-                    description: Defines the firewall rules for a load balancer.
                     items:
                       properties:
                         id:
@@ -445,7 +481,6 @@ spec:
                         port:
                           description: The assigned port (integer) on the attached
                             instances that the load balancer should check against.
-                            Default value is 80.
                           type: number
                         source:
                           description: IP address with subnet that is allowed through
@@ -455,8 +490,6 @@ spec:
                       type: object
                     type: array
                   forwardingRules:
-                    description: List of forwarding rules for a load balancer. The
-                      configuration of a forwarding_rules is listened below.
                     items:
                       properties:
                         backendPort:
@@ -478,13 +511,22 @@ spec:
                           type: string
                       type: object
                     type: array
+                  globalRegions:
+                    items:
+                      properties:
+                        regionId:
+                          description: The three letter region code of the child load
+                            balancer
+                          type: string
+                        vpcId:
+                          description: The VPC ID attached to the child load balancer
+                          type: string
+                      type: object
+                    type: array
                   hasSsl:
                     description: Boolean value that indicates if SSL is enabled.
                     type: boolean
                   healthCheck:
-                    description: A block that defines the way load balancers should
-                      check for health. The configuration of a health_check is listed
-                      below.
                     items:
                       properties:
                         checkInterval:
@@ -519,6 +561,10 @@ spec:
                           type: number
                       type: object
                     type: array
+                  httpVersion:
+                    description: Integer value that indicates if HTTP/2 or HTTP/3
+                      is enabled. Allowed values 2 or 3.
+                    type: number
                   id:
                     description: The load balancer ID.
                     type: string
@@ -531,6 +577,10 @@ spec:
                   label:
                     description: The load balancer's label.
                     type: string
+                  nodes:
+                    description: The number of nodes to add to the load balancer (1-99).
+                      Must be an odd number. Default value is 1.
+                    type: number
                   proxyProtocol:
                     description: Boolean value that indicates if Proxy Protocol is
                       enabled.
@@ -539,8 +589,6 @@ spec:
                     description: The region your load balancer is deployed in.
                     type: string
                   ssl:
-                    description: A block that supplies your ssl configuration to be
-                      used with HTTPS. The configuration of a ssl is listed below.
                     items:
                       properties:
                         certificate:
@@ -609,6 +657,13 @@ spec:
                 x-kubernetes-list-map-keys:
                 - type
                 x-kubernetes-list-type: map
+              lastHandledReconcileAt:
+                description: |-
+                  LastHandledReconcileAt holds the value of the most recent
+                  reconcile-requested-at annotation token that the controller has
+                  processed. Users can compare this to the annotation to determine
+                  whether a reconcile request has been handled.
+                type: string
               observedGeneration:
                 description: |-
                   ObservedGeneration is the latest metadata.generation
