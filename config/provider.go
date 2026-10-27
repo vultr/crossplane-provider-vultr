@@ -12,6 +12,7 @@ import (
 	blockNamespaced "github.com/crossplane-contrib/provider-vultr/config/namespaced/block"
 	computeNamespaced "github.com/crossplane-contrib/provider-vultr/config/namespaced/compute"
 	databaseNamespaced "github.com/crossplane-contrib/provider-vultr/config/namespaced/database"
+	kubernetesNamespaced "github.com/crossplane-contrib/provider-vultr/config/namespaced/kubernetes"
 	loadbalancerNamespaced "github.com/crossplane-contrib/provider-vultr/config/namespaced/loadbalancer"
 	objectNamespaced "github.com/crossplane-contrib/provider-vultr/config/namespaced/object"
 )
@@ -68,6 +69,7 @@ func GetProviderNamespaced() *ujconfig.Provider {
 		computeNamespaced.Configure,
 		baremetalNamespaced.Configure,
 		databaseNamespaced.Configure,
+		kubernetesNamespaced.Configure,
 		loadbalancerNamespaced.Configure,
 		objectNamespaced.Configure,
 		blockNamespaced.Configure,

@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 
+	"github.com/crossplane/crossplane-runtime/v2/pkg/meta"
 	"github.com/crossplane/crossplane-runtime/v2/pkg/resource"
 	"github.com/pkg/errors"
 	"k8s.io/apimachinery/pkg/types"
@@ -11,8 +12,11 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/terraform"
 
+	clusterkubernetes "github.com/crossplane-contrib/provider-vultr/apis/cluster/kubernetes/v1alpha1"
 	clusterv1beta1 "github.com/crossplane-contrib/provider-vultr/apis/cluster/v1beta1"
+	namespacedkubernetes "github.com/crossplane-contrib/provider-vultr/apis/namespaced/kubernetes/v1alpha1"
 	namespacedv1beta1 "github.com/crossplane-contrib/provider-vultr/apis/namespaced/v1beta1"
+	"github.com/crossplane-contrib/provider-vultr/internal/kubeconfig"
 )
 
 const (
@@ -66,8 +70,29 @@ func TerraformSetupBuilder(version, providerSource, providerVersion string) terr
 			ps.Configuration[retryLimit] = v
 		}
 
+		trackKubeconfig(mg, creds[apiKey])
+
 		return ps, nil
 	}
+}
+
+// trackKubeconfig lets the kubeconfig of existing VKE clusters be fetched
+// for their connection details.
+func trackKubeconfig(mg resource.Managed, key string) {
+	switch mg.(type) {
+	case *clusterkubernetes.Kubernetes, *namespacedkubernetes.Kubernetes:
+	default:
+		return
+	}
+	id := meta.GetExternalName(mg)
+	if id == "" {
+		return
+	}
+	if meta.WasDeleted(mg) || key == "" {
+		kubeconfig.Forget(id)
+		return
+	}
+	kubeconfig.SetAPIKey(id, key)
 }
 
 func toSharedPCSpec(pc *clusterv1beta1.ProviderConfig) (*namespacedv1beta1.ProviderConfigSpec, error) {
