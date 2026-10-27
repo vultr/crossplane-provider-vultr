@@ -28,7 +28,7 @@ kind: Provider
 metadata:
   name: provider-vultr
 spec:
-  package: ghcr.io/vultr/provider-vultr:<version>
+  package: docker.io/vultr/provider-vultr:<version>
 ```
 
 See [releases](https://github.com/vultr/crossplane-provider-vultr/releases) for

@@ -3,4 +3,4 @@ kind: Provider
 metadata:
   name: provider-vultr
 spec:
-  package: ghcr.io/vultr/provider-vultr:v0.3.0
+  package: docker.io/vultr/provider-vultr:v0.3.0
