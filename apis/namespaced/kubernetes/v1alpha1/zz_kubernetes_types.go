@@ -43,7 +43,16 @@ type KubernetesInitParameters struct {
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
 	// The ID of the VPC to use when creating the cluster. If not provided a new VPC will be created instead.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-vultr/apis/namespaced/network/v1alpha1.VPC
 	VPCID *string `json:"vpcId,omitempty" tf:"vpc_id,omitempty"`
+
+	// Reference to a VPC in network to populate vpcId.
+	// +kubebuilder:validation:Optional
+	VPCIDRef *v2.NamespacedReference `json:"vpcIdRef,omitempty" tf:"-"`
+
+	// Selector for a VPC in network to populate vpcId.
+	// +kubebuilder:validation:Optional
+	VPCIDSelector *v2.NamespacedSelector `json:"vpcIdSelector,omitempty" tf:"-"`
 
 	// The version your VKE cluster you want deployed. See Available Version
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
@@ -148,8 +157,17 @@ type KubernetesParameters struct {
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
 	// The ID of the VPC to use when creating the cluster. If not provided a new VPC will be created instead.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-vultr/apis/namespaced/network/v1alpha1.VPC
 	// +kubebuilder:validation:Optional
 	VPCID *string `json:"vpcId,omitempty" tf:"vpc_id,omitempty"`
+
+	// Reference to a VPC in network to populate vpcId.
+	// +kubebuilder:validation:Optional
+	VPCIDRef *v2.NamespacedReference `json:"vpcIdRef,omitempty" tf:"-"`
+
+	// Selector for a VPC in network to populate vpcId.
+	// +kubebuilder:validation:Optional
+	VPCIDSelector *v2.NamespacedSelector `json:"vpcIdSelector,omitempty" tf:"-"`
 
 	// The version your VKE cluster you want deployed. See Available Version
 	// +kubebuilder:validation:Optional

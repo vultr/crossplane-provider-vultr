@@ -143,7 +143,16 @@ type InstanceInitParameters struct {
 	EnableIPv6 *bool `json:"enableIpv6,omitempty" tf:"enable_ipv6,omitempty"`
 
 	// The ID of the firewall group to assign to the server.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-vultr/apis/cluster/network/v1alpha1.FirewallGroup
 	FirewallGroupID *string `json:"firewallGroupId,omitempty" tf:"firewall_group_id,omitempty"`
+
+	// Reference to a FirewallGroup in network to populate firewallGroupId.
+	// +kubebuilder:validation:Optional
+	FirewallGroupIDRef *v2.Reference `json:"firewallGroupIdRef,omitempty" tf:"-"`
+
+	// Selector for a FirewallGroup in network to populate firewallGroupId.
+	// +kubebuilder:validation:Optional
+	FirewallGroupIDSelector *v2.Selector `json:"firewallGroupIdSelector,omitempty" tf:"-"`
 
 	// The hostname to assign to the server.
 	// The hostname of the instance. Updating the
@@ -158,7 +167,16 @@ type InstanceInitParameters struct {
 	IpxeChainURL *string `json:"ipxeChainUrl,omitempty" tf:"ipxe_chain_url,omitempty"`
 
 	// The ID of the ISO file to be installed on the server. See List ISO
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-vultr/apis/cluster/compute/v1alpha1.ISO
 	IsoID *string `json:"isoId,omitempty" tf:"iso_id,omitempty"`
+
+	// Reference to a ISO in compute to populate isoId.
+	// +kubebuilder:validation:Optional
+	IsoIDRef *v2.Reference `json:"isoIdRef,omitempty" tf:"-"`
+
+	// Selector for a ISO in compute to populate isoId.
+	// +kubebuilder:validation:Optional
+	IsoIDSelector *v2.Selector `json:"isoIdSelector,omitempty" tf:"-"`
 
 	// A label for the server.
 	Label *string `json:"label,omitempty" tf:"label,omitempty"`
@@ -173,16 +191,52 @@ type InstanceInitParameters struct {
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
 	// ID of the floating IP to use as the main IP of this server.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-vultr/apis/cluster/network/v1alpha1.ReservedIP
 	ReservedIPID *string `json:"reservedIpId,omitempty" tf:"reserved_ip_id,omitempty"`
 
+	// Reference to a ReservedIP in network to populate reservedIpId.
+	// +kubebuilder:validation:Optional
+	ReservedIPIDRef *v2.Reference `json:"reservedIpIdRef,omitempty" tf:"-"`
+
+	// Selector for a ReservedIP in network to populate reservedIpId.
+	// +kubebuilder:validation:Optional
+	ReservedIPIDSelector *v2.Selector `json:"reservedIpIdSelector,omitempty" tf:"-"`
+
 	// A list of SSH key IDs to apply to the server on install (only valid for Linux/FreeBSD).
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-vultr/apis/cluster/compute/v1alpha1.SSHKey
 	SSHKeyIds []*string `json:"sshKeyIds,omitempty" tf:"ssh_key_ids,omitempty"`
 
+	// References to SSHKey in compute to populate sshKeyIds.
+	// +kubebuilder:validation:Optional
+	SSHKeyIdsRefs []v2.Reference `json:"sshKeyIdsRefs,omitempty" tf:"-"`
+
+	// Selector for a list of SSHKey in compute to populate sshKeyIds.
+	// +kubebuilder:validation:Optional
+	SSHKeyIdsSelector *v2.Selector `json:"sshKeyIdsSelector,omitempty" tf:"-"`
+
 	// The ID of the startup script you want added to the server.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-vultr/apis/cluster/compute/v1alpha1.StartupScript
 	ScriptID *string `json:"scriptId,omitempty" tf:"script_id,omitempty"`
 
+	// Reference to a StartupScript in compute to populate scriptId.
+	// +kubebuilder:validation:Optional
+	ScriptIDRef *v2.Reference `json:"scriptIdRef,omitempty" tf:"-"`
+
+	// Selector for a StartupScript in compute to populate scriptId.
+	// +kubebuilder:validation:Optional
+	ScriptIDSelector *v2.Selector `json:"scriptIdSelector,omitempty" tf:"-"`
+
 	// The ID of the Vultr snapshot that the server will restore for the initial installation. See List Snapshots
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-vultr/apis/cluster/compute/v1alpha1.Snapshot
 	SnapshotID *string `json:"snapshotId,omitempty" tf:"snapshot_id,omitempty"`
+
+	// Reference to a Snapshot in compute to populate snapshotId.
+	// +kubebuilder:validation:Optional
+	SnapshotIDRef *v2.Reference `json:"snapshotIdRef,omitempty" tf:"-"`
+
+	// Selector for a Snapshot in compute to populate snapshotId.
+	// +kubebuilder:validation:Optional
+	SnapshotIDSelector *v2.Selector `json:"snapshotIdSelector,omitempty" tf:"-"`
 
 	// A list of tags to apply to the instance.
 	// +listType=set
@@ -195,8 +249,17 @@ type InstanceInitParameters struct {
 	UserScheme *string `json:"userScheme,omitempty" tf:"user_scheme,omitempty"`
 
 	// A list of VPC IDs to be attached to the server.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-vultr/apis/cluster/network/v1alpha1.VPC
 	// +listType=set
 	VPCIds []*string `json:"vpcIds,omitempty" tf:"vpc_ids,omitempty"`
+
+	// References to VPC in network to populate vpcIds.
+	// +kubebuilder:validation:Optional
+	VPCIdsRefs []v2.Reference `json:"vpcIdsRefs,omitempty" tf:"-"`
+
+	// Selector for a list of VPC in network to populate vpcIds.
+	// +kubebuilder:validation:Optional
+	VPCIdsSelector *v2.Selector `json:"vpcIdsSelector,omitempty" tf:"-"`
 
 	// If enabled, no public IP or NIC will be attached. Requires a vpc_ids with a NAT gateway set up.
 	// Requires a 'vpc_ids' with a NAT gateway attached
@@ -390,8 +453,17 @@ type InstanceParameters struct {
 	EnableIPv6 *bool `json:"enableIpv6,omitempty" tf:"enable_ipv6,omitempty"`
 
 	// The ID of the firewall group to assign to the server.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-vultr/apis/cluster/network/v1alpha1.FirewallGroup
 	// +kubebuilder:validation:Optional
 	FirewallGroupID *string `json:"firewallGroupId,omitempty" tf:"firewall_group_id,omitempty"`
+
+	// Reference to a FirewallGroup in network to populate firewallGroupId.
+	// +kubebuilder:validation:Optional
+	FirewallGroupIDRef *v2.Reference `json:"firewallGroupIdRef,omitempty" tf:"-"`
+
+	// Selector for a FirewallGroup in network to populate firewallGroupId.
+	// +kubebuilder:validation:Optional
+	FirewallGroupIDSelector *v2.Selector `json:"firewallGroupIdSelector,omitempty" tf:"-"`
 
 	// The hostname to assign to the server.
 	// The hostname of the instance. Updating the
@@ -409,8 +481,17 @@ type InstanceParameters struct {
 	IpxeChainURL *string `json:"ipxeChainUrl,omitempty" tf:"ipxe_chain_url,omitempty"`
 
 	// The ID of the ISO file to be installed on the server. See List ISO
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-vultr/apis/cluster/compute/v1alpha1.ISO
 	// +kubebuilder:validation:Optional
 	IsoID *string `json:"isoId,omitempty" tf:"iso_id,omitempty"`
+
+	// Reference to a ISO in compute to populate isoId.
+	// +kubebuilder:validation:Optional
+	IsoIDRef *v2.Reference `json:"isoIdRef,omitempty" tf:"-"`
+
+	// Selector for a ISO in compute to populate isoId.
+	// +kubebuilder:validation:Optional
+	IsoIDSelector *v2.Selector `json:"isoIdSelector,omitempty" tf:"-"`
 
 	// A label for the server.
 	// +kubebuilder:validation:Optional
@@ -429,20 +510,56 @@ type InstanceParameters struct {
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
 	// ID of the floating IP to use as the main IP of this server.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-vultr/apis/cluster/network/v1alpha1.ReservedIP
 	// +kubebuilder:validation:Optional
 	ReservedIPID *string `json:"reservedIpId,omitempty" tf:"reserved_ip_id,omitempty"`
 
+	// Reference to a ReservedIP in network to populate reservedIpId.
+	// +kubebuilder:validation:Optional
+	ReservedIPIDRef *v2.Reference `json:"reservedIpIdRef,omitempty" tf:"-"`
+
+	// Selector for a ReservedIP in network to populate reservedIpId.
+	// +kubebuilder:validation:Optional
+	ReservedIPIDSelector *v2.Selector `json:"reservedIpIdSelector,omitempty" tf:"-"`
+
 	// A list of SSH key IDs to apply to the server on install (only valid for Linux/FreeBSD).
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-vultr/apis/cluster/compute/v1alpha1.SSHKey
 	// +kubebuilder:validation:Optional
 	SSHKeyIds []*string `json:"sshKeyIds,omitempty" tf:"ssh_key_ids,omitempty"`
 
+	// References to SSHKey in compute to populate sshKeyIds.
+	// +kubebuilder:validation:Optional
+	SSHKeyIdsRefs []v2.Reference `json:"sshKeyIdsRefs,omitempty" tf:"-"`
+
+	// Selector for a list of SSHKey in compute to populate sshKeyIds.
+	// +kubebuilder:validation:Optional
+	SSHKeyIdsSelector *v2.Selector `json:"sshKeyIdsSelector,omitempty" tf:"-"`
+
 	// The ID of the startup script you want added to the server.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-vultr/apis/cluster/compute/v1alpha1.StartupScript
 	// +kubebuilder:validation:Optional
 	ScriptID *string `json:"scriptId,omitempty" tf:"script_id,omitempty"`
 
+	// Reference to a StartupScript in compute to populate scriptId.
+	// +kubebuilder:validation:Optional
+	ScriptIDRef *v2.Reference `json:"scriptIdRef,omitempty" tf:"-"`
+
+	// Selector for a StartupScript in compute to populate scriptId.
+	// +kubebuilder:validation:Optional
+	ScriptIDSelector *v2.Selector `json:"scriptIdSelector,omitempty" tf:"-"`
+
 	// The ID of the Vultr snapshot that the server will restore for the initial installation. See List Snapshots
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-vultr/apis/cluster/compute/v1alpha1.Snapshot
 	// +kubebuilder:validation:Optional
 	SnapshotID *string `json:"snapshotId,omitempty" tf:"snapshot_id,omitempty"`
+
+	// Reference to a Snapshot in compute to populate snapshotId.
+	// +kubebuilder:validation:Optional
+	SnapshotIDRef *v2.Reference `json:"snapshotIdRef,omitempty" tf:"-"`
+
+	// Selector for a Snapshot in compute to populate snapshotId.
+	// +kubebuilder:validation:Optional
+	SnapshotIDSelector *v2.Selector `json:"snapshotIdSelector,omitempty" tf:"-"`
 
 	// A list of tags to apply to the instance.
 	// +kubebuilder:validation:Optional
@@ -458,9 +575,18 @@ type InstanceParameters struct {
 	UserScheme *string `json:"userScheme,omitempty" tf:"user_scheme,omitempty"`
 
 	// A list of VPC IDs to be attached to the server.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-vultr/apis/cluster/network/v1alpha1.VPC
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	VPCIds []*string `json:"vpcIds,omitempty" tf:"vpc_ids,omitempty"`
+
+	// References to VPC in network to populate vpcIds.
+	// +kubebuilder:validation:Optional
+	VPCIdsRefs []v2.Reference `json:"vpcIdsRefs,omitempty" tf:"-"`
+
+	// Selector for a list of VPC in network to populate vpcIds.
+	// +kubebuilder:validation:Optional
+	VPCIdsSelector *v2.Selector `json:"vpcIdsSelector,omitempty" tf:"-"`
 
 	// If enabled, no public IP or NIC will be attached. Requires a vpc_ids with a NAT gateway set up.
 	// Requires a 'vpc_ids' with a NAT gateway attached

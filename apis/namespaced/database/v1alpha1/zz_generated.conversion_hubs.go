@@ -10,13 +10,22 @@ package v1alpha1
 func (tr *ConnectionPool) Hub() {}
 
 // Hub marks this type as a conversion hub.
+func (tr *Connector) Hub() {}
+
+// Hub marks this type as a conversion hub.
 func (tr *Database) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *DB) Hub() {}
 
 // Hub marks this type as a conversion hub.
+func (tr *Quota) Hub() {}
+
+// Hub marks this type as a conversion hub.
 func (tr *Replica) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *Topic) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *User) Hub() {}

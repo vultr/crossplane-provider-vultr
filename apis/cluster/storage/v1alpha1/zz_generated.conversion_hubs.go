@@ -11,3 +11,9 @@ func (tr *BlockStorage) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *ObjectStorage) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *ObjectStorageBucket) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *VirtualFileSystemStorage) Hub() {}

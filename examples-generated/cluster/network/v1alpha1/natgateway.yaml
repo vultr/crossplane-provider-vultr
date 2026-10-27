@@ -1,0 +1,15 @@
+apiVersion: network.vultr.upbound.io/v1alpha1
+kind: NATGateway
+metadata:
+  annotations:
+    meta.upbound.io/example-id: network/v1alpha1/natgateway
+  labels:
+    testing.upbound.io/example-name: my_nat_gateway
+  name: my-nat-gateway
+spec:
+  forProvider:
+    label: my_nat_gateway
+    tag: my tag
+    vpcIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: my_vpc

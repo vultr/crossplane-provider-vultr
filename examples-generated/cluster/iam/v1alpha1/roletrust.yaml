@@ -1,0 +1,19 @@
+apiVersion: iam.vultr.upbound.io/v1alpha1
+kind: RoleTrust
+metadata:
+  annotations:
+    meta.upbound.io/example-id: iam/v1alpha1/roletrust
+  labels:
+    testing.upbound.io/example-name: rot
+  name: rot
+spec:
+  forProvider:
+    dateExpires: "2025-12-31T05:00:00+00:00"
+    hourEnd: 17
+    hourStart: 9
+    ipRange:
+    - 10.0.0.0/8
+    - 192.168.0.1/16
+    role_id: de2e3d3b-c86f-402e-932f-368fe21c29df
+    type: TemporaryAssumption
+    user_id: 3b37fef9-3fb7-4803-94f6-ceace63b1b90

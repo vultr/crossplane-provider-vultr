@@ -1,0 +1,12 @@
+apiVersion: compute.vultr.m.upbound.io/v1alpha1
+kind: ISO
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1alpha1/iso
+  labels:
+    testing.upbound.io/example-name: my_iso
+  name: my-iso
+  namespace: crossplane-system
+spec:
+  forProvider:
+    url: http://dl-cdn.alpinelinux.org/alpine/v3.9/releases/x86_64/alpine-virt-3.9.3-x86_64.iso

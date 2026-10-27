@@ -1,0 +1,32 @@
+apiVersion: compute.vultr.upbound.io/v1alpha1
+kind: ReverseIPv6
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1alpha1/reverseipv6
+  labels:
+    testing.upbound.io/example-name: my_reverse_ipv6
+  name: my-reverse-ipv6
+spec:
+  forProvider:
+    instanceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: my_server
+    ip: ${vultr_instance.my_server.v6_main_ip}
+    reverse: host.example.com
+
+---
+
+apiVersion: compute.vultr.upbound.io/v1alpha1
+kind: Instance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1alpha1/reverseipv6
+  labels:
+    testing.upbound.io/example-name: my_server
+  name: my-server
+spec:
+  forProvider:
+    enableIpv6: true
+    osId: 167
+    plan: vc2-1c-1gb
+    region: ewr

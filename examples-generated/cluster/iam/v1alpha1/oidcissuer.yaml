@@ -1,0 +1,11 @@
+apiVersion: iam.vultr.upbound.io/v1alpha1
+kind: OIDCIssuer
+metadata:
+  annotations:
+    meta.upbound.io/example-id: iam/v1alpha1/oidcissuer
+  labels:
+    testing.upbound.io/example-name: my_issuer
+  name: my-issuer
+spec:
+  forProvider:
+    name: external

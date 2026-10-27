@@ -19,7 +19,16 @@ type NodePoolsInitParameters_2 struct {
 	AutoScaler *bool `json:"autoScaler,omitempty" tf:"auto_scaler,omitempty"`
 
 	// The VKE cluster ID you want to attach this nodepool to.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-vultr/apis/namespaced/kubernetes/v1alpha1.Kubernetes
 	ClusterID *string `json:"clusterId,omitempty" tf:"cluster_id,omitempty"`
+
+	// Reference to a Kubernetes in kubernetes to populate clusterId.
+	// +kubebuilder:validation:Optional
+	ClusterIDRef *v2.NamespacedReference `json:"clusterIdRef,omitempty" tf:"-"`
+
+	// Selector for a Kubernetes in kubernetes to populate clusterId.
+	// +kubebuilder:validation:Optional
+	ClusterIDSelector *v2.NamespacedSelector `json:"clusterIdSelector,omitempty" tf:"-"`
 
 	// The label to be used as a prefix for nodes in this node pool.
 	Label *string `json:"label,omitempty" tf:"label,omitempty"`
@@ -169,8 +178,17 @@ type NodePoolsParameters_2 struct {
 	AutoScaler *bool `json:"autoScaler,omitempty" tf:"auto_scaler,omitempty"`
 
 	// The VKE cluster ID you want to attach this nodepool to.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-vultr/apis/namespaced/kubernetes/v1alpha1.Kubernetes
 	// +kubebuilder:validation:Optional
 	ClusterID *string `json:"clusterId,omitempty" tf:"cluster_id,omitempty"`
+
+	// Reference to a Kubernetes in kubernetes to populate clusterId.
+	// +kubebuilder:validation:Optional
+	ClusterIDRef *v2.NamespacedReference `json:"clusterIdRef,omitempty" tf:"-"`
+
+	// Selector for a Kubernetes in kubernetes to populate clusterId.
+	// +kubebuilder:validation:Optional
+	ClusterIDSelector *v2.NamespacedSelector `json:"clusterIdSelector,omitempty" tf:"-"`
 
 	// The label to be used as a prefix for nodes in this node pool.
 	// +kubebuilder:validation:Optional
@@ -294,7 +312,6 @@ type NodePoolsStatus struct {
 type NodePools struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.clusterId) || (has(self.initProvider) && has(self.initProvider.clusterId))",message="spec.forProvider.clusterId is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.label) || (has(self.initProvider) && has(self.initProvider.label))",message="spec.forProvider.label is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.nodeQuantity) || (has(self.initProvider) && has(self.initProvider.nodeQuantity))",message="spec.forProvider.nodeQuantity is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.plan) || (has(self.initProvider) && has(self.initProvider.plan))",message="spec.forProvider.plan is a required parameter"

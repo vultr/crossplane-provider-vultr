@@ -1,0 +1,16 @@
+apiVersion: storage.vultr.upbound.io/v1alpha1
+kind: VirtualFileSystemStorage
+metadata:
+  annotations:
+    meta.upbound.io/example-id: storage/v1alpha1/virtualfilesystemstorage
+  labels:
+    testing.upbound.io/example-name: my_vfs_storage
+  name: my-vfs-storage
+spec:
+  forProvider:
+    label: vultr-vfs-storage
+    region: ewr
+    sizeGb: 10
+    tags:
+    - terraform
+    - important

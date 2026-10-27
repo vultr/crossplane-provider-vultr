@@ -114,7 +114,16 @@ type DatabaseInitParameters struct {
 	TrustedIps []*string `json:"trustedIps,omitempty" tf:"trusted_ips,omitempty"`
 
 	// The ID of the VPC Network to attach to the Managed Database.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-vultr/apis/namespaced/network/v1alpha1.VPC
 	VPCID *string `json:"vpcId,omitempty" tf:"vpc_id,omitempty"`
+
+	// Reference to a VPC in network to populate vpcId.
+	// +kubebuilder:validation:Optional
+	VPCIDRef *v2.NamespacedReference `json:"vpcIdRef,omitempty" tf:"-"`
+
+	// Selector for a VPC in network to populate vpcId.
+	// +kubebuilder:validation:Optional
+	VPCIDSelector *v2.NamespacedSelector `json:"vpcIdSelector,omitempty" tf:"-"`
 }
 
 type DatabaseObservation struct {
@@ -390,8 +399,17 @@ type DatabaseParameters struct {
 	TrustedIps []*string `json:"trustedIps,omitempty" tf:"trusted_ips,omitempty"`
 
 	// The ID of the VPC Network to attach to the Managed Database.
+	// +crossplane:generate:reference:type=github.com/crossplane-contrib/provider-vultr/apis/namespaced/network/v1alpha1.VPC
 	// +kubebuilder:validation:Optional
 	VPCID *string `json:"vpcId,omitempty" tf:"vpc_id,omitempty"`
+
+	// Reference to a VPC in network to populate vpcId.
+	// +kubebuilder:validation:Optional
+	VPCIDRef *v2.NamespacedReference `json:"vpcIdRef,omitempty" tf:"-"`
+
+	// Selector for a VPC in network to populate vpcId.
+	// +kubebuilder:validation:Optional
+	VPCIDSelector *v2.NamespacedSelector `json:"vpcIdSelector,omitempty" tf:"-"`
 }
 
 type ReadReplicasInitParameters struct {

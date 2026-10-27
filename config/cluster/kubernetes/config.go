@@ -8,7 +8,6 @@ import (
 
 func Configure(p *config.Provider) {
 	p.AddResourceConfigurator("vultr_kubernetes", func(r *config.Resource) {
-		r.ShortGroup = "kubernetes"
 		r.Sensitive.AdditionalConnectionDetailsFn = kubeconfig.ConnectionDetails
 	})
 

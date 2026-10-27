@@ -1,0 +1,16 @@
+apiVersion: iam.vultr.upbound.io/v1alpha1
+kind: RolePolicyAttachment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: iam/v1alpha1/rolepolicyattachment
+  labels:
+    testing.upbound.io/example-name: role-policy-attachment
+  name: role-policy-attachment
+spec:
+  forProvider:
+    policyIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    roleIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

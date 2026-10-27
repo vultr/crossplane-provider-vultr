@@ -1,0 +1,14 @@
+apiVersion: iam.vultr.upbound.io/v1alpha1
+kind: Role
+metadata:
+  annotations:
+    meta.upbound.io/example-id: iam/v1alpha1/role
+  labels:
+    testing.upbound.io/example-name: my_role
+  name: my-role
+spec:
+  forProvider:
+    description: my role from terraform
+    maxSessionDuration: 3600
+    name: my-role
+    type: assumable

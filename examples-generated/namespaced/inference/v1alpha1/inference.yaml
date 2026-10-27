@@ -1,0 +1,12 @@
+apiVersion: inference.vultr.m.upbound.io/v1alpha1
+kind: Inference
+metadata:
+  annotations:
+    meta.upbound.io/example-id: inference/v1alpha1/inference
+  labels:
+    testing.upbound.io/example-name: my_inference_subscription
+  name: my-inference-subscription
+  namespace: crossplane-system
+spec:
+  forProvider:
+    label: my_inference_label

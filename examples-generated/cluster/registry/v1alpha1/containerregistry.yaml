@@ -1,0 +1,14 @@
+apiVersion: registry.vultr.upbound.io/v1alpha1
+kind: ContainerRegistry
+metadata:
+  annotations:
+    meta.upbound.io/example-id: registry/v1alpha1/containerregistry
+  labels:
+    testing.upbound.io/example-name: vcr1
+  name: vcr1
+spec:
+  forProvider:
+    name: examplecontainerregistry
+    plan: start_up
+    public: false
+    region: sjc

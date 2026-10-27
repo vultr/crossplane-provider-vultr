@@ -1,0 +1,16 @@
+apiVersion: iam.vultr.upbound.io/v1alpha1
+kind: RoleGroupAttachment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: iam/v1alpha1/rolegroupattachment
+  labels:
+    testing.upbound.io/example-name: role-group-attachment
+  name: role-group-attachment
+spec:
+  forProvider:
+    groupIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    roleIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

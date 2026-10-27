@@ -9,5 +9,7 @@ metadata:
   namespace: crossplane-system
 spec:
   forProvider:
-    databaseId: ${vultr_database.my_database.id}
+    databaseIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: my_database
     name: my_database_db

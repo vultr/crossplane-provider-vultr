@@ -1,0 +1,17 @@
+apiVersion: storage.vultr.m.upbound.io/v1alpha1
+kind: ObjectStorageBucket
+metadata:
+  annotations:
+    meta.upbound.io/example-id: storage/v1alpha1/objectstoragebucket
+  labels:
+    testing.upbound.io/example-name: obj-bucket
+  name: obj-bucket
+  namespace: crossplane-system
+spec:
+  forProvider:
+    enableLock: true
+    enableVersioning: true
+    name: my-bucket
+    objectStorageIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

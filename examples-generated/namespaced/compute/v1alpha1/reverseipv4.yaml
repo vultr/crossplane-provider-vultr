@@ -1,0 +1,34 @@
+apiVersion: compute.vultr.m.upbound.io/v1alpha1
+kind: ReverseIPv4
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1alpha1/reverseipv4
+  labels:
+    testing.upbound.io/example-name: my_reverse_ipv4
+  name: my-reverse-ipv4
+  namespace: crossplane-system
+spec:
+  forProvider:
+    instanceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: my_instance
+    ip: ${vultr_instance.my_instance.main_ip}
+    reverse: host.example.com
+
+---
+
+apiVersion: compute.vultr.m.upbound.io/v1alpha1
+kind: Instance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1alpha1/reverseipv4
+  labels:
+    testing.upbound.io/example-name: my_instance
+  name: my-instance
+  namespace: crossplane-system
+spec:
+  forProvider:
+    enableIpv6: true
+    osId: 477
+    plan: vc2-1c-2gb
+    region: ewr

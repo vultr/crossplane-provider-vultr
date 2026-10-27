@@ -8,7 +8,9 @@ metadata:
   name: my-database-replica
 spec:
   forProvider:
-    databaseId: ${vultr_database.my_database.id}
+    databaseIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: my_database
     label: my_database_replica_label
     region: sea
     tag: test tag

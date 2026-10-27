@@ -1,0 +1,13 @@
+apiVersion: network.vultr.m.upbound.io/v1alpha1
+kind: VPC
+metadata:
+  annotations:
+    meta.upbound.io/example-id: network/v1alpha1/vpc
+  labels:
+    testing.upbound.io/example-name: my_vpc
+  name: my-vpc
+  namespace: crossplane-system
+spec:
+  forProvider:
+    description: my vpc
+    region: ewr

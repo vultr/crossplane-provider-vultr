@@ -17,6 +17,15 @@ func (l *ConnectionPoolList) GetItems() []resource.Managed {
 	return items
 }
 
+// GetItems of this ConnectorList.
+func (l *ConnectorList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
 // GetItems of this DBList.
 func (l *DBList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
@@ -35,8 +44,26 @@ func (l *DatabaseList) GetItems() []resource.Managed {
 	return items
 }
 
+// GetItems of this QuotaList.
+func (l *QuotaList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
 // GetItems of this ReplicaList.
 func (l *ReplicaList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this TopicList.
+func (l *TopicList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
 	for i := range l.Items {
 		items[i] = &l.Items[i]

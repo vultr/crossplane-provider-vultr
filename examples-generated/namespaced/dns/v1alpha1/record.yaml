@@ -1,0 +1,33 @@
+apiVersion: dns.vultr.m.upbound.io/v1alpha1
+kind: Record
+metadata:
+  annotations:
+    meta.upbound.io/example-id: dns/v1alpha1/record
+  labels:
+    testing.upbound.io/example-name: my_record
+  name: my-record
+  namespace: crossplane-system
+spec:
+  forProvider:
+    data: 66.42.94.227
+    domainSelector:
+      matchLabels:
+        testing.upbound.io/example-name: my_domain
+    name: www
+    type: A
+
+---
+
+apiVersion: dns.vultr.m.upbound.io/v1alpha1
+kind: Domain
+metadata:
+  annotations:
+    meta.upbound.io/example-id: dns/v1alpha1/record
+  labels:
+    testing.upbound.io/example-name: my_domain
+  name: my-domain
+  namespace: crossplane-system
+spec:
+  forProvider:
+    domain: domain.com
+    ip: 66.42.94.227

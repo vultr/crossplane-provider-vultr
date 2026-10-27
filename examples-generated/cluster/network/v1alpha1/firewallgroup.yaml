@@ -1,0 +1,11 @@
+apiVersion: network.vultr.upbound.io/v1alpha1
+kind: FirewallGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: network/v1alpha1/firewallgroup
+  labels:
+    testing.upbound.io/example-name: my_firewallgroup
+  name: my-firewallgroup
+spec:
+  forProvider:
+    description: base firewall
