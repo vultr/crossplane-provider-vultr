@@ -5,10 +5,7 @@ Copyright 2021 Upbound Inc.
 package config
 
 import (
-	"strings"
-
 	"github.com/crossplane/upjet/v2/pkg/config"
-	"github.com/crossplane/upjet/v2/pkg/types/name"
 )
 
 // GroupKindOverrides overrides the group and kind of the resource if it matches
@@ -25,18 +22,7 @@ func GroupKindOverrides() config.ResourceOption {
 // resource.
 type GroupKindCalculator func(resource string) (string, string)
 
-// ReplaceGroupWords uses given group as the group of the resource and removes
-// a number of words in resource name before calculating the kind of the resource.
-func ReplaceGroupWords(group string, count int) GroupKindCalculator {
-	return func(resource string) (string, string) {
-		words := strings.Split(strings.TrimPrefix(resource, "vultr_"), "_")
-		snakeKind := strings.Join(words[count:], "_")
-		return group, name.NewFromSnake(snakeKind).Camel
-	}
-}
-
-// GroupKind uses the given group and kind as-is, for resources whose kind
-// can't be derived from the Terraform name (e.g. acronyms like VPC or IP).
+// GroupKind uses the given group and kind as-is.
 func GroupKind(group, kind string) GroupKindCalculator {
 	return func(string) (string, string) {
 		return group, kind
@@ -44,13 +30,13 @@ func GroupKind(group, kind string) GroupKindCalculator {
 }
 
 var GroupMap = map[string]GroupKindCalculator{
-	"vultr_load_balancer":     ReplaceGroupWords("loadbalancer", 0),
-	"vultr_bare_metal_server": ReplaceGroupWords("compute", 0),
-	"vultr_instance":          ReplaceGroupWords("compute", 0),
-	"vultr_kubernetes":        ReplaceGroupWords("kubernetes", 0),
-	"vultr_database":          ReplaceGroupWords("database", 0),
-	"vultr_object_storage":    ReplaceGroupWords("storage", 0),
-	"vultr_block_storage":     ReplaceGroupWords("storage", 0),
+	"vultr_load_balancer":     GroupKind("loadbalancer", "LoadBalancer"),
+	"vultr_bare_metal_server": GroupKind("compute", "BareMetalServer"),
+	"vultr_instance":          GroupKind("compute", "Instance"),
+	"vultr_kubernetes":        GroupKind("kubernetes", "Kubernetes"),
+	"vultr_database":          GroupKind("database", "Database"),
+	"vultr_object_storage":    GroupKind("storage", "ObjectStorage"),
+	"vultr_block_storage":     GroupKind("storage", "BlockStorage"),
 
 	"vultr_instance_ipv4":     GroupKind("compute", "InstanceIPv4"),
 	"vultr_iso_private":       GroupKind("compute", "ISO"),

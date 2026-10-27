@@ -4,9 +4,9 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.20.1
-  name: baremetalservers.baremetal.vultr.m.upbound.io
+  name: baremetalservers.compute.vultr.m.upbound.io
 spec:
-  group: baremetal.vultr.m.upbound.io
+  group: compute.vultr.m.upbound.io
   names:
     categories:
     - crossplane

@@ -21,7 +21,7 @@ import (
 	"github.com/pkg/errors"
 	ctrl "sigs.k8s.io/controller-runtime"
 
-	v1alpha1 "github.com/crossplane-contrib/provider-vultr/apis/namespaced/baremetal/v1alpha1"
+	v1alpha1 "github.com/crossplane-contrib/provider-vultr/apis/namespaced/compute/v1alpha1"
 	features "github.com/crossplane-contrib/provider-vultr/internal/features"
 )
 

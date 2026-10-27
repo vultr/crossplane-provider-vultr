@@ -9,7 +9,7 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	baremetalserver "github.com/crossplane-contrib/provider-vultr/internal/controller/namespaced/baremetal/baremetalserver"
+	baremetalserver "github.com/crossplane-contrib/provider-vultr/internal/controller/namespaced/compute/baremetalserver"
 	instance "github.com/crossplane-contrib/provider-vultr/internal/controller/namespaced/compute/instance"
 	instanceipv4 "github.com/crossplane-contrib/provider-vultr/internal/controller/namespaced/compute/instanceipv4"
 	iso "github.com/crossplane-contrib/provider-vultr/internal/controller/namespaced/compute/iso"
