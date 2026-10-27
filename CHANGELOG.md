@@ -2,7 +2,7 @@
 
 ## v0.3.0
 
-First release from this repository, published to `ghcr.io/vultr/provider-vultr`.
+First release from this repository, published to `docker.io/vultr/provider-vultr`.
 Requires Crossplane v2.
 
 ### Breaking changes
@@ -29,7 +29,7 @@ Requires Crossplane v2.
 v0.2.0 was published as `xpkg.upbound.io/crossplane-contrib/provider-vultr`,
 from the now archived crossplane-contrib repository. To upgrade, set
 `spec.package` of the existing `Provider` to
-`ghcr.io/vultr/provider-vultr:v0.3.0`.
+`docker.io/vultr/provider-vultr:v0.3.0`.
 
 Kubernetes and database resources upgrade in place. For resources whose API
 group moved, create the resource in its new group with the same
