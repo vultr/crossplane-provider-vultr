@@ -201,10 +201,6 @@ type InstanceInitParameters struct {
 	// If enabled, no public IP or NIC will be attached. Requires a vpc_ids with a NAT gateway set up.
 	// Requires a 'vpc_ids' with a NAT gateway attached
 	VPCOnly *bool `json:"vpcOnly,omitempty" tf:"vpc_only,omitempty"`
-
-	// (Deprecated) A list of VPC 2.0 IDs to be attached to the server.
-	// +listType=set
-	Vpc2Ids []*string `json:"vpc2Ids,omitempty" tf:"vpc2_ids,omitempty"`
 }
 
 type InstanceObservation struct {
@@ -351,10 +347,6 @@ type InstanceObservation struct {
 
 	// The number of virtual CPUs available on the server.
 	VcpuCount *float64 `json:"vcpuCount,omitempty" tf:"vcpu_count,omitempty"`
-
-	// (Deprecated) A list of VPC 2.0 IDs to be attached to the server.
-	// +listType=set
-	Vpc2Ids []*string `json:"vpc2Ids,omitempty" tf:"vpc2_ids,omitempty"`
 }
 
 type InstanceParameters struct {
@@ -474,11 +466,6 @@ type InstanceParameters struct {
 	// Requires a 'vpc_ids' with a NAT gateway attached
 	// +kubebuilder:validation:Optional
 	VPCOnly *bool `json:"vpcOnly,omitempty" tf:"vpc_only,omitempty"`
-
-	// (Deprecated) A list of VPC 2.0 IDs to be attached to the server.
-	// +kubebuilder:validation:Optional
-	// +listType=set
-	Vpc2Ids []*string `json:"vpc2Ids,omitempty" tf:"vpc2_ids,omitempty"`
 }
 
 // InstanceSpec defines the desired state of Instance

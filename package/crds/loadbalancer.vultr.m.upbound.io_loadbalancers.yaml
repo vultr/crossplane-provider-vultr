@@ -78,7 +78,6 @@ spec:
                     description: Name for your given sticky session.
                     type: string
                   firewallRules:
-                    description: Defines the firewall rules for a load balancer.
                     items:
                       properties:
                         ipType:
@@ -88,7 +87,6 @@ spec:
                         port:
                           description: The assigned port (integer) on the attached
                             instances that the load balancer should check against.
-                            Default value is 80.
                           type: number
                         source:
                           description: IP address with subnet that is allowed through
@@ -98,8 +96,6 @@ spec:
                       type: object
                     type: array
                   forwardingRules:
-                    description: List of forwarding rules for a load balancer. The
-                      configuration of a forwarding_rules is listened below.
                     items:
                       properties:
                         backendPort:
@@ -119,16 +115,18 @@ spec:
                       type: object
                     type: array
                   globalRegions:
-                    description: A set of region IDs to deploy child load balancers
-                      to.
                     items:
-                      type: string
+                      properties:
+                        regionId:
+                          description: The three letter region code of the child load
+                            balancer
+                          type: string
+                        vpcId:
+                          description: The VPC ID attached to the child load balancer
+                          type: string
+                      type: object
                     type: array
-                    x-kubernetes-list-type: set
                   healthCheck:
-                    description: A block that defines the way load balancers should
-                      check for health. The configuration of a health_check is listed
-                      below.
                     items:
                       properties:
                         checkInterval:
@@ -182,8 +180,6 @@ spec:
                     description: The region your load balancer is deployed in.
                     type: string
                   ssl:
-                    description: A block that supplies your ssl configuration to be
-                      used with HTTPS. The configuration of a ssl is listed below.
                     items:
                       properties:
                         certificate:
@@ -247,7 +243,6 @@ spec:
                     description: Name for your given sticky session.
                     type: string
                   firewallRules:
-                    description: Defines the firewall rules for a load balancer.
                     items:
                       properties:
                         ipType:
@@ -257,7 +252,6 @@ spec:
                         port:
                           description: The assigned port (integer) on the attached
                             instances that the load balancer should check against.
-                            Default value is 80.
                           type: number
                         source:
                           description: IP address with subnet that is allowed through
@@ -267,8 +261,6 @@ spec:
                       type: object
                     type: array
                   forwardingRules:
-                    description: List of forwarding rules for a load balancer. The
-                      configuration of a forwarding_rules is listened below.
                     items:
                       properties:
                         backendPort:
@@ -288,16 +280,18 @@ spec:
                       type: object
                     type: array
                   globalRegions:
-                    description: A set of region IDs to deploy child load balancers
-                      to.
                     items:
-                      type: string
+                      properties:
+                        regionId:
+                          description: The three letter region code of the child load
+                            balancer
+                          type: string
+                        vpcId:
+                          description: The VPC ID attached to the child load balancer
+                          type: string
+                      type: object
                     type: array
-                    x-kubernetes-list-type: set
                   healthCheck:
-                    description: A block that defines the way load balancers should
-                      check for health. The configuration of a health_check is listed
-                      below.
                     items:
                       properties:
                         checkInterval:
@@ -351,8 +345,6 @@ spec:
                     description: The region your load balancer is deployed in.
                     type: string
                   ssl:
-                    description: A block that supplies your ssl configuration to be
-                      used with HTTPS. The configuration of a ssl is listed below.
                     items:
                       properties:
                         certificate:
@@ -477,7 +469,6 @@ spec:
                     description: Name for your given sticky session.
                     type: string
                   firewallRules:
-                    description: Defines the firewall rules for a load balancer.
                     items:
                       properties:
                         id:
@@ -490,7 +481,6 @@ spec:
                         port:
                           description: The assigned port (integer) on the attached
                             instances that the load balancer should check against.
-                            Default value is 80.
                           type: number
                         source:
                           description: IP address with subnet that is allowed through
@@ -500,8 +490,6 @@ spec:
                       type: object
                     type: array
                   forwardingRules:
-                    description: List of forwarding rules for a load balancer. The
-                      configuration of a forwarding_rules is listened below.
                     items:
                       properties:
                         backendPort:
@@ -524,19 +512,21 @@ spec:
                       type: object
                     type: array
                   globalRegions:
-                    description: A set of region IDs to deploy child load balancers
-                      to.
                     items:
-                      type: string
+                      properties:
+                        regionId:
+                          description: The three letter region code of the child load
+                            balancer
+                          type: string
+                        vpcId:
+                          description: The VPC ID attached to the child load balancer
+                          type: string
+                      type: object
                     type: array
-                    x-kubernetes-list-type: set
                   hasSsl:
                     description: Boolean value that indicates if SSL is enabled.
                     type: boolean
                   healthCheck:
-                    description: A block that defines the way load balancers should
-                      check for health. The configuration of a health_check is listed
-                      below.
                     items:
                       properties:
                         checkInterval:
@@ -599,8 +589,6 @@ spec:
                     description: The region your load balancer is deployed in.
                     type: string
                   ssl:
-                    description: A block that supplies your ssl configuration to be
-                      used with HTTPS. The configuration of a ssl is listed below.
                     items:
                       properties:
                         certificate:

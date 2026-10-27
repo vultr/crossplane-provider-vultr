@@ -742,8 +742,7 @@ spec:
                       user.
                     type: string
                   pendingCharges:
-                    description: Charges due for this managed database subscription
-                      at the end of the billing period.
+                    description: Charges due at the end of the billing period.
                     type: number
                   plan:
                     description: The ID of the plan that you want the managed database
@@ -873,6 +872,9 @@ spec:
                           description: The password for the managed database's primary
                             admin user.
                           type: string
+                        pendingCharges:
+                          description: Charges due at the end of the billing period.
+                          type: number
                         plan:
                           description: The ID of the plan that you want the managed
                             database to subscribe to. See List Managed Database Plans

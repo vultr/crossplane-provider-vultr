@@ -12,7 +12,7 @@ TERRAFORM_VERSION_VALID := $(shell [ "$(TERRAFORM_VERSION)" = "`printf "$(TERRAF
 
 export TERRAFORM_PROVIDER_SOURCE ?= vultr/vultr
 export TERRAFORM_PROVIDER_REPO ?= https://github.com/vultr/terraform-provider-vultr
-export TERRAFORM_PROVIDER_VERSION ?= 2.32.0
+export TERRAFORM_PROVIDER_VERSION ?= 2.33.2
 export TERRAFORM_PROVIDER_DOWNLOAD_NAME ?= terraform-provider-vultr
 export TERRAFORM_NATIVE_PROVIDER_BINARY ?= terraform-provider-vultr_v$(TERRAFORM_PROVIDER_VERSION)
 export TERRAFORM_DOCS_PATH ?= website/docs/r
@@ -46,7 +46,7 @@ NPROCS ?= 1
 GO_TEST_PARALLEL := $(shell echo $$(( $(NPROCS) / 2 )))
 
 GO_REQUIRED_VERSION ?= 1.26
-GOLANGCILINT_VERSION ?= 2.13.2
+GOLANGCILINT_VERSION ?= 2.15.0
 GO_STATIC_PACKAGES = $(GO_PROJECT)/cmd/provider $(GO_PROJECT)/cmd/generator
 GO_LDFLAGS += -X $(GO_PROJECT)/internal/version.Version=$(VERSION)
 GO_SUBDIRS += cmd internal apis
@@ -60,7 +60,7 @@ UPTEST_VERSION = v2.2.0
 CRDDIFF_VERSION = v0.12.1
 CROSSPLANE_CLI_VERSION = v2.5.0
 # for e2e testing
-CROSSPLANE_VERSION = 2.4.2
+CROSSPLANE_VERSION = 2.4.3
 -include build/makelib/k8s_tools.mk
 
 # ====================================================================================

@@ -201,7 +201,7 @@ type DatabaseObservation struct {
 	// The password for the managed database's primary admin user.
 	Password *string `json:"password,omitempty" tf:"password,omitempty"`
 
-	// Charges due for this managed database subscription at the end of the billing period.
+	// Charges due at the end of the billing period.
 	PendingCharges *float64 `json:"pendingCharges,omitempty" tf:"pending_charges,omitempty"`
 
 	// The ID of the plan that you want the managed database to subscribe to. See List Managed Database Plans
@@ -506,6 +506,9 @@ type ReadReplicasObservation struct {
 
 	// The password for the managed database's primary admin user.
 	Password *string `json:"password,omitempty" tf:"password,omitempty"`
+
+	// Charges due at the end of the billing period.
+	PendingCharges *float64 `json:"pendingCharges,omitempty" tf:"pending_charges,omitempty"`
 
 	// The ID of the plan that you want the managed database to subscribe to. See List Managed Database Plans
 	Plan *string `json:"plan,omitempty" tf:"plan,omitempty"`

@@ -132,6 +132,9 @@ type ReplicaObservation struct {
 	// The password for the managed database read replica's primary admin user.
 	Password *string `json:"password,omitempty" tf:"password,omitempty"`
 
+	// Charges due at the end of the billing period.
+	PendingCharges *float64 `json:"pendingCharges,omitempty" tf:"pending_charges,omitempty"`
+
 	// The managed database read replica's plan ID.
 	Plan *string `json:"plan,omitempty" tf:"plan,omitempty"`
 

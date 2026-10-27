@@ -143,13 +143,6 @@ spec:
                     description: The scheme used for the default user. Possible values
                       are root or limited (linux servers only).
                     type: string
-                  vpc2Ids:
-                    description: (Deprecated) A list of VPC 2.0 IDs to be attached
-                      to the server.
-                    items:
-                      type: string
-                    type: array
-                    x-kubernetes-list-type: set
                   vpcId:
                     description: The VPC ID to use when creating the server.
                     type: string
@@ -250,13 +243,6 @@ spec:
                     description: The scheme used for the default user. Possible values
                       are root or limited (linux servers only).
                     type: string
-                  vpc2Ids:
-                    description: (Deprecated) A list of VPC 2.0 IDs to be attached
-                      to the server.
-                    items:
-                      type: string
-                    type: array
-                    x-kubernetes-list-type: set
                   vpcId:
                     description: The VPC ID to use when creating the server.
                     type: string
@@ -459,13 +445,6 @@ spec:
                   v6NetworkSize:
                     description: The IPv6 network size in bits.
                     type: number
-                  vpc2Ids:
-                    description: (Deprecated) A list of VPC 2.0 IDs to be attached
-                      to the server.
-                    items:
-                      type: string
-                    type: array
-                    x-kubernetes-list-type: set
                   vpcId:
                     description: The VPC ID to use when creating the server.
                     type: string

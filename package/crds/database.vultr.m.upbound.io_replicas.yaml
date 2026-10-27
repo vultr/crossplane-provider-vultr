@@ -377,6 +377,9 @@ spec:
                     description: The password for the managed database read replica's
                       primary admin user.
                     type: string
+                  pendingCharges:
+                    description: Charges due at the end of the billing period.
+                    type: number
                   plan:
                     description: The managed database read replica's plan ID.
                     type: string

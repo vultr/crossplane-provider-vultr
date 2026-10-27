@@ -75,10 +75,6 @@ type BareMetalServerInitParameters struct {
 
 	// The VPC ID to use when creating the server.
 	VPCID *string `json:"vpcId,omitempty" tf:"vpc_id,omitempty"`
-
-	// (Deprecated) A list of VPC 2.0 IDs to be attached to the server.
-	// +listType=set
-	Vpc2Ids []*string `json:"vpc2Ids,omitempty" tf:"vpc2_ids,omitempty"`
 }
 
 type BareMetalServerObservation struct {
@@ -185,10 +181,6 @@ type BareMetalServerObservation struct {
 
 	// The VPC ID to use when creating the server.
 	VPCID *string `json:"vpcId,omitempty" tf:"vpc_id,omitempty"`
-
-	// (Deprecated) A list of VPC 2.0 IDs to be attached to the server.
-	// +listType=set
-	Vpc2Ids []*string `json:"vpc2Ids,omitempty" tf:"vpc2_ids,omitempty"`
 }
 
 type BareMetalServerParameters struct {
@@ -273,11 +265,6 @@ type BareMetalServerParameters struct {
 	// The VPC ID to use when creating the server.
 	// +kubebuilder:validation:Optional
 	VPCID *string `json:"vpcId,omitempty" tf:"vpc_id,omitempty"`
-
-	// (Deprecated) A list of VPC 2.0 IDs to be attached to the server.
-	// +kubebuilder:validation:Optional
-	// +listType=set
-	Vpc2Ids []*string `json:"vpc2Ids,omitempty" tf:"vpc2_ids,omitempty"`
 }
 
 // BareMetalServerSpec defines the desired state of BareMetalServer
